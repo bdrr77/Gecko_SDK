@@ -4,6 +4,8 @@ Gecko SDK
 The Gecko SDK is software development kit developed by Silicon Labs for the [EFM32](http://www.silabs.com/products/mcu/32-bit/Pages/32-bit-microcontrollers.aspx), [EFR32](https://www.silabs.com/products/wireless/Pages/wireless-gecko-iot-connectivity-portfolio.aspx) and [EZR32](http://www.silabs.com/products/wireless/proprietary/Pages/proprietary-wireless-protocols.aspx). It contains the basic software needed for development, covering everything from the low-level hardware abstraction layer (HAL) and peripheral drivers to communication stacks and example code.
 The Gecko SDK is also part of the [Simplicity Studio](http://www.silabs.com/simplicity) tool suite from Silicon Labs. Downloading Simplicity Studio also gives you access to a large range of tools, like Configurator and Energy Profiler together with access to all software and documentation.
 
+**Note:** The Gecko SDK here is no longer updated, since it's now part of the larger Gecko SDK Suite package. Download [Simplicity Studio](http://www.silabs.com/simplicity) and use the **Update Software** button in the **Launcher** view to access the latest and previous SDK versions.
+
 Documentation
 -------------
 

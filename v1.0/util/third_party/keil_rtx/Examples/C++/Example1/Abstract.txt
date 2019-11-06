@@ -1,8 +1,0 @@
-
-The C++ Example 1 shows some features of the C++ language:
-
-  - STL - Map
-  - STL - Vector
-  - Exception
-  - ostream and how to setup for the serial port
-

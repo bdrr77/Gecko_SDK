@@ -1,0 +1,5 @@
+* Added PLFRCO and TRNG support for EFR32xG13 and xGM13 rev D. devices
+* RAIL: Improved the configuration switch time in dynamic multiprotocol applications
+* RAIL: Added a new Packet Trace (PTI) message for switching protocols in dynamic multiprotocol applications
+* RAIL: Improved the LQI value returned for IEEE 802.15.4 based PHYs
+* ARM mbed TLS: updated to release v2.7.10

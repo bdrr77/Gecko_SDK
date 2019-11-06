@@ -1,9 +1,0 @@
-================ Revision history ============================================
-5.1.2:
- - No changes.
-
-5.1.1:
- - No changes.
-
-5.1.0:
- - Initial version.

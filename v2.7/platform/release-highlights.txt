@@ -1,0 +1,8 @@
+* RAIL: Added support for a mode to select the best PA for a given power level
+* RAIL: Added support for new IEEE 802.15.4G-2012 features
+* ARM mbed TLS: Added AES-GCM support for Series-2
+* Gecko Bootloader: Added certificate support
+* Gecko Bootloader: Added EZSP GPIO plugin
+* Gecko Bootloader: Added EUART driver
+* Added driver for the new EFP PMIC device
+* Updated LwIP package to version 2.1.2

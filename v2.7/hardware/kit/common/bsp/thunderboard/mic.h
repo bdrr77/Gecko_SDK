@@ -66,6 +66,7 @@ bool      MIC_isBusy         (void);
 float     MIC_getSoundLevel  (float *var);
 float     MIC_getMean        (void);
 uint16_t *MIC_getSampleBuffer(void);
+size_t    MIC_getSampleCount (void);
 
 /** @} */
 /** @} */

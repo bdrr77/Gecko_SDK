@@ -141,3 +141,44 @@ bool bootloader_verifyApplication(uint32_t startAddress)
   }
   return mainBootloaderTable->verifyApplication(startAddress);
 }
+
+bool bootloader_secureBootEnforced(void)
+{
+  BootloaderInformation_t info;
+  bootloader_getInfo(&info);
+
+  if (info.capabilities & BOOTLOADER_CAPABILITY_ENFORCE_SECURE_BOOT) {
+    return true;
+  }
+  return false;
+}
+
+#if defined(_SILICON_LABS_32B_SERIES_2)
+bool bootloader_getCertificateVersion(uint32_t *version)
+{
+  // Access word 13 to read sl_app_properties of the bootloader.
+  ApplicationProperties_t *blProperties =
+    (ApplicationProperties_t *)(*(uint32_t *)(BTL_MAIN_STAGE_BASE + 52UL));
+
+  if (!bootloader_pointerValid(blProperties)) {
+    return false;
+  }
+
+  // Compatibility check of the application properties struct.
+  if (((blProperties->structVersion & APPLICATION_PROPERTIES_VERSION_MAJOR_MASK)
+       >> APPLICATION_PROPERTIES_VERSION_MAJOR_SHIFT) < 1UL) {
+    return false;
+  }
+  if (((blProperties->structVersion & APPLICATION_PROPERTIES_VERSION_MINOR_MASK)
+       >> APPLICATION_PROPERTIES_VERSION_MINOR_SHIFT) < 1UL) {
+    return false;
+  }
+
+  if (blProperties->cert == NULL) {
+    return false;
+  }
+
+  *version = blProperties->cert->version;
+  return true;
+}
+#endif // _SILICON_LABS_32B_SERIES_2

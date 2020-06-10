@@ -130,6 +130,9 @@ void setConfigIndex(int argc, char **argv)
   responsePrint(argv[0], "configIndex:%d,firstAvailableChannel:%d",
                 configIndex,
                 channel);
+  if (receiveModeEnabled) {
+    (void) RAIL_StartRx(railHandle, channel, NULL);
+  }
 #else
   responsePrintError(argv[0], 0x22, "External radio config support not enabled");
 #endif

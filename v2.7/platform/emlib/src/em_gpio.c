@@ -372,7 +372,7 @@ void GPIO_EM4EnablePinWakeup(uint32_t pinmask, uint32_t polaritymask)
 
 #if defined(_GPIO_CMD_EM4WUCLR_MASK)
   GPIO->CMD = GPIO_CMD_EM4WUCLR;            /* Clear the wake-up logic. */
-#elif defined(_GPIO_IF_EM4WU_MASK)
+#else
   GPIO_IntClear(pinmask);
 #endif
 }

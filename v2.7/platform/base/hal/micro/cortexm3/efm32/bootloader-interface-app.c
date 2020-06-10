@@ -70,8 +70,6 @@ static void verifyMainBootloaderVersion(uint32_t version)
   // Assert that the main bootloader table pointer points to main flash or bootloader flash
   assert(((uint32_t)mainBootloaderTable & 0xFFFF0000U) == 0x0U
          || ((uint32_t)mainBootloaderTable & 0xFFFF0000U) == 0x0FE10000U);
-  // Assert that the main bootloader table pointer points inside the bootloader
-  assert(((uint32_t)mainBootloaderTable & 0x0000FFFFU) < 0x4000U);
 
   assert(mainBootloaderTable->header.version >= version);
 }
@@ -179,14 +177,8 @@ EepromStateType eepromState;
 static uint8_t buff[EEPROM_PAGE_SIZE];
 EblConfigType eblConfig;
 
-// Static state alloc
-#if defined(BTL_SUPPORT_CERTIFICATES)
-// Some chips support chained certificates, which requires extra context
-#define VALIDATION_CONTEXT_SIZE (524)
-#else
-#define VALIDATION_CONTEXT_SIZE (384)
-#endif
-uint8_t bootloaderValidationContext[VALIDATION_CONTEXT_SIZE];
+// Static state allocation for bootloader verification
+uint8_t bootloaderValidationContext[BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE];
 
 void halAppBootloaderImageIsValidReset(void)
 {
@@ -199,7 +191,7 @@ void halAppBootloaderImageIsValidReset(void)
     ret = mainBootloaderTable->storage->initParseImage(
       storageSlot,
       (BootloaderParserContext_t *)bootloaderValidationContext,
-      VALIDATION_CONTEXT_SIZE
+      sizeof(bootloaderValidationContext)
       );
 
     assert(ret == BOOTLOADER_OK);

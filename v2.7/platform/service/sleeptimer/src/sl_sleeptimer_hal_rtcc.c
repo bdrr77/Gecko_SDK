@@ -3,15 +3,28 @@
  * @brief SLEEPTIMER hardware abstraction implementation for RTCC.
  *******************************************************************************
  * # License
- * <b>Copyright 2018 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
- * The licensor of this software is Silicon Laboratories Inc. Your use of this
- * software is governed by the terms of Silicon Labs Master Software License
- * Agreement (MSLA) available at
- * www.silabs.com/about-us/legal/master-software-license-agreement. This
- * software is distributed to you in Source Code format and is governed by the
- * sections of the MSLA applicable to Source Code.
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
  *
  ******************************************************************************/
 
@@ -27,6 +40,8 @@
 #define SLEEPTIMER_COMPARE_MIN_DIFF  2
 
 #define SLEEPTIMER_TMR_WIDTH (_RTCC_CNT_MASK)
+
+static bool cc_disabled = true;
 
 __STATIC_INLINE uint32_t get_time_diff(uint32_t a,
                                        uint32_t b);
@@ -45,6 +60,9 @@ void sleeptimer_hal_init_timer(void)
   rtcc_init.presc = (RTCC_CntPresc_TypeDef)(CMU_PrescToLog2(SL_SLEEPTIMER_FREQ_DIVIDER - 1));
 
   RTCC_Init(&rtcc_init);
+
+  // Compare channel starts disabled and is enabled only when compare match interrupt is enabled.
+  channel.chMode = rtccCapComChModeOff;
   RTCC_ChannelInit(1u, &channel);
 
   RTCC_IntDisable(_RTCC_IEN_MASK);
@@ -93,6 +111,11 @@ void sleeptimer_hal_set_compare(uint32_t value)
     RTCC_ChannelCCVSet(1u, compare_value);
     sleeptimer_hal_enable_int(SLEEPTIMER_EVENT_COMP);
   }
+
+  if (cc_disabled) {
+    RTCC->CC[1].CTRL |= RTCC_CC_CTRL_MODE_OUTPUTCOMPARE;
+    cc_disabled = false;
+  }
 }
 
 /******************************************************************************
@@ -126,9 +149,38 @@ void sleeptimer_hal_disable_int(uint8_t local_flag)
 
   if (local_flag & SLEEPTIMER_EVENT_COMP) {
     rtcc_int_dis |= RTCC_IEN_CC1;
+
+    cc_disabled = true;
+    RTCC->CC[1].CTRL &= ~_RTCC_CC_CTRL_MODE_MASK;
   }
 
   RTCC_IntDisable(rtcc_int_dis);
+}
+
+/******************************************************************************
+ * Gets status of specified interrupt.
+ *
+ * Note: This function must be called with interrupts disabled.
+ *****************************************************************************/
+bool sleeptimer_hal_is_int_status_set(uint8_t local_flag)
+{
+  bool int_is_set = false;
+  uint32_t irq_flag = RTCC_IntGet();
+
+  switch (local_flag) {
+    case SLEEPTIMER_EVENT_COMP:
+      int_is_set = ((irq_flag & RTCC_IF_CC1) == RTCC_IF_CC1);
+      break;
+
+    case SLEEPTIMER_EVENT_OF:
+      int_is_set = ((irq_flag & RTCC_IF_OF) == RTCC_IF_OF);
+      break;
+
+    default:
+      break;
+  }
+
+  return int_is_set;
 }
 
 /*******************************************************************************

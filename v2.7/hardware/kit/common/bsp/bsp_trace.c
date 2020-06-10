@@ -35,7 +35,8 @@
 #include "bsp_trace.h"
 #include "bsp.h"
 
-#if defined(BSP_ETM_TRACE) && defined(ETM_PRESENT)
+#if (defined(BSP_ETM_TRACE) && defined(ETM_PRESENT)) \
+  || defined(GPIO_TRACECLK_PORT)
 
 #if !defined(BSP_TRACE_ETM_LOC)
 #define BSP_TRACE_ETM_LOC      0
@@ -62,6 +63,26 @@
  *****************************************************************************/
 void BSP_TraceEtmSetup(void)
 {
+#if defined(GPIO_TRACECLK_PORT)
+
+  /* Setup the GPIO for trace clock and data lines. */
+  CMU_ClockEnable(cmuClock_GPIO, true);
+  GPIO_PinModeSet((GPIO_Port_TypeDef)GPIO_TRACEDATA0_PORT,
+                  GPIO_TRACEDATA0_PIN, gpioModePushPull, 0);
+  GPIO_PinModeSet((GPIO_Port_TypeDef)GPIO_TRACECLK_PORT,
+                  GPIO_TRACECLK_PIN, gpioModePushPull, 0);
+  GPIO->TRACEROUTEPEN = GPIO_TRACEROUTEPEN_TRACEDATA0PEN
+                        | GPIO_TRACEROUTEPEN_TRACECLKPEN;
+
+  /* Additional settings to counter for incomplete trace initialization
+     in debugger tools. */
+
+  /* Recommended to be set according to D1.2.36 of ArmV8-M ARM. */
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;
+  /* Set TPIU formatting to Parallel Trace Port mode. */
+  TPI->SPPR = 0;
+
+#else
   /* Enable peripheral clocks */
   CMU_ClockEnable(cmuClock_HFLE, true);
   CMU_ClockEnable(cmuClock_GPIO, true);
@@ -106,6 +127,7 @@ void BSP_TraceEtmSetup(void)
                    | GPIO_ROUTEPEN_ETMTD2PEN
                    | GPIO_ROUTEPEN_ETMTD3PEN;
 #endif
+#endif /* defined(GPIO_TRACECLK_PORT) */
 }
 #endif
 

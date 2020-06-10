@@ -15,6 +15,7 @@
     <property object="CMU" propertyId="CMU.HAL_CLK_RTCCCLK_SOURCE.ENUM" value="HAL_CLK_LFCLK_SOURCE_LFRCO"/>
     <property object="DefaultMode" propertyId="mode.diagramLocation" value="100, 100"/>
     <property object="EMU" propertyId="EMU.HAL_EMU_EM23_VSCALE.ENUM" value="HAL_EMU_EM23_VSCALE_LOWPOWER"/>
+    <property object="GPIO" propertyId="ABPeripheral.included" value="true"/>
     <property object="I2C0" propertyId="I2C.showadvanced.BOOL" value="1"/>
     <property object="I2C1" propertyId="I2C.showadvanced.BOOL" value="1"/>
     <property object="I2C2" propertyId="I2C.showadvanced.BOOL" value="1"/>

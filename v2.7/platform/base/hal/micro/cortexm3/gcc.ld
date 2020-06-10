@@ -134,15 +134,6 @@ SECTIONS {
   }>flash
   PROVIDE(__VECTORS__size = SIZEOF(.vectors));
 
-  .textrw_init . :
-  {
-    PROVIDE(__TEXTRW_INIT__begin = .);
-    * (.textrw_init .textrw_init.*);
-    . = ALIGN(2);  /* Align each segment to a Flash word boundary */
-    PROVIDE(__TEXTRW_INIT__end = .);
-  }>flash
-  PROVIDE(__TEXTRW_INIT__size = SIZEOF(.textrw_init));
-
   .text . :
   {
     KEEP(*(.init))
@@ -301,6 +292,22 @@ SECTIONS {
   }>ram
   PROVIDE(__RESETINFO__size = SIZEOF(.resetinfo));
 
+  /* EFR32xG22 may zero out the high portion of RAM after reset, meaning that
+     data we wish to preserve across resets should be in the lower addresses.
+     Since we are already preserving the reset info block, it makes sense to
+     place the (new) __NO_INIT__ section adjacent to it. For legacy purposes, we
+     are keeping the old section where it was and will select between the two in
+     C code.
+  */
+  .noinitnew . (NOLOAD) :
+  {
+    * (.noinitnew .noinitnew.*);
+  }>ram
+  OUR_BEGIN = (SIZEOF(.noinitnew) == 0) ? 0 : ADDR(.noinitnew);
+  PROVIDE(__NO_INIT_NEW__begin = OUR_BEGIN);
+  PROVIDE(__NO_INIT_NEW__end = OUR_BEGIN + SIZEOF(.noinitnew));
+  PROVIDE(__NO_INIT_NEW__size = SIZEOF(.noinitnew));
+
   .emheap ALIGN(8) (NOLOAD) :
   {
     PROVIDE(__EMHEAP__begin = .);
@@ -328,36 +335,32 @@ SECTIONS {
   }>ram
   PROVIDE(__CSTACK__size = SIZEOF(.cstack));
 
-  .textrw (NOLOAD) :
-  {
-    PROVIDE(__TEXTRW__begin = .);
-    PROVIDE(__ram_func_section_start = .);
-    * (.textrw .textrw.*);
-    PROVIDE(__ram_func_section_end = .);
-    PROVIDE(__TEXTRW__end = .);
-  }>ram
-  PROVIDE(__TEXTRW__size = SIZEOF(.textrw));
-
   .data . : AT(__DATA_INIT__begin)
   {
     PROVIDE(__data_start__ = .);
+    PROVIDE(__DATA__begin = .);
     . = ALIGN(4);
+    PROVIDE (__ram_func_section_start = .);
+    * (.ram .ram.*);
+    PROVIDE (__ram_func_section_end = .);
+
     /* preinit data */
     PROVIDE_HIDDEN (__preinit_array_start = .);
     KEEP(*(.preinit_array))
     PROVIDE_HIDDEN (__preinit_array_end = .);
+
     . = ALIGN(4);
     PROVIDE_HIDDEN (__init_array_start = .);
     KEEP(*(SORT(.init_array.*)))
     KEEP(*(.init_array))
     PROVIDE_HIDDEN (__init_array_end = .);
+
     . = ALIGN(4);
     PROVIDE_HIDDEN (__fini_array_start = .);
     KEEP(*(SORT(.fini_array.*)))
     KEEP(*(.fini_array))
     PROVIDE_HIDDEN (__fini_array_end = .);
 
-    PROVIDE(__DATA__begin = .);
     * (.data .data.*);
     . = ALIGN(2);  /* Align each segment to a Flash word boundary */
     PROVIDE(__data_end__ = .);
@@ -385,14 +388,15 @@ SECTIONS {
   }>ram
   PROVIDE(__BSS__size = SIZEOF(.bss));
 
-  .noinit . (NOLOAD) :
+  /* Legacy __NO_INIT__ section. See comment above .noinitnew. */
+  .noinitlegacy . (NOLOAD) :
   {
-    * (.noinit .noinit.*);
+    * (.noinitlegacy .noinitlegacy.*);
   }>ram
-  OUR_BEGIN = (SIZEOF(.noinit) == 0) ? 0 : ADDR(.noinit);
-  PROVIDE(__NO_INIT__begin = OUR_BEGIN);
-  PROVIDE(__NO_INIT__end = OUR_BEGIN + SIZEOF(.noinit));
-  PROVIDE(__NO_INIT__size = SIZEOF(.noinit));
+  OUR_BEGIN = (SIZEOF(.noinitlegacy) == 0) ? 0 : ADDR(.noinitlegacy);
+  PROVIDE(__NO_INIT_LEGACY__begin = OUR_BEGIN);
+  PROVIDE(__NO_INIT_LEGACY__end = OUR_BEGIN + SIZEOF(.noinitlegacy));
+  PROVIDE(__NO_INIT_LEGACY__size = SIZEOF(.noinitlegacy));
 
   .heap . (COPY) :
   {

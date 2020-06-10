@@ -665,9 +665,18 @@ uint8_t TEMPDRV_GetActiveCallbacks(TEMPDRV_LimitType_t limit)
  ******************************************************************************/
 int8_t TEMPDRV_GetTemp(void)
 {
-  uint32_t val = (EMU->TEMP & _EMU_TEMP_TEMP_MASK)
-                 >> _EMU_TEMP_TEMP_SHIFT;
-  return convertToTemp(val);
+  uint32_t val1;
+  uint32_t val2;
+
+  // Read twice to ensure a stable value
+  do {
+    val1 = (EMU->TEMP & _EMU_TEMP_TEMP_MASK)
+           >> _EMU_TEMP_TEMP_SHIFT;
+    val2 = (EMU->TEMP & _EMU_TEMP_TEMP_MASK)
+           >> _EMU_TEMP_TEMP_SHIFT;
+  } while (val1 != val2);
+
+  return convertToTemp(val1);
 }
 
 /***************************************************************************//**

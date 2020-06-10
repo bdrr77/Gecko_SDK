@@ -31,6 +31,12 @@ uint8_t simulatedEepromStorage[SIMEE_SIZE_B];
 #else //EMBER_TEST
 VAR_AT_SEGMENT(NO_STRIPPING uint8_t simulatedEepromStorage[SIMEE_SIZE_B], __SIMEE__);
 #endif //EMBER_TEST
+
+// check if the size is a multiple of 2 flash pages
+#if (SIMEE_SIZE_B % (MFB_PAGE_SIZE_B * 2)) != 0
+#error SIMEE size not page aligned
+#endif
+
 uint8_t *simulatedEepromAddress = simulatedEepromStorage;
 //sim-eeprom-internal.c uses a set of defines that parameterize its behavior.
 //Since the -internal file is precompiled, we must externally define the
@@ -156,12 +162,38 @@ bool checkForSimEe2DataExistence(uint32_t simEe2offset);
 
 // A destructive downgrade doesn't check for SimEE2.
 // The unit test performs its own check for SimEE2.
-#if defined(DESTRUCTIVE_SIMEE2TO1_DOWNGRADE) \
-  || defined(SIM_EEPROM_TEST)
+#if defined(SIM_EEPROM_TEST)
 static void checkForSimEe2(void)
 {
 }
-
+#elif defined(DESTRUCTIVE_SIMEE2TO1_DOWNGRADE)
+static void checkForSimEe2(void)
+{
+  bool simEe2Found = false;
+  //These are the offsets from where SimEE1 is stored down to where
+  //SimEE2 Virtual Page A, Page B, and Page C are stored.
+  //These values are subtracted off of simulatedEepromStorage[] to get the
+  //locations of where SimEE2's use of simulatedEepromStorage[] would be.
+  //If SimEe2 is found, the first page of it is erased to stop it from
+  //being erroniously found in a subsequent upgrade back to simee2
+#ifdef EMBER_SIMEE1_4KB
+  if (checkForSimEe2DataExistence(0x8000)) {
+    eraseSimEe2DataBeginning(0x8000);
+  } else if (checkForSimEe2DataExistence(0x5000)) {
+    eraseSimEe2DataBeginning(0x5000);
+  } else if (checkForSimEe2DataExistence(0x2000)) {
+    eraseSimEe2DataBeginning(0x2000);
+  }
+#else //EMBER_SIMEE1_8KB
+  if (checkForSimEe2DataExistence(0x7000)) {
+    eraseSimEe2DataBeginning(0x7000);
+  } else if (checkForSimEe2DataExistence(0x4000)) {
+    eraseSimEe2DataBeginning(0x4000);
+  } else if (checkForSimEe2DataExistence(0x1000)) {
+    eraseSimEe2DataBeginning(0x1000);
+  }
+#endif
+}
 #else
 static void checkForSimEe2(void)
 {

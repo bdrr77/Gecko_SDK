@@ -38,15 +38,15 @@
 #define SHARP_MEMLCD_DEVICE_NAME   "Sharp LS013B7DH03 #1"
 
 /* LCD and SPI GPIO pin connections on the STK. */
-#define LCD_PORT_SCLK             (4)  /* = gpioPortE */
-#define LCD_PIN_SCLK             (12)
-#define LCD_PORT_SI               (4)  /* = gpioPortE */
-#define LCD_PIN_SI               (10)
-#define LCD_PORT_SCS              (0)  /* = gpioPortA */
-#define LCD_PIN_SCS              (10)
-#define LCD_PORT_EXTCOMIN         (5)  /* = gpioPortF */
+#define LCD_PORT_SCLK             (gpioPortE)  /* EFM_DISP_SCLK on PE12 */
+#define LCD_PIN_SCLK              (12)
+#define LCD_PORT_SI               (gpioPortE)  /* EFM_DISP_MOSI on PE10 */
+#define LCD_PIN_SI                (10)
+#define LCD_PORT_SCS              (gpioPortA)  /* EFM_DISP_CS on PA10 */
+#define LCD_PIN_SCS               (10)
+#define LCD_PORT_EXTCOMIN         (gpioPortF)  /* EFM_DISP_COM on PF3 */
 #define LCD_PIN_EXTCOMIN          (3)
-#define LCD_PORT_DISP_SEL         (0)  /* = gpioPortA */
+#define LCD_PORT_DISP_SEL         (gpioPortA)  /* EFM_DISP_ENABLE on PA8 */
 #define LCD_PIN_DISP_SEL          (8)
 
 /* PRS settings for polarity inversion extcomin auto toggle.  */

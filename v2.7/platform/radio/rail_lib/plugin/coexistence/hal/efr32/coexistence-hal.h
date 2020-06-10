@@ -166,8 +166,8 @@ bool COEX_HAL_SetDpPulseWidth(uint8_t pulseWidthUs);
     PRS->CH[ch].CTRL = (PRS->CH[ch].CTRL & ~COEX_HAL_DP_PRS_ON) | ctrl; \
   } while (0)
 #else //!_SILICON_LABS_32B_SERIES_1
-#define COEX_HAL_DP_PRS_ON  (prsLogic_A_AND_NOT_B)
-#define COEX_HAL_DP_PRS_OFF (prsLogic_A)
+#define COEX_HAL_DP_PRS_ON  (prsLogic_A_NOR_B)
+#define COEX_HAL_DP_PRS_OFF (prsLogic_NOT_A)
 #define COEX_HAL_CONFIG_DP_PRS(ch, logic)                                              \
   do {                                                                                 \
     PRS->ASYNC_CH[ch].CTRL = (PRS->ASYNC_CH[ch].CTRL & ~_PRS_ASYNC_CH_CTRL_FNSEL_MASK) \
@@ -176,9 +176,9 @@ bool COEX_HAL_SetDpPulseWidth(uint8_t pulseWidthUs);
 #endif //_SILICON_LABS_32B_SERIES_1
 #define COEX_HAL_SetPriority() COEX_HAL_CONFIG_DP_PRS(WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 1), COEX_HAL_DP_PRS_ON)
 #define COEX_HAL_ClearPriority() COEX_HAL_CONFIG_DP_PRS(WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 1), COEX_HAL_DP_PRS_OFF)
-#else //!(defined(BSP_COEX_PRI_PORT) || defined(COEX_HAL_CONFIG_RAC_LNA))
+#else //!(defined(BSP_COEX_PRI_PORT))
 #define COEX_HAL_SetPriority()   //no-op
 #define COEX_HAL_ClearPriority() //no-op
-#endif //defined(BSP_COEX_PRI_PORT) || defined(COEX_HAL_CONFIG_RAC_LNA)
+#endif //defined(BSP_COEX_PRI_PORT)
 #endif //defined(BSP_COEX_REQ_PORT) && defined(COEX_HAL_GPIO_ADDR)
 #endif  // __COEXISTENCE_HAL_H__

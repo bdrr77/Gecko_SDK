@@ -22,13 +22,6 @@
 #define BTL_ASSERT(x)
 #endif
 
-// Context size for bootloader verification context
-#if defined(BTL_SUPPORT_CERTIFICATES)
-#define BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE            (524)
-#else
-#define BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE            (384)
-#endif
-
 // -----------------------------------------------------------------------------
 // Functions
 

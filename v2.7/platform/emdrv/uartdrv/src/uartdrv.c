@@ -280,8 +280,8 @@ static void EnableTransmitter(UARTDRV_Handle_t handle)
   }
 #elif defined(EUART_COUNT) && (EUART_COUNT > 0)
   else if (handle->type == uartdrvUartTypeEuart) {
-    if (EUSART_StatusGet(handle->peripheral.euart) &  EUSART_STATUS_RXENS) {
-      EUSART_Enable(handle->peripheral.euart, eusartEnableRxTx);
+    if (EUSART_StatusGet(handle->peripheral.euart) & EUSART_STATUS_RXENS) {
+      EUSART_Enable(handle->peripheral.euart, eusartEnable);
     } else {
       EUSART_Enable(handle->peripheral.euart, eusartEnableTx);
     }
@@ -385,7 +385,7 @@ static void EnableReceiver(UARTDRV_Handle_t handle)
 #elif defined(EUART_COUNT) && (EUART_COUNT > 0)
   else if (handle->type == uartdrvUartTypeEuart) {
     if (EUSART_StatusGet(handle->peripheral.euart) &  EUSART_STATUS_TXENS) {
-      EUSART_Enable(handle->peripheral.euart, eusartEnableRxTx);
+      EUSART_Enable(handle->peripheral.euart, eusartEnable);
     } else {
       EUSART_Enable(handle->peripheral.euart, eusartEnableRx);
     }

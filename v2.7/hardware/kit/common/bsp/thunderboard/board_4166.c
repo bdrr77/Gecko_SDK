@@ -102,7 +102,6 @@ typedef struct {
 /****************************************************************************/
 static TIMER_TypeDef     *pwmTimer;                                   /*  Timer used to generate PWM for the RGB LEDs                 */
 static const uint8_t     lightLevels[] = BOARD_RGBLED_PROFILE_EXP;    /*  Array to linearize the light level of the RGB LEDs          */
-static bool              rgbledEnable;                                /*  The status of the RGB LEDs, enabled or disabled             */
 static bool              timerEnable;                                 /*  The status of the PWM timer, enabled or disabled            */
 static BOARD_SensorInfo_t sensorInfo;
 static BOARD_IrqCallback gasSensorIRQCallback;
@@ -134,7 +133,6 @@ uint32_t BOARD_init(void)
   I2CSPM_Init_TypeDef  i2cInit        = I2CSPM_INIT_DEFAULT;
   uint32_t status;
 
-  rgbledEnable    = false;
   timerEnable     = false;
 
   i2cInit.port            = I2C1;
@@ -349,7 +347,6 @@ void BOARD_rgbledEnable(bool enable, uint8_t mask)
 {
   if ( ( (mask != 0) && (enable == true) ) || ( ( (mask & 0xf) == 0xf) && (enable == false) ) ) {
     BOARD_rgbledPowerEnable(enable);
-    rgbledEnable = enable;
   }
 
   int i;

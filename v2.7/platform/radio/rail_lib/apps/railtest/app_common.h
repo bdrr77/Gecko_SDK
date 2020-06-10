@@ -357,6 +357,7 @@ extern bool redrawDisplay;
 extern bool skipCalibrations;
 extern bool schRxStopOnRxEvent;
 extern volatile bool serEvent;
+extern volatile bool rxPacketEvent;
 extern uint32_t perCount;
 extern uint32_t perDelay;
 extern uint32_t rxOverflowDelay;
@@ -374,7 +375,11 @@ extern bool ieee802154EnhAckEnabled;
 extern uint8_t ieee802154PhrLen; // 15.4 PHY Header Length (1 or 2 bytes)
 extern RAIL_PacketTimePosition_t txTimePosition;
 extern RAIL_PacketTimePosition_t rxTimePosition;
-
+extern RAIL_StreamMode_t streamMode;
+extern bool rxHeld;
+extern volatile bool rxProcessHeld;
+extern volatile uint32_t packetsHeld;
+extern bool autoUnlockCteBuffer;
 #ifdef RAIL_IC_SIM_BUILD
 #define PERIPHERAL_ENABLE (0x00)
 #define ASYNC_RESPONSE (0x00)
@@ -402,6 +407,9 @@ extern uint32_t suspensionStartTime;
 
 // Structure that holds txOptions
 extern RAIL_TxOptions_t txOptions;
+
+// Structure that holds Antenna Options
+extern RAIL_TxOptions_t antOptions;
 
 // Structure that holds (default) rxOptions
 extern RAIL_RxOptions_t rxOptions;
@@ -455,7 +463,6 @@ extern uint32_t* channelHoppingBuffer;
 typedef enum AppMode{
   NONE = 0,           /**< RAILtest is not doing anything special */
   TX_STREAM = 1,      /**< Send a stream of pseudo-random bits */
-  TX_TONE = 2,        /**< Send a tone at the carrier frequency */
   TX_CONTINUOUS = 3,  /**< Send an unending stream of packets*/
   DIRECT = 4,         /**< Send data to and from a GPIO, without any packet handling */
   TX_N_PACKETS = 5,   /**< Send a specific number of packets */
@@ -498,6 +505,8 @@ void updateDisplay(void);
 
 void changeChannel(uint32_t i);
 void pendPacketTx(void);
+RAIL_RxPacketHandle_t processRxPacket(RAIL_Handle_t railHandle,
+                                      RAIL_RxPacketHandle_t packetHandle);
 void pendFinishTxSequence(void);
 void pendFinishTxAckSequence(void);
 void radioTransmit(uint32_t iterations, char *command);

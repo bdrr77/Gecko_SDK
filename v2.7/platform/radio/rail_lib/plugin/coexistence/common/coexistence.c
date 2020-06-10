@@ -76,8 +76,7 @@ static COEX_GpioConfig_t phySelectCfg = {
 #if HAL_COEX_OVERRIDE_GPIO_INPUT
   .index = COEX_GPIO_INDEX_PHY_SELECT,
 #endif //HAL_COEX_OVERRIDE_GPIO_INPUT
-  .options = (COEX_GpioOptions_t)(COEX_GPIO_OPTION_INT_ASSERTED
-                                  | COEX_GPIO_OPTION_INT_DEASSERTED),
+  .options = (COEX_GpioOptions_t)(COEX_GPIO_OPTION_INT_ASSERTED),
   .cb = &COEX_PHY_SEL_ISR
 };
 
@@ -590,16 +589,27 @@ COEX_Options_t COEX_GetOptions(void)
 
 static void COEX_PHY_SEL_ISR(void)
 {
-  bool coexPhyEnabled = isGpioInSet(phySelectHandle, false);
-  clearGpioFlag(phySelectHandle);
-  setCoexOption(COEX_OPTION_PHY_SELECT, coexPhyEnabled);
+  disableGpioInt(phySelectHandle);
   coexEventCallback(COEX_EVENT_PHY_SELECT_CHANGED);
+}
+
+static void enablePhySelectIsr(void *args)
+{
+  (void)args;
+  enableGpioInt(phySelectHandle, NULL);
+  if (isGpioInSet(phySelectHandle, false)) {
+    COEX_PHY_SEL_ISR();
+  }
 }
 
 void COEX_EnablePhySelectIsr(bool enable)
 {
-  clearGpioFlag(phySelectHandle);
-  (*coexHalCallbacks->enableGpioInt)(phySelectHandle, enable, NULL);
+  if (enable) {
+    clearGpioFlag(phySelectHandle);
+    COEX_HAL_CallAtomic(enablePhySelectIsr, NULL);
+  } else {
+    disableGpioInt(phySelectHandle);
+  }
 }
 
 #ifdef COEX_HAL_FAST_REQUEST

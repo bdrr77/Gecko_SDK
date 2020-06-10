@@ -111,6 +111,9 @@ bool printTxAck = false;
 RAIL_VerifyConfig_t configVerify = { 0 };
 int16_t lqiOffset = 0;
 const char buildDateTime[] = __DATE__ " " __TIME__;
+bool rxHeld = false;
+volatile bool rxProcessHeld = false;
+volatile uint32_t packetsHeld = 0U;
 
 // Internal app state variables
 static bool receivingPacket = false;
@@ -254,6 +257,38 @@ void checkTimerExpiration(void);
 void updateDisplay(void);
 void processPendingCalibrations(void);
 void printAckTimeout(void);
+
+static void heldRxProcess(void)
+{
+  if (!rxProcessHeld) {
+    return;
+  }
+
+  CORE_DECLARE_IRQ_STATE;
+
+  CORE_ENTER_CRITICAL();
+  uint32_t packetsHeldLocal = packetsHeld;
+  if (packetsHeldLocal == 0) {
+    rxProcessHeld = false;
+  }
+  RAIL_RxPacketHandle_t packetHandle
+    = processRxPacket(railHandle, RAIL_RX_PACKET_HANDLE_OLDEST_COMPLETE);
+  CORE_EXIT_CRITICAL();
+
+  if (packetHandle == RAIL_RX_PACKET_HANDLE_INVALID) {
+    if (packetsHeldLocal > 0) {
+      responsePrintError("heldRxProcess", 0xEF, "Unexpected invalid packetHandle");
+    }
+  } else {
+    RAIL_ReleaseRxPacket(railHandle, packetHandle);
+    CORE_ENTER_CRITICAL();
+    packetsHeld--;
+    CORE_EXIT_CRITICAL();
+    if (packetsHeldLocal == 0) {
+      responsePrintError("heldRxProcess", 0xEF, "Unexpected valid packetHandle");
+    }
+  }
+}
 
 int main(void)
 {
@@ -419,6 +454,8 @@ int main(void)
     processPendingCalibrations();
 
     printAckTimeout();
+
+    heldRxProcess();
   }
 } //main()
 
@@ -562,6 +599,9 @@ static void RAILCb_Event(RAIL_Handle_t railHandle, RAIL_Events_t events)
     RAILCb_RxFifoAlmostFull(railHandle);
   }
   if (events & RAIL_EVENT_RX_FIFO_FULL) {
+    if (rxHeld) {
+      rxProcessHeld = true; // Try to avoid overflow by processing held packets
+    }
     counters.rxFifoFull++;
   }
   if (events & (RAIL_EVENT_RX_FIFO_OVERFLOW
@@ -575,7 +615,7 @@ static void RAILCb_Event(RAIL_Handle_t railHandle, RAIL_Events_t events)
       RAILCb_RxPacketReceived(railHandle);
     }
     if (rxFifoManual && (railDataConfig.rxMethod != PACKET_MODE)) {
-      (void) RAIL_HoldRxPacket(railHandle);
+      (void)RAIL_HoldRxPacket(railHandle);
     }
     if (events & RAIL_EVENT_RX_FIFO_OVERFLOW) {
       counters.rxOfEvent++;
@@ -962,6 +1002,13 @@ void printPacket(char *cmdName,
       packetData->appendedInfo.syncWordId,
       packetData->appendedInfo.antennaId,
       packetData->appendedInfo.channelHoppingChannelIndex);
+    if (RAIL_IEEE802154_IsEnabled(railHandle)) {
+      responsePrintContinue(
+        "ed154:%u,lqi154:%u",
+        RAIL_IEEE802154_ConvertRssiToEd(packetData->appendedInfo.rssi),
+        RAIL_IEEE802154_ConvertRssiToLqi(packetData->appendedInfo.lqi,
+                                         packetData->appendedInfo.rssi));
+    }
   } else {
     responsePrintContinue("len:%d", dataLength);
   }
@@ -1107,3 +1154,8 @@ bool ciPrintHelp(CommandEntry_t *commands)
   return true;
 }
 #endif //USE_RESPONSE_HELP
+
+char *handleToString(RAIL_Handle_t railHandle)
+{
+  return "r";//for railtest vs MP configuration
+}

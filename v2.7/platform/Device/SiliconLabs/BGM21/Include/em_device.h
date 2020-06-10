@@ -14,7 +14,7 @@
  * @endverbatim
  ******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories, Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories, Inc. www.silabs.com</b>
  ******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -70,6 +70,12 @@
 
 #elif defined(BGM210PA32JNA)
 #include "bgm210pa32jna.h"
+
+#elif defined(BGM210PB22JIA)
+#include "bgm210pb22jia.h"
+
+#elif defined(BGM210PB32JIA)
+#include "bgm210pb32jia.h"
 
 #else
 #error "em_device.h: PART NUMBER undefined"

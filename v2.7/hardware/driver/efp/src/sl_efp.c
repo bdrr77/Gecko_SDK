@@ -36,7 +36,6 @@
  * @{
  ******************************************************************************/
 
-
 /// @cond DO_NOT_INCLUDE_WITH_DOXYGEN
 
 #define EFP_EFP01_I2C_ADDR   0x60
@@ -52,7 +51,7 @@ static CORE_DECLARE_IRQ_STATE;
  *   EFP instance handle.
  *
  * @param[in] enable
- *   If true configure I2C pins for I2C use, if false pins are configured as
+ *   If true, configure I2C pins for I2C use. If false, pins are configured as
  *   GPIO pins to enable "direct mode" EM transfer mode.
  ******************************************************************************/
 static void enable_i2c_pins(sl_efp_handle_t handle, bool enable)
@@ -107,10 +106,10 @@ static void enable_i2c_pins(sl_efp_handle_t handle, bool enable)
  *   EFP instance handle.
  *
  * @param[in] msn_addr
- *   Register address of most significant byte of measurement.
+ *   Register address of the most significant byte of measurement.
  *
  * @param[in] lsby_addr
- *   Register address of least significant byte of measurement.
+ *   Register address of the least significant byte of measurement.
  *
  * @param[out] voltage_mv
  *   The result of the VDD measurement.
@@ -171,11 +170,11 @@ static sl_status_t get_vdd(sl_efp_handle_t handle,
 
 /***************************************************************************//**
  * @brief
- *   Reimplementation of EMU function with same name.
+ *   Reimplementation of the EMU function with the same name.
  *
  * @details
  *   This function will be called upon wakeup from the _WFI() instruction in
- *   EMU_EnterEM2/3() functions, and will set the EFP in EM0 mode.
+ *   EMU_EnterEM2/3() functions and will set the EFP in EM0 mode.
  *   A critical section is used to get predictable EFP energy mode sequence
  *   timing.
  ******************************************************************************/
@@ -192,11 +191,11 @@ void EMU_EM23PostsleepHook(void)
 
 /***************************************************************************//**
  * @brief
- *   Reimplementation of EMU function with same name.
+ *   Reimplementation of the EMU function with the same name.
  *
  * @details
  *   This function will be called prior to the _WFI() instruction in
- *   EMU_EnterEM2/3() functions, and will set the EFP in EM2 mode.
+ *   EMU_EnterEM2/3() functions and will set the EFP in EM2 mode.
  *   A critical section is used to get predictable EFP energy mode sequence
  *   timing.
  ******************************************************************************/
@@ -445,7 +444,7 @@ sl_status_t sl_efp_init(sl_efp_handle_t handle, const sl_efp_init_data_t *init)
   enable_i2c_pins(handle, true);
 
   // Do configuration register writes if a configuration is defined.
-  if (init->config_size > 0) {
+  if ((init->config_size > 0) && (ret_val == SL_STATUS_OK)){
     i = init->config_size;
     p = init->config_data;
     while (i && (ret_val == SL_STATUS_OK)) {
@@ -468,8 +467,10 @@ sl_status_t sl_efp_init(sl_efp_handle_t handle, const sl_efp_init_data_t *init)
   }
 
   // Prepare prelim workaround to speed-up EM2 wakeup timing.
-  ret_val = sl_efp_read_register(handle, EFP01_EM_CRSREG_CTRL, &handle->em_ctrl);
-  handle->em_ctrl &= ~_EFP01_EM_CRSREG_CTRL_EM_SEL_MASK;
+  if (ret_val == SL_STATUS_OK) {
+    ret_val = sl_efp_read_register(handle, EFP01_EM_CRSREG_CTRL, &handle->em_ctrl);
+    handle->em_ctrl &= ~_EFP01_EM_CRSREG_CTRL_EM_SEL_MASK;
+  }
 
   // Prepare for GPIO bitbanged "direct mode" EM transitions.
   if ((init->em_transition_mode == efp_em_transition_mode_gpio_bitbang)
@@ -573,7 +574,7 @@ sl_status_t sl_efp_read_register_field(sl_efp_handle_t handle,
 
 /***************************************************************************//**
  * @brief
- *   Reset EFP. Perform a full reset of the EFP, this is eqvivalent to a power
+ *   Reset EFP. Perform a full reset of the EFP, this is equivalent to a power
  *   on reset.
  ******************************************************************************/
 sl_status_t sl_efp_reset(sl_efp_handle_t handle)

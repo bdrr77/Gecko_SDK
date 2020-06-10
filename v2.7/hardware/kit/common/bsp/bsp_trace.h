@@ -58,7 +58,8 @@
 extern "C" {
 #endif
 
-#if defined(BSP_ETM_TRACE) && defined(ETM_PRESENT)
+#if (defined(BSP_ETM_TRACE) && defined(ETM_PRESENT)) \
+  || defined(GPIO_TRACECLK_PORT)
 void BSP_TraceEtmSetup(void);
 #endif
 

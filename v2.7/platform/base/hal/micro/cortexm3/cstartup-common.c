@@ -67,6 +67,10 @@
 // defined soley for the purpose of placing the stack.  Refer to reset handler
 // for the initialization code and iar-cfg-common.icf for segment placement
 // in memory.
+//
+// **Note well: This sets a default value that should work for simple
+// applications. Larger and more complex applications may very well need to
+// increase the size based on compiler usage analysis or runtime testing.
 //=============================================================================
 #ifndef CSTACK_SIZE
   #ifdef RTOS
@@ -76,13 +80,14 @@
   #else
     #if (defined(EMBER_NO_STACK)    /* nodetest and friends */ \
   || (!defined(EMBER_STACK_IP) && !defined(EMBER_STACK_CONNECT)))
-// Pro Stack
-// Right now we define the stack size to be for the worst case scenario,
-// ECC.  The ECC 163k1 library  and the ECC 283k1 Library both use the stack
-// for calculations. Empirically I have seen it use as much as 1900 bytes
-// for the 'key bit generate' operation.
-// So we add a 25% buffer: 1900 * 1.25 = 2375
-      #define CSTACK_SIZE  (600)  // *4 = 2400 bytes
+// Zigbee Pro Stack
+      #if defined(STACK_PROTECTION)
+// IAR's stack protection feature causes increased stack usage, so bump
+// up the default in that case
+        #define CSTACK_SIZE  (800)  // *4 = 3200 bytes
+      #else
+        #define CSTACK_SIZE  (600)  // *4 = 2400 bytes
+      #endif
     #else
 // IP Stack
       #define CSTACK_SIZE  (950)  // *4 = 3800 bytes

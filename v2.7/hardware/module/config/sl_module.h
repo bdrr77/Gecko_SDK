@@ -208,6 +208,27 @@
 #elif defined(BGM210LA22JNF)
 #include "sl_module_bgm210la22jnf.h"
 
+#elif defined(BGM220PC22HNA)
+#include "sl_module_bgm220pc22hna.h"
+
+#elif defined(BGM220PC22WGA)
+#include "sl_module_bgm220pc22wga.h"
+
+#elif defined(BGM220SC12WGA)
+#include "sl_module_bgm220sc12wga.h"
+
+#elif defined(BGM220SC22HNA)
+#include "sl_module_bgm220sc22hna.h"
+
+#elif defined(BGM220SC22WGA)
+#include "sl_module_bgm220sc22wga.h"
+
+#elif defined(MGM220PC22HNA)
+#include "sl_module_mgm220pc22hna.h"
+
+#elif defined(MGM220SC22HNA)
+#include "sl_module_mgm220sc22hna.h"
+
 #else
 #error "Module part number not defined, or unknown."
 #endif

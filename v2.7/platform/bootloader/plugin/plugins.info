@@ -92,7 +92,7 @@ plugin(core) {
 
   setup(macros) {
     BTL_APP_SPACE_SIZE=(FLASH_SIZE - BTL_APPLICATION_BASE)
-    -DBOOTLOADER_VERSION_MAIN_CUSTOMER=0
+    -DBOOTLOADER_VERSION_MAIN_CUSTOMER=3
   }
 
   setup(additionalFiles) {
@@ -103,6 +103,7 @@ plugin(core) {
   enforceSignedUpgrade,\
   enforceEncryptedUpgrade,\
   enforceSecureBoot,\
+  enforceRTSLSecureBoot,\
   allowFallbackToLegacyKeyStorage,\
   rejectDirectSignedImage,\
   appwdis,\
@@ -128,8 +129,15 @@ plugin(core) {
   enforceSecureBoot.default=false
   enforceSecureBoot.define=BOOTLOADER_ENFORCE_SECURE_BOOT
 
+  enforceRTSLSecureBoot.name=Enable certificate support
+  enforceRTSLSecureBoot.enabledIf=core_enforceSecureBoot
+  enforceRTSLSecureBoot.description=Enforce signature verification on the application image using the certificate of the bootloader image. To utilize certificate secure boot authentication, Secure Element should be configured to authenticate the bootloader image by configuring (certificate based) secure boot option in Secure Element OTP. This option will also allow certificate based authentication of the GBL files
+  enforceRTSLSecureBoot.type=BOOLEAN
+  enforceRTSLSecureBoot.default=false
+  enforceRTSLSecureBoot.override(efr32~series[1], efm32~series[1])=false
+  enforceRTSLSecureBoot.define=BOOTLOADER_SUPPORT_CERTIFICATES
+
   allowFallbackToLegacyKeyStorage.name=Allow use of public key from manufacturing token storage
-  allowFallbackToLegacyKeyStorage.enabledIf=core_enforceSecureBoot
   allowFallbackToLegacyKeyStorage.description=Allow use of the public key from the manufacturing token storage for signature verification if the public key is not stored in Secure Element.
   allowFallbackToLegacyKeyStorage.type=BOOLEAN
   allowFallbackToLegacyKeyStorage.default=true
@@ -137,11 +145,11 @@ plugin(core) {
   allowFallbackToLegacyKeyStorage.define=BOOTLOADER_FALLBACK_LEGACY_KEY
 
   rejectDirectSignedImage.name=Reject direct signed images
-  rejectDirectSignedImage.enabledIf=core_enforceSecureBoot
+  rejectDirectSignedImage.enabledIf=core_enforceRTSLSecureBoot
   rejectDirectSignedImage.description=On every boot, look for a certificate on application images and only accept the application images with a certificate.
   rejectDirectSignedImage.type=BOOLEAN
   rejectDirectSignedImage.default=false
-  rejectDirectSignedImage.override(efr32~series[2]~device_configuration[2], efr32~series[1], efm32~series[1])=false
+  rejectDirectSignedImage.override(efr32~series[1], efm32~series[1])=false
   rejectDirectSignedImage.define=BOOTLOADER_REJECT_DIRECT_SIGNED_IMG
 
   appwdis.name=Prevent write/erase of verified application
@@ -608,10 +616,6 @@ plugin(emlib) {
 
   setup(additionalFiles) {
     PATH(ABSOLUTE):$EMLIB/inc
-  }
-
-  setup(macros) {
-    -DSL_RAMFUNC_DISABLE=1
   }
 }
 

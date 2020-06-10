@@ -43,6 +43,9 @@
 #define BSP_BCC_RXPORT        gpioPortA
 #define BSP_BCC_RXPIN         6
 
+#define BSP_BCC_ENABLE_PORT   gpioPortB
+#define BSP_BCC_ENABLE_PIN    4                 /* VCOM_ENABLE */
+
 #define BSP_DISP_ENABLE_PORT  gpioPortC
 #define BSP_DISP_ENABLE_PIN   7
 

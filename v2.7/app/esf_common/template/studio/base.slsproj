@@ -144,8 +144,8 @@
   <toolOption  toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base"     optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.circulardependency"  value="true"/>
   <toolOption  toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base"     optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.nostdlibs"           value="false"/>
   <toolOption  toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base"     optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.printffloat"         value="false"/>
-  <toolOption  toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler"        optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.floatingpoint.type" value="floatingpoint.type.hard" partCompatibility=".*efr32(b|m)g2.* .*rm21.* .*mgm.*"/>
-  <toolOption  toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base"     optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.floatingpoint.type"   value="floatingpoint.type.hard" partCompatibility=".*efr32(b|m)g2.* .*rm21.* .*mgm.*"/>
+  <toolOption  toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler"        optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.compiler.floatingpoint.type" value="floatingpoint.type.hard" partCompatibility=".*[bfm]gm?2\d.* .*rm21.*"/>
+  <toolOption  toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.base"     optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.floatingpoint.type"   value="floatingpoint.type.hard" partCompatibility=".*[bfm]gm?2\d.* .*rm21.*"/>
   <toolOption  toolchainCompatibility="com.silabs.ide.si32.gcc"                             toolId="com.silabs.ide.si32.gcc.cdt.managedbuild.toolchain.exe"                           optionId="com.silabs.ide.si32.gcc.cdt.managedbuild.tool.gnu.c.linker.usescript" value="true"/>
   <libraryFile name="m" toolchainCompatibility="com.silabs.ide.si32.gcc" />
 </project>

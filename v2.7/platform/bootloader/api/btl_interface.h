@@ -138,7 +138,6 @@ typedef struct {
                          const BootloaderParserCallbacks_t *callbacks,
                          uint8_t                           data[],
                          size_t                            numBytes);
-
   // ------------------------------
   /// Function table for storage plugin
   const BootloaderStorageFunctions_t *storage;
@@ -256,8 +255,6 @@ typedef struct {
 #define BTL_APPLICATION_BASE              0x00004000UL
 #define BTL_MAIN_STAGE_MAX_SIZE           (BTL_APPLICATION_BASE \
                                            - BTL_FIRST_STAGE_SIZE)
-
-#define BTL_SUPPORT_CERTIFICATES
 #elif defined(_SILICON_LABS_GECKO_INTERNAL_SDID_205)
 // No bootloader area: Place the bootloader in main flash
 #define BTL_FIRST_STAGE_BASE              0x00000000UL
@@ -370,6 +367,25 @@ void bootloader_rebootAndInstall(void);
  * @return True if the application is valid, else false.
  ******************************************************************************/
 bool bootloader_verifyApplication(uint32_t startAddress);
+
+/***************************************************************************//**
+ * Check if signature verification on the application image in internal flash
+ * is enforced before every boot.
+ *
+ * @return True if signature verification is enforced, else false.
+ ******************************************************************************/
+bool bootloader_secureBootEnforced(void);
+
+#if defined(_SILICON_LABS_32B_SERIES_2)
+/***************************************************************************//**
+ * Get bootloader certificate version.
+ *
+ * @param[out] version           Bootloader certificate version
+ *
+ * @return True if a valid certificate version is found.
+ ******************************************************************************/
+bool bootloader_getCertificateVersion(uint32_t *version);
+#endif // _SILICON_LABS_32B_SERIES_2
 
 #if defined(BOOTLOADER_HAS_FIRST_STAGE)
 /***************************************************************************//**

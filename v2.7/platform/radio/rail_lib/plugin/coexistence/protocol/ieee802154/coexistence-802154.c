@@ -158,12 +158,12 @@
   #define PUBLIC_PTA_OPT_REQ_FILTER_PASS PTA_OPT_DISABLED
 #endif
 
-#if defined(BSP_COEX_PRI_PORT) || defined(PTA_PRI_GPIO)
+#if defined(BSP_COEX_PRI_PORT) || defined(PTA_PRI_GPIO) || defined(BSP_COEX_DP_PORT)
   #define PUBLIC_PTA_OPT_TX_HIPRI          PTA_OPT_TX_HIPRI
   #define PUBLIC_PTA_OPT_RX_HIPRI          PTA_OPT_RX_HIPRI
   #define PUBLIC_PTA_OPT_RX_RETRY_HIPRI    PTA_OPT_RX_RETRY_HIPRI
   #define PUBLIC_PTA_OPT_HIPRI_FILTER_PASS PTA_OPT_HIPRI_FILTER_PASS
-#else //!defined(BSP_COEX_PRI_PORT) && !defined(PTA_PRI_GPIO)
+#else //!defined(BSP_COEX_PRI_PORT) && !defined(PTA_PRI_GPIO) && !defined(BSP_COEX_DP_PORT)
   #define PUBLIC_PTA_OPT_TX_HIPRI          PTA_OPT_DISABLED
   #define PUBLIC_PTA_OPT_RX_HIPRI          PTA_OPT_DISABLED
   #define PUBLIC_PTA_OPT_RX_RETRY_HIPRI    PTA_OPT_DISABLED
@@ -309,12 +309,15 @@ static uint8_t blockPhySwitch = 0U;
 
 #if HAL_COEX_RUNTIME_PHY_SELECT
 static bool phySelectInitialized = false;
+static void phySelectTick(void);
 #endif //HAL_COEX_RUNTIME_PHY_SELECT
 
 static bool checkPhySwitch(void)
 {
 #if HAL_COEX_RUNTIME_PHY_SELECT
-  if (!phySelectInitialized && (emPhyRailHandle != NULL)) {
+  if (phySelectInitialized) {
+    phySelectTick();
+  } else if (emPhyRailHandle != NULL) {
     halPtaSetPhySelectTimeout(HAL_COEX_DEFAULT_PHY_SELECT_TIMEOUT);
     phySelectInitialized = true;
   }
@@ -350,7 +353,7 @@ static HalPtaOptions halPtaOptions = DEFAULT_PTA_OPTIONS;
 static void configRandomDelay(void);
 static void coexEventsCb(COEX_Events_t events);
 #if HAL_COEX_RUNTIME_PHY_SELECT
-static void checkPhySelectTimer(void);
+static void phySelectIsr(void);
 #endif//HAL_COEX_RUNTIME_PHY_SELECT
 
 static void eventsCb(COEX_Events_t events)
@@ -360,7 +363,7 @@ static void eventsCb(COEX_Events_t events)
   }
  #if     HAL_COEX_RUNTIME_PHY_SELECT
   if ((events & COEX_EVENT_PHY_SELECT_CHANGED) != 0U) {
-    checkPhySelectTimer();
+    phySelectIsr();
   }
  #endif//HAL_COEX_RUNTIME_PHY_SELECT
   coexEventsCb(events);
@@ -623,17 +626,23 @@ static void ptaPhySelectTimerCb(RAIL_MultiTimer_t * tmr,
   UNUSED_VAR(tmr);
   UNUSED_VAR(expectedTimeOfEvent);
   UNUSED_VAR(cbArg);
-  cancelTimer(&ptaPhySelectTimer);
-  halCoexNewPhySelectedCoex = false;
+  phySelectTick();
 }
 
-static void checkPhySelectTimer(void)
+static void phySelectTick(void)
 {
-  if ((COEX_GetOptions() & COEX_OPTION_PHY_SELECT) != 0U) {
-    RAIL_CancelMultiTimer(&ptaPhySelectTimer);
-    halCoexNewPhySelectedCoex = true;
-  } else {
-    setTimer(&ptaPhySelectTimer, phySelectTimeoutMs, &ptaPhySelectTimerCb);
+  if (phySelectTimeoutMs != 0U && !RAIL_IsMultiTimerRunning(&ptaPhySelectTimer)) {
+    halCoexNewPhySelectedCoex = false;
+    COEX_EnablePhySelectIsr(true);
+  }
+}
+
+#define MICROSECONDS_PER_MILLISECOND (1000U)
+static void phySelectIsr(void)
+{
+  halCoexNewPhySelectedCoex = true;
+  if (phySelectInitialized) {
+    setTimer(&ptaPhySelectTimer, phySelectTimeoutMs * MICROSECONDS_PER_MILLISECOND, &ptaPhySelectTimerCb);
   }
 }
 #endif //HAL_COEX_RUNTIME_PHY_SELECT

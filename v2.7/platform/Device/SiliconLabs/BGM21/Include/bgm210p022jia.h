@@ -4,7 +4,7 @@
  *        for BGM210P022JIA
  ******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories, Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories, Inc. www.silabs.com</b>
  ******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -369,6 +369,8 @@ typedef enum IRQn{
 #define MODEM_COUNT                              1 /** 1 MODEMs available  */
 #define MSC_PRESENT                                /** MSC is available in this part */
 #define MSC_COUNT                                1 /** 1 MSCs available  */
+#define PRORTC_PRESENT                             /** PRORTC is available in this part */
+#define PRORTC_COUNT                             1 /** 1 PRORTCs available  */
 #define PROTIMER_PRESENT                           /** PROTIMER is available in this part */
 #define PROTIMER_COUNT                           1 /** 1 PROTIMERs available  */
 #define PRS_PRESENT                                /** PRS is available in this part */
@@ -549,6 +551,7 @@ typedef enum IRQn{
 #define WDOG1_NS_BASE             (0x5A01C000UL) /* WDOG1_NS base address */
 #define AMUXCP0_NS_BASE           (0x5A020000UL) /* AMUXCP0_NS base address */
 #define SEMAILBOX_NS_HOST_BASE    (0x5C000000UL) /* SEMAILBOX_NS_HOST base address */
+#define PRORTC_BASE               (0xA8000000UL) /* PRORTC base address */
 #define FRC_BASE                  (0xA8004000UL) /* FRC base address */
 #define AGC_BASE                  (0xA800C000UL) /* AGC base address */
 #define RFCRC_BASE                (0xA8010000UL) /* RFCRC base address */
@@ -556,6 +559,7 @@ typedef enum IRQn{
 #define SYNTH_BASE                (0xA8018000UL) /* SYNTH base address */
 #define PROTIMER_BASE             (0xA801C000UL) /* PROTIMER base address */
 #define RAC_BASE                  (0xA8020000UL) /* RAC base address */
+#define PRORTC_NS_BASE            (0xB8000000UL) /* PRORTC_NS base address */
 #define FRC_NS_BASE               (0xB8004000UL) /* FRC_NS base address */
 #define AGC_NS_BASE               (0xB800C000UL) /* AGC_NS base address */
 #define RFCRC_NS_BASE             (0xB8010000UL) /* RFCRC_NS base address */
@@ -697,6 +701,8 @@ typedef enum IRQn{
 #define WDOG1_NS             ((WDOG_TypeDef *) WDOG1_NS_BASE)                    /**< WDOG1_NS base pointer */
 #define AMUXCP0_NS           ((AMUXCP_TypeDef *) AMUXCP0_NS_BASE)                /**< AMUXCP0_NS base pointer */
 #define SEMAILBOX_NS_HOST    ((SEMAILBOX_HOST_TypeDef *) SEMAILBOX_NS_HOST_BASE) /**< SEMAILBOX_NS_HOST base pointer */
+#define PRORTC_S             ((RTCC_TypeDef *) PRORTC_BASE)                      /**< PRORTC_S base pointer */
+#define PRORTC               ((RTCC_TypeDef *) PRORTC_BASE)                      /**< PRORTC_S base pointer */
 #define FRC_S                ((FRC_TypeDef *) FRC_BASE)                          /**< FRC_S base pointer */
 #define FRC                  ((FRC_TypeDef *) FRC_BASE)                          /**< FRC_S base pointer */
 #define AGC_S                ((AGC_TypeDef *) AGC_BASE)                          /**< AGC_S base pointer */
@@ -711,6 +717,7 @@ typedef enum IRQn{
 #define PROTIMER             ((PROTIMER_TypeDef *) PROTIMER_BASE)                /**< PROTIMER_S base pointer */
 #define RAC_S                ((RAC_TypeDef *) RAC_BASE)                          /**< RAC_S base pointer */
 #define RAC                  ((RAC_TypeDef *) RAC_BASE)                          /**< RAC_S base pointer */
+#define PRORTC_NS            ((RTCC_TypeDef *) PRORTC_NS_BASE)                   /**< PRORTC_NS base pointer */
 #define FRC_NS               ((FRC_TypeDef *) FRC_NS_BASE)                       /**< FRC_NS base pointer */
 #define AGC_NS               ((AGC_TypeDef *) AGC_NS_BASE)                       /**< AGC_NS base pointer */
 #define RFCRC_NS             ((RFCRC_TypeDef *) RFCRC_NS_BASE)                   /**< RFCRC_NS base pointer */
@@ -760,8 +767,9 @@ typedef enum IRQn{
 #define DMEM_RAM_ECC_EN                      0x1UL      /**> RAM_ECC_EN_PRESENT */
 #define LFXO_NO_CTUNE                        0x0UL      /**> CTUNE Not Present */
 #define LFXO_CTUNE                           0x1UL      /**> CTUNE Present */
-#define ICACHE0_ADDR_BITS                    0x12UL     /**> Address bits */
 #define ICACHE0_AHB_LITE                     0x0UL      /**> AHB Lite */
+#define ICACHE0_CACHEABLE_SIZE               0x200UL    /**> Cache Size */
+#define ICACHE0_CACHEABLE_START              0x12UL     /**> Cache Start */
 #define ICACHE0_DEFAULT_OFF                  0x0UL      /**> Default off */
 #define ICACHE0_FLASH_SIZE                   0x100000UL /**> Flash size */
 #define ICACHE0_FLASH_START                  0x0UL      /**> Flash start */
@@ -926,8 +934,6 @@ typedef enum IRQn{
 #define I2C1_DELAY                           0x7D0UL    /**> Delay cell selection */
 #define I2C1_DELAY_CHAIN_NUM                 0x2UL      /**> Number of delay chain */
 #define SYSCFG_CHIP_FAMILY                   0x30UL     /**> CHIP Family */
-#define SYSCFG_CHIP_REV_MAJOR                0x1UL      /**> Major revision */
-#define SYSCFG_CHIP_REV_MINOR                0x0UL      /**> Minor revision */
 #define SYSCFG_DEMODRAM_INST_COUNT           0x1UL      /**>  */
 #define SYSCFG_FRCRAM_INST_COUNT             0x1UL      /**>  */
 #define SYSCFG_RAM0_INST_COUNT               0x6UL      /**> None */
@@ -982,6 +988,7 @@ typedef enum IRQn{
 #define RDMEM_SEQ_RAM_BWE_WIDTH              0x27UL     /**> SEQRAM BWE width */
 #define RDMEM_SEQ_RAM_DATA_WIDTH             0x27UL     /**> SEQ_RAM_DATA_WIDTH */
 #define RDMEM_SEQ_RAM_ECC_EN                 0x1UL      /**> SEQ RAM ECCEN */
+#define PRORTC_CC_NUM                        0x2UL      /**> None */
 #define FRC_DEMOD_FILT_WIDTH                 0x13UL     /**> New Param */
 #define FRC_FCD_NUM                          0x4UL      /**> None */
 #define FRC_INTELEMENTS                      0x10UL     /**> None */

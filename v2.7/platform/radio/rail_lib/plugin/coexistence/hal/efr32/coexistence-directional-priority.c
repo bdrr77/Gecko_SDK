@@ -26,10 +26,7 @@
 #include "coexistence-hal.h"
 
 #if HAL_COEX_DP_ENABLED
-#if HAL_CONFIG
-#ifdef PLATFORM_HEADER
-#include PLATFORM_HEADER
-#else //!PLATFORM_HEADER
+#ifndef STATIC_ASSERT
 #ifdef __ICCARM__
   #define STATIC_ASSERT(__condition, __errorstr) \
   static_assert(__condition, __errorstr)
@@ -39,6 +36,10 @@
 #else
   #define STATIC_ASSERT(__condition, __errorstr)
 #endif
+#endif //!defined(STATIC_ASSERT)
+#if HAL_CONFIG
+#ifdef PLATFORM_HEADER
+#include PLATFORM_HEADER
 #endif //PLATFORM_HEADER
 #ifdef BSP_COEX_PWM_REQ_PORT
 #define BSP_COEX_DP_CC0_INTNO BSP_COEX_PWM_REQ_INTNO
@@ -246,9 +247,6 @@ __STATIC_INLINE void configPrsChain(PRS_ChannelConfig_t *prsConfig,
 #define  CONFIG_PRS_CHAIN(prsChain) (configPrsChain(prsChain, \
                                                     sizeof(prsChain) / sizeof(prsChain[0])))
 
-//#define ANDNEXT_APPROACH // incompatible with default FEM controls
-#define ORPREV_APPROACH // compatible with default FEM controls
-
 PRS_ChannelConfig_t prsChainOff[] = {
 #ifdef BSP_COEX_PRI_INTNO
   {
@@ -301,7 +299,7 @@ PRS_ChannelConfig_t prsChainOff[] = {
 };
 
 #ifdef _SILICON_LABS_32B_SERIES_2_CONFIG_2
-#define PRS_RAC_LNAEN PRS_RACL_LNAEN
+#define PRS_RAC_PAEN PRS_RACL_PAEN
 #endif //_SILICON_LABS_32B_SERIES_2_CONFIG_2
 
 #ifndef _SILICON_LABS_32B_SERIES_1
@@ -319,8 +317,8 @@ PRS_ChannelConfig_t prsChainOn[] = {
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 2)
   },
   {
-    .signal = PRS_RAC_LNAEN,
-    .ctrl = prsLogic_A_AND_NOT_B,
+    .signal = PRS_RAC_PAEN,
+    .ctrl = prsLogic_A_NOR_B,
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 1)
   },
 #else //!BSP_COEX_PRI_INTNO
@@ -330,8 +328,8 @@ PRS_ChannelConfig_t prsChainOn[] = {
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 2)
   },
   {
-    .signal = PRS_RAC_LNAEN,
-    .ctrl = prsLogic_A,
+    .signal = PRS_RAC_PAEN,
+    .ctrl = prsLogic_NOT_A,
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 1)
   },
 #endif //BSP_COEX_PRI_INTNO
@@ -342,13 +340,8 @@ PRS_ChannelConfig_t prsChainOn[] = {
     .channel = BSP_COEX_DP_CHANNEL
   }
 };
-#elif defined(ORPREV_APPROACH)
+#else
 PRS_ChannelConfig_t prsChainOn[] = {
-  {
-    .signal = PRS_RAC_LNAEN,
-    .ctrl = PRS_CH_CTRL_INV,
-    .channel = BSP_COEX_DP_RACLNAEN_INV_CHANNEL
-  },
   {
     .source = PRS_GPIO_SOURCE(BSP_COEX_DP_CC0_INTNO),
     .signal = PRS_GPIO_SIGNAL(BSP_COEX_DP_CC0_INTNO),
@@ -369,8 +362,7 @@ PRS_ChannelConfig_t prsChainOn[] = {
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 2)
   },
   {
-    .source = PRS_CHANNEL_SOURCE(BSP_COEX_DP_RACLNAEN_INV_CHANNEL),
-    .signal = PRS_CHANNEL_SIGNAL(BSP_COEX_DP_RACLNAEN_INV_CHANNEL),
+    .signal = PRS_RAC_PAEN,
     .ctrl = PRS_CH_CTRL_ORPREV | PRS_CH_CTRL_INV,
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 1)
   },
@@ -382,8 +374,7 @@ PRS_ChannelConfig_t prsChainOn[] = {
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 2)
   },
   {
-    .source = PRS_CHANNEL_SOURCE(BSP_COEX_DP_RACLNAEN_INV_CHANNEL),
-    .signal = PRS_CHANNEL_SIGNAL(BSP_COEX_DP_RACLNAEN_INV_CHANNEL),
+    .signal = PRS_RAC_PAEN,
     .ctrl = PRS_CH_CTRL_INV,
     .channel = WRAP_PRS_ASYNC(BSP_COEX_DP_CHANNEL - 1)
   },
@@ -395,34 +386,7 @@ PRS_ChannelConfig_t prsChainOn[] = {
     .channel = BSP_COEX_DP_CHANNEL
   }
 };
-#elif ANDNEXT_APPROACH
-PRS_ChannelConfig_t prsChainOn[] = {
-  {
-    .source = COEX_DP_PRI_PRS_SOURCE,
-    .signal = COEX_DP_PRI_PRS_SIGNAL,
-    .channel = 6
-  },
-  {
-    .source = PRS_CH_CTRL_SOURCESEL_TIMER_DP,
-    .signal = PRS_CH_CTRL_SIGSEL_TIMERCC0_DP,
-    .ctrl = PRS_CH_CTRL_ANDNEXT | PRS_CH_CTRL_INV,
-    .channel = 5
-  },
-  {
-    .signal = PRS_RAC_LNAEN,
-    .ctrl = PRS_CH_CTRL_ANDNEXT | PRS_CH_CTRL_INV,
-    .channel = 4
-  },
-  {
-    .source = COEX_DP_REQ_PRS_SOURCE,
-    .signal = COEX_DP_REQ_PRS_SIGNAL,
-    .ctrl = PRS_CH_CTRL_ANDNEXT,
-    .channel = 3
-  }
-};
-#else
-#error "No PRS Chain selected!"
-#endif //ANDNEXT_APPROACH
+#endif
 
 bool COEX_HAL_ConfigDp(uint8_t pulseWidthUs)
 {

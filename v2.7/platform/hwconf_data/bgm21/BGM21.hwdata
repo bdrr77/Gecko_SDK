@@ -1,45 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
 <model:MDescriptors xmlns:model="http://www.silabs.com/ss/Studio.ecore">
-  <descriptors id="BGM210L022JIF">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210l022jif"/>
-    <property key="hardwareConfigData" value="bgm210l022jif/BGM210L022JIF.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210l022jif.extension">
-    <property key="hardwareConfigData" value="bgm210l022jif/BGM210L022JIF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210l022jif.portio">
-    <property key="hardwareConfigData" value="bgm210l022jif/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210L022JIF">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210l022jif"/>
-    <property key="hardwareConfigData" value="bgm210l022jif/BGM210L022JIF.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210l022jif.extension">
-    <property key="hardwareConfigData" value="bgm210l022jif/BGM210L022JIF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210l022jif.portio">
-    <property key="hardwareConfigData" value="bgm210l022jif/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210L022JNF">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210l022jnf"/>
-    <property key="hardwareConfigData" value="bgm210l022jnf/BGM210L022JNF.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210l022jnf.extension">
-    <property key="hardwareConfigData" value="bgm210l022jnf/BGM210L022JNF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210l022jnf.portio">
-    <property key="hardwareConfigData" value="bgm210l022jnf/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210L022JNF">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210l022jnf"/>
-    <property key="hardwareConfigData" value="bgm210l022jnf/BGM210L022JNF.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210l022jnf.extension">
-    <property key="hardwareConfigData" value="bgm210l022jnf/BGM210L022JNF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210l022jnf.portio">
-    <property key="hardwareConfigData" value="bgm210l022jnf/PORTIO.portio"/>
-  </descriptors>
   <descriptors id="BGM210LA22JIF">
     <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210la22jif"/>
     <property key="hardwareConfigData" value="bgm210la22jif/BGM210LA22JIF.device"/>
@@ -49,26 +9,6 @@
   </descriptors>
   <descriptors id="efr32.bgm21.bgm210la22jif.portio">
     <property key="hardwareConfigData" value="bgm210la22jif/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210LA22JIF">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210la22jif"/>
-    <property key="hardwareConfigData" value="bgm210la22jif/BGM210LA22JIF.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210la22jif.extension">
-    <property key="hardwareConfigData" value="bgm210la22jif/BGM210LA22JIF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210la22jif.portio">
-    <property key="hardwareConfigData" value="bgm210la22jif/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210LA22JNF">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210la22jnf"/>
-    <property key="hardwareConfigData" value="bgm210la22jnf/BGM210LA22JNF.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210la22jnf.extension">
-    <property key="hardwareConfigData" value="bgm210la22jnf/BGM210LA22JNF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210la22jnf.portio">
-    <property key="hardwareConfigData" value="bgm210la22jnf/PORTIO.portio"/>
   </descriptors>
   <descriptors id="BGM210LA22JNF">
     <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210la22jnf"/>
@@ -90,26 +30,6 @@
   <descriptors id="efr32.bgm21.bgm210p022jia.portio">
     <property key="hardwareConfigData" value="bgm210p022jia/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="BGM210P022JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210p022jia"/>
-    <property key="hardwareConfigData" value="bgm210p022jia/BGM210P022JIA.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210p022jia.extension">
-    <property key="hardwareConfigData" value="bgm210p022jia/BGM210P022JIA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210p022jia.portio">
-    <property key="hardwareConfigData" value="bgm210p022jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210P022JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210p022jna"/>
-    <property key="hardwareConfigData" value="bgm210p022jna/BGM210P022JNA.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210p022jna.extension">
-    <property key="hardwareConfigData" value="bgm210p022jna/BGM210P022JNA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210p022jna.portio">
-    <property key="hardwareConfigData" value="bgm210p022jna/PORTIO.portio"/>
-  </descriptors>
   <descriptors id="BGM210P032JIA">
     <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210p032jia"/>
     <property key="hardwareConfigData" value="bgm210p032jia/BGM210P032JIA.device"/>
@@ -119,26 +39,6 @@
   </descriptors>
   <descriptors id="efr32.bgm21.bgm210p032jia.portio">
     <property key="hardwareConfigData" value="bgm210p032jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210P032JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210p032jia"/>
-    <property key="hardwareConfigData" value="bgm210p032jia/BGM210P032JIA.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210p032jia.extension">
-    <property key="hardwareConfigData" value="bgm210p032jia/BGM210P032JIA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210p032jia.portio">
-    <property key="hardwareConfigData" value="bgm210p032jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210P032JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210p032jna"/>
-    <property key="hardwareConfigData" value="bgm210p032jna/BGM210P032JNA.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210p032jna.extension">
-    <property key="hardwareConfigData" value="bgm210p032jna/BGM210P032JNA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210p032jna.portio">
-    <property key="hardwareConfigData" value="bgm210p032jna/PORTIO.portio"/>
   </descriptors>
   <descriptors id="BGM210PA22JIA">
     <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pa22jia"/>
@@ -150,26 +50,6 @@
   <descriptors id="efr32.bgm21.bgm210pa22jia.portio">
     <property key="hardwareConfigData" value="bgm210pa22jia/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="BGM210PA22JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pa22jia"/>
-    <property key="hardwareConfigData" value="bgm210pa22jia/BGM210PA22JIA.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210pa22jia.extension">
-    <property key="hardwareConfigData" value="bgm210pa22jia/BGM210PA22JIA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210pa22jia.portio">
-    <property key="hardwareConfigData" value="bgm210pa22jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="BGM210PA22JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pa22jna"/>
-    <property key="hardwareConfigData" value="bgm210pa22jna/BGM210PA22JNA.device"/>
-  </descriptors>
-  <descriptors id="efr32.bgm210pa22jna.extension">
-    <property key="hardwareConfigData" value="bgm210pa22jna/BGM210PA22JNA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.bgm21.bgm210pa22jna.portio">
-    <property key="hardwareConfigData" value="bgm210pa22jna/PORTIO.portio"/>
-  </descriptors>
   <descriptors id="BGM210PA32JIA">
     <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pa32jia"/>
     <property key="hardwareConfigData" value="bgm210pa32jia/BGM210PA32JIA.device"/>
@@ -180,25 +60,25 @@
   <descriptors id="efr32.bgm21.bgm210pa32jia.portio">
     <property key="hardwareConfigData" value="bgm210pa32jia/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="BGM210PA32JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pa32jia"/>
-    <property key="hardwareConfigData" value="bgm210pa32jia/BGM210PA32JIA.device"/>
+  <descriptors id="BGM210PB22JIA">
+    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pb22jia"/>
+    <property key="hardwareConfigData" value="bgm210pb22jia/BGM210PB22JIA.device"/>
   </descriptors>
-  <descriptors id="efr32.bgm210pa32jia.extension">
-    <property key="hardwareConfigData" value="bgm210pa32jia/BGM210PA32JIA.deviceextension"/>
+  <descriptors id="efr32.bgm210pb22jia.extension">
+    <property key="hardwareConfigData" value="bgm210pb22jia/BGM210PB22JIA.deviceextension"/>
   </descriptors>
-  <descriptors id="efr32.bgm21.bgm210pa32jia.portio">
-    <property key="hardwareConfigData" value="bgm210pa32jia/PORTIO.portio"/>
+  <descriptors id="efr32.bgm21.bgm210pb22jia.portio">
+    <property key="hardwareConfigData" value="bgm210pb22jia/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="BGM210PA32JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pa32jna"/>
-    <property key="hardwareConfigData" value="bgm210pa32jna/BGM210PA32JNA.device"/>
+  <descriptors id="BGM210PB32JIA">
+    <property key="partCompatibility" value="mcu.arm.efr32.bg21.bgm210pb32jia"/>
+    <property key="hardwareConfigData" value="bgm210pb32jia/BGM210PB32JIA.device"/>
   </descriptors>
-  <descriptors id="efr32.bgm210pa32jna.extension">
-    <property key="hardwareConfigData" value="bgm210pa32jna/BGM210PA32JNA.deviceextension"/>
+  <descriptors id="efr32.bgm210pb32jia.extension">
+    <property key="hardwareConfigData" value="bgm210pb32jia/BGM210PB32JIA.deviceextension"/>
   </descriptors>
-  <descriptors id="efr32.bgm21.bgm210pa32jna.portio">
-    <property key="hardwareConfigData" value="bgm210pa32jna/PORTIO.portio"/>
+  <descriptors id="efr32.bgm21.bgm210pb32jia.portio">
+    <property key="hardwareConfigData" value="bgm210pb32jia/PORTIO.portio"/>
   </descriptors>
   <descriptors id="efr32.bgm21.port">
     <property key="hardwareConfigData" value="modules/PORT/PORT.module"/>

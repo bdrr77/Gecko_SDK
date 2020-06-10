@@ -1,18 +1,32 @@
 /***************************************************************************//**
- * @file sl_mpu.c
+ * @file
  * @brief MPU API implementation.
- * @version 1.0.0
  *******************************************************************************
  * # License
- * <b>(C) Copyright 2018 Silicon Labs, www.silabs.com</b>
+ * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
- * This file is licensed under the Silabs License Agreement. See the file
- * "Silabs_License_Agreement.txt" for details. Before using this software for
- * any purpose, you must agree to the terms of that agreement.
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
  *
  ******************************************************************************/
-
 #include "em_device.h"
 
 #if defined (__MPU_PRESENT) && (__MPU_PRESENT == 1U)
@@ -23,7 +37,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define MPU_RBAR_VALUE    ARM_MPU_RBAR(0u, ARM_MPU_SH_OUTER, 0, 1, 1)
+#define MPU_RBAR_VALUE    ARM_MPU_RBAR(0u, ARM_MPU_SH_NON, 0, 1, 1)
 
 // Number of sub-regions per MPU region.
 #define MPU_SUBREGION_NBR             8u
@@ -89,13 +103,13 @@ void sl_mpu_disable_execute_from_ram(void)
   uint32_t rbar;
 
   // Region end address LSB are always considered 1F.
-  mpu_region_begin = RAM_MEM_BASE;
+  mpu_region_begin = SRAM_BASE;
   mpu_region_end = (RAMFUNC_SECTION_SIZE > 0) ? (RAMFUNC_SECTION_BEGIN & MPU_RBAR_BASE_Msk) - 32u
-                   : (RAM_MEM_BASE + RAM_MEM_SIZE);
+                   : (SRAM_BASE + SRAM_SIZE);
+
+  ARM_MPU_SetMemAttr(0, ARM_MPU_ATTR(ARM_MPU_ATTR_MEMORY_(1, 0, 1, 0), 0));
 
   if (mpu_region_begin <= mpu_region_end) {
-    ARM_MPU_SetMemAttr(region_nbr, ARM_MPU_ATTR(ARM_MPU_ATTR_MEMORY_(1, 0, 1, 0), 0));
-
     // A bug exists in some versions of ARM_MPU_RBAR(). Set base addr manually.
     rbar = MPU_RBAR_VALUE | (mpu_region_begin & MPU_RBAR_BASE_Msk);
     ARM_MPU_SetRegion(region_nbr, rbar, ARM_MPU_RLAR(mpu_region_end, 0u));
@@ -103,11 +117,9 @@ void sl_mpu_disable_execute_from_ram(void)
   }
 
   if (RAMFUNC_SECTION_SIZE > 0u) {
-    ARM_MPU_SetMemAttr(region_nbr, ARM_MPU_ATTR(ARM_MPU_ATTR_MEMORY_(1, 0, 1, 0), 0));
-
     // Region end address LSB are always considered 1F.
     mpu_region_begin = (RAMFUNC_SECTION_END + 31u) & MPU_RLAR_LIMIT_Msk;
-    mpu_region_end = RAM_MEM_BASE + RAM_MEM_SIZE - 32u;
+    mpu_region_end = SRAM_BASE + SRAM_SIZE - 32u;
 
     // A bug exists in some versions of ARM_MPU_RBAR(). Set base addr manually.
     rbar = MPU_RBAR_VALUE | (mpu_region_begin & MPU_RBAR_BASE_Msk);
@@ -122,9 +134,9 @@ void sl_mpu_disable_execute_from_ram(void)
   (void) mpu_region_end;
 
   // Set background RAM region as execute never
-  region_size_encoded = mpu_region_size_encode(RAM_MEM_SIZE);
+  region_size_encoded = mpu_region_size_encode(SRAM_SIZE);
   ARM_MPU_SetRegionEx(region_nbr,
-                      RAM_MEM_BASE,
+                      SRAM_BASE,
                       ((region_size_encoded << MPU_RASR_SIZE_Pos) & MPU_RASR_SIZE_Msk)
                       | (ARM_MPU_AP_FULL << MPU_RASR_AP_Pos)
                       | MPU_RASR_B_Msk
@@ -189,7 +201,7 @@ void sl_mpu_disable_execute(uint32_t address_begin,
   // Size of memory region must be 32 bytes or more.
   if (size >= 32u) {
     // Device memory type non Gathering, non Re-ordering, Early Write Acknowledgement
-    ARM_MPU_SetMemAttr(region_nbr, ARM_MPU_ATTR_DEVICE_nGnRE);
+    ARM_MPU_SetMemAttr(1, ARM_MPU_ATTR_DEVICE_nGnRE);
 
     // Round inside the memory region, if address is not align on 32 bytes.
     mpu_region_begin = ((address_begin % 32u) == 0u) ? address_begin
@@ -201,7 +213,7 @@ void sl_mpu_disable_execute(uint32_t address_begin,
 
     // A bug exists in some versions of ARM_MPU_RBAR(). Set base addr manually.
     rbar = ARM_MPU_RBAR(0u, 0u, 0u, 1u, 1u) | (mpu_region_begin & MPU_RBAR_BASE_Msk);
-    ARM_MPU_SetRegion(region_nbr, rbar, ARM_MPU_RLAR(mpu_region_end, 0u));
+    ARM_MPU_SetRegion(region_nbr, rbar, ARM_MPU_RLAR(mpu_region_end, 1u));
     region_nbr++;
   }
 #else

@@ -15,7 +15,6 @@
  *
  ******************************************************************************/
 #include PLATFORM_HEADER
-#include <intrinsics.h>
 #include "stack/include/ember.h"
 #include "hal.h"
 #include "bootloader-common.h"

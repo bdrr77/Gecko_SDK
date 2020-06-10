@@ -34,6 +34,8 @@
 
 #include "rail.h"
 #include "rail_types.h"
+#include "rail_features.h"
+#include "rail_ieee802154.h"
 #include "app_common.h"
 
 static void printBitField(uint32_t bitField,
@@ -47,7 +49,7 @@ static void printBitField(uint32_t bitField,
   }
 }
 
-static void printRailState()
+static void printRailState(void)
 {
   static char* railStates[] = { "RAIL_state_active",
                                 "RAIL_state_rx",
@@ -241,8 +243,14 @@ void getRssi(int argc, char **argv)
   }
 
   sprintfFloat(bufRssi, sizeof(bufRssi), ((float) rssi / 4), 2);
-  responsePrint(argv[0], "rssi:%s", bufRssi);
+  if (RAIL_IEEE802154_IsEnabled(railHandle)) {
+    uint8_t energyDetect = RAIL_IEEE802154_ConvertRssiToEd(rssi / 4);
+    responsePrint(argv[0], "rssi:%s,ed154:%u", bufRssi, energyDetect);
+  } else {
+    responsePrint(argv[0], "rssi:%s", bufRssi);
+  }
 }
+
 void startAvgRssi(int argc, char **argv)
 {
   uint32_t averageTimeUs = ciGetUnsigned(argv[1]);
@@ -339,4 +347,234 @@ void setTime(int argc, char **argv)
   } else {
     responsePrint(argv[0], "Status:Error,CurrentTime:%u", RAIL_GetTime());
   }
+}
+
+void printChipFeatures(int argc, char **argv)
+{
+  RAIL_TxPowerLevel_t maxPowerLevel;
+  responsePrintHeader(argv[0], "Feature:%s,CompileTime:%s,RunTime:%s");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_DUAL_BAND",
+                     RAIL_SUPPORTS_DUAL_BAND ? "Yes" : "No",
+                     RAIL_SupportsDualBand(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_2P4GHZ_BAND",
+                     RAIL_SUPPORTS_2P4GHZ_BAND ? "Yes" : "No",
+                     RAIL_Supports2p4GHzBand(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_SUBGHZ_BAND",
+                     RAIL_SUPPORTS_SUBGHZ_BAND ? "Yes" : "No",
+                     RAIL_SupportsSubGHzBand(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_ALTERNATE_TX_POWER",
+                     RAIL_SUPPORTS_ALTERNATE_TX_POWER ? "Yes" : "No",
+                     RAIL_SupportsAlternateTxPower(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_ANTENNA_DIVERSITY",
+                     RAIL_SUPPORTS_ANTENNA_DIVERSITY ? "Yes" : "No",
+                     RAIL_SupportsAntennaDiversity(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_CHANNEL_HOPPING",
+                     RAIL_SUPPORTS_CHANNEL_HOPPING ? "Yes" : "No",
+                     RAIL_SupportsChannelHopping(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_DUAL_SYNC_WORDS",
+                     RAIL_SUPPORTS_DUAL_SYNC_WORDS ? "Yes" : "No",
+                     RAIL_SupportsDualSyncWords(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_EXTERNAL_THERMISTOR",
+                     RAIL_SUPPORTS_EXTERNAL_THERMISTOR ? "Yes" : "No",
+                     RAIL_SupportsExternalThermistor(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_PRECISION_LFRCO",
+                     RAIL_SUPPORTS_PRECISION_LFRCO ? "Yes" : "No",
+                     RAIL_SupportsPrecisionLFRCO(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_RADIO_ENTROPY",
+                     RAIL_SUPPORTS_RADIO_ENTROPY ? "Yes" : "No",
+                     RAIL_SupportsRadioEntropy(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_RFSENSE_SELECTIVE_OOK",
+                     RAIL_SUPPORTS_RFSENSE_SELECTIVE_OOK ? "Yes" : "No",
+                     RAIL_SupportsRfSenseSelectiveOok(railHandle) ? "Yes" : "No");
+ #ifdef  RAIL_TX_POWER_MODE_2P4GIG_HIGHEST
+  if (RAIL_SupportsTxPowerMode(railHandle,
+                               RAIL_TX_POWER_MODE_2P4GIG_HIGHEST,
+                               &maxPowerLevel)
+      && (maxPowerLevel != RAIL_TX_POWER_LEVEL_INVALID)) {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%u",
+                       "RAIL_TX_POWER_MODE_2P4GIG_HIGHEST", "Yes",
+                       maxPowerLevel);
+  } else {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                       "RAIL_TX_POWER_MODE_2P4GIG_HIGHEST", "Yes", "No");
+  }
+ #else
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_TX_POWER_MODE_2P4GIG_HIGHEST", "N/A", "N/A");
+ #endif//RAIL_TX_POWER_MODE_2P4GIG_HIGHEST
+ #ifdef  RAIL_TX_POWER_MODE_2P4GIG_HP
+  if (RAIL_SupportsTxPowerMode(railHandle,
+                               RAIL_TX_POWER_MODE_2P4GIG_HP,
+                               &maxPowerLevel)
+      && (maxPowerLevel != RAIL_TX_POWER_LEVEL_INVALID)) {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%u",
+                       "RAIL_TX_POWER_MODE_2P4GIG_HP", "Yes",
+                       maxPowerLevel);
+  } else {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                       "RAIL_TX_POWER_MODE_2P4GIG_HP", "Yes", "No");
+  }
+ #else
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_TX_POWER_MODE_2P4GIG_HP", "N/A", "N/A");
+ #endif//RAIL_TX_POWER_MODE_2P4GIG_HP
+ #ifdef  RAIL_TX_POWER_MODE_2P4GIG_MP
+  if (RAIL_SupportsTxPowerMode(railHandle,
+                               RAIL_TX_POWER_MODE_2P4GIG_MP,
+                               &maxPowerLevel)
+      && (maxPowerLevel != RAIL_TX_POWER_LEVEL_INVALID)) {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%u",
+                       "RAIL_TX_POWER_MODE_2P4GIG_MP", "Yes",
+                       maxPowerLevel);
+  } else {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                       "RAIL_TX_POWER_MODE_2P4GIG_MP", "Yes", "No");
+  }
+ #else
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_TX_POWER_MODE_2P4GIG_MP", "N/A", "N/A");
+ #endif//RAIL_TX_POWER_MODE_2P4GIG_LP
+ #ifdef  RAIL_TX_POWER_MODE_2P4GIG_LP
+  if (RAIL_SupportsTxPowerMode(railHandle,
+                               RAIL_TX_POWER_MODE_2P4GIG_LP,
+                               &maxPowerLevel)
+      && (maxPowerLevel != RAIL_TX_POWER_LEVEL_INVALID)) {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%u",
+                       "RAIL_TX_POWER_MODE_2P4GIG_LP", "Yes",
+                       maxPowerLevel);
+  } else {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                       "RAIL_TX_POWER_MODE_2P4GIG_LP", "Yes", "No");
+  }
+ #else
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_TX_POWER_MODE_2P4GIG_LP", "N/A", "N/A");
+ #endif//RAIL_TX_POWER_MODE_2P4GIG_LP
+ #ifdef  RAIL_TX_POWER_MODE_SUBGIG
+  if (RAIL_SupportsTxPowerMode(railHandle,
+                               RAIL_TX_POWER_MODE_SUBGIG,
+                               &maxPowerLevel)
+      && (maxPowerLevel != RAIL_TX_POWER_LEVEL_INVALID)) {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%u",
+                       "RAIL_TX_POWER_MODE_SUBGIG", "Yes",
+                       maxPowerLevel);
+  } else {
+    responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                       "RAIL_TX_POWER_MODE_SUBGIG", "Yes", "No");
+  }
+ #else
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_TX_POWER_MODE_SUBGIG", "N/A", "N/A");
+ #endif//RAIL_TX_POWER_MODE_SUBGIG
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_PROTOCOL_BLE",
+                     RAIL_SUPPORTS_PROTOCOL_BLE ? "Yes" : "No",
+                     RAIL_SupportsProtocolBLE(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_1MBPS_NON_VITERBI",
+                     RAIL_BLE_SUPPORTS_1MBPS_NON_VITERBI ? "Yes" : "No",
+                     RAIL_BLE_Supports1MbpsNonViterbi(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_1MBPS_VITERBI",
+                     RAIL_BLE_SUPPORTS_1MBPS_VITERBI ? "Yes" : "No",
+                     RAIL_BLE_Supports1MbpsViterbi(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_1MBPS",
+                     RAIL_BLE_SUPPORTS_1MBPS ? "Yes" : "No",
+                     RAIL_BLE_Supports1Mbps(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_2MBPS_NON_VITERBI",
+                     RAIL_BLE_SUPPORTS_2MBPS_NON_VITERBI ? "Yes" : "No",
+                     RAIL_BLE_Supports2MbpsNonViterbi(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_2MBPS_VITERBI",
+                     RAIL_BLE_SUPPORTS_2MBPS_VITERBI ? "Yes" : "No",
+                     RAIL_BLE_Supports2MbpsViterbi(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_2MBPS",
+                     RAIL_BLE_SUPPORTS_2MBPS ? "Yes" : "No",
+                     RAIL_BLE_Supports2Mbps(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_ANTENNA_SWITCHING",
+                     RAIL_BLE_SUPPORTS_ANTENNA_SWITCHING ? "Yes" : "No",
+                     RAIL_BLE_SupportsAntennaSwitching(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_CODED_PHY",
+                     RAIL_BLE_SUPPORTS_CODED_PHY ? "Yes" : "No",
+                     RAIL_BLE_SupportsCodedPhy(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_CTE",
+                     RAIL_BLE_SUPPORTS_CTE ? "Yes" : "No",
+                     RAIL_BLE_SupportsCte(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_IQ_SAMPLING",
+                     RAIL_BLE_SUPPORTS_IQ_SAMPLING ? "Yes" : "No",
+                     RAIL_BLE_SupportsIQSampling(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_BLE_SUPPORTS_PHY_SWITCH_TO_RX",
+                     RAIL_BLE_SUPPORTS_PHY_SWITCH_TO_RX ? "Yes" : "No",
+                     RAIL_BLE_SupportsPhySwitchToRx(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_PROTOCOL_IEEE802154",
+                     RAIL_SUPPORTS_PROTOCOL_IEEE802154 ? "Yes" : "No",
+                     RAIL_SupportsProtocolIEEE802154(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_COEX_PHY",
+                     RAIL_IEEE802154_SUPPORTS_COEX_PHY ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsCoexPhy(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_E_SUBSET_GB868",
+                     RAIL_IEEE802154_SUPPORTS_E_SUBSET_GB868 ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsESubsetGB868(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_E_ENHANCED_ACK",
+                     RAIL_IEEE802154_SUPPORTS_E_ENHANCED_ACK ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsEEnhancedAck(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_G_SUBSET_GB868",
+                     RAIL_IEEE802154_SUPPORTS_G_SUBSET_GB868 ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsGSubsetGB868(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_G_UNWHITENED_RX",
+                     RAIL_IEEE802154_SUPPORTS_G_UNWHITENED_RX ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsGUnwhitenedRx(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_G_UNWHITENED_TX",
+                     RAIL_IEEE802154_SUPPORTS_G_UNWHITENED_TX ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsGUnwhitenedTx(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_G_4BYTE_CRC",
+                     RAIL_IEEE802154_SUPPORTS_G_4BYTE_CRC ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsG4ByteCrc(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_CANCEL_FRAME_PENDING_LOOKUP",
+                     RAIL_IEEE802154_SUPPORTS_CANCEL_FRAME_PENDING_LOOKUP ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsCancelFramePendingLookup(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_EARLY_FRAME_PENDING_LOOKUP",
+                     RAIL_IEEE802154_SUPPORTS_EARLY_FRAME_PENDING_LOOKUP ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsEarlyFramePendingLookup(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_IEEE802154_SUPPORTS_E_MULTIPURPOSE_FRAMES",
+                     RAIL_IEEE802154_SUPPORTS_E_MULTIPURPOSE_FRAMES ? "Yes" : "No",
+                     RAIL_IEEE802154_SupportsEMultipurposeFrames(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_SUPPORTS_PROTOCOL_ZWAVE",
+                     RAIL_SUPPORTS_PROTOCOL_ZWAVE ? "Yes" : "No",
+                     RAIL_SupportsProtocolZWave(railHandle) ? "Yes" : "No");
+  responsePrintMulti("Feature:%s,CompileTime:%s,RunTime:%s",
+                     "RAIL_ZWAVE_SUPPORTS_REGION_PTI",
+                     RAIL_ZWAVE_SUPPORTS_REGION_PTI ? "Yes" : "No",
+                     RAIL_ZWAVE_SupportsRegionPti(railHandle) ? "Yes" : "No");
 }

@@ -3,15 +3,28 @@
  * @brief SLEEPTIMER API definition.
  *******************************************************************************
  * # License
- * <b>Copyright 2018 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
- * The licensor of this software is Silicon Laboratories Inc. Your use of this
- * software is governed by the terms of Silicon Labs Master Software License
- * Agreement (MSLA) available at
- * www.silabs.com/about-us/legal/master-software-license-agreement. This
- * software is distributed to you in Source Code format and is governed by the
- * sections of the MSLA applicable to Source Code.
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
  *
  ******************************************************************************/
 
@@ -515,14 +528,27 @@ uint32_t sl_sleeptimer_ms_to_tick(uint16_t time_ms);
  *
  * @return 0 if successful. Error code otherwise.
  *
- * @note The result is "rounded" to the superior tick number.
- *       If possible the sl_sleeptimer_ms_to_tick() function should be used.
- *       The millisecond 32-bits range is not fully supported, depending on the
- *       timer frequency. The function will return an error if the converted
- *       number of ticks would overflow.
+ * @note  The result is "rounded" to the superior tick number.
+ *        If possible the sl_sleeptimer_ms_to_tick() function should be used.
+ *
+ * @note  This function converts the delay expressed in milliseconds to timer
+ *        ticks (represented on 32 bits). This means that the value that can
+ *        be passed to the argument 'time_ms' is limited. The maximum
+ *        timeout value that can be passed to this function can be retrieved
+ *        by calling sl_sleeptimer_get_max_ms32_conversion().
+ *        If the value passed to 'time_ms' is too large,
+ *        SL_STATUS_INVALID_PARAMETER will be returned.
  ******************************************************************************/
 sl_status_t sl_sleeptimer_ms32_to_tick(uint32_t time_ms,
                                        uint32_t *tick);
+
+/***************************************************************************//**
+ * Gets the maximum value that can be passed to the functions that have a
+ * 32-bits time or timeout argument expressed in milliseconds.
+ *
+ * @return Maximum time or timeout value in milliseconds.
+ ******************************************************************************/
+uint32_t sl_sleeptimer_get_max_ms32_conversion(void);
 
 /***************************************************************************//**
  * Converts ticks in milliseconds.
@@ -564,6 +590,14 @@ sl_status_t sl_sleeptimer_tick64_to_ms(uint64_t tick,
  *        or 0 for not flags.
  *
  * @return 0 if successful. Error code otherwise.
+ *
+ * @note  This function converts the delay expressed in milliseconds to timer
+ *        ticks (represented on 32 bits). This means that the value that can
+ *        be passed to the argument 'timeout_ms' is limited. The maximum
+ *        timeout value that can be passed to this function can be retrieved
+ *        by calling sl_sleeptimer_get_max_ms32_conversion().
+ *        If the value passed to 'timeout_ms' is too large,
+ *        SL_STATUS_INVALID_PARAMETER will be returned.
  *****************************************************************************/
 __STATIC_INLINE sl_status_t sl_sleeptimer_start_timer_ms(sl_sleeptimer_timer_handle_t *handle,
                                                          uint32_t timeout_ms,
@@ -599,6 +633,14 @@ __STATIC_INLINE sl_status_t sl_sleeptimer_start_timer_ms(sl_sleeptimer_timer_han
  *        or 0 for not flags.
  *
  * @return 0 if successful. Error code otherwise.
+ *
+ * @note  This function converts the delay expressed in milliseconds to timer
+ *        ticks (represented on 32 bits). This means that the value that can
+ *        be passed to the argument 'timeout_ms' is limited. The maximum
+ *        timeout value that can be passed to this function can be retrieved
+ *        by calling sl_sleeptimer_get_max_ms32_conversion().
+ *        If the value passed to 'timeout_ms' is too large,
+ *        SL_STATUS_INVALID_PARAMETER will be returned.
  *****************************************************************************/
 __STATIC_INLINE sl_status_t sl_sleeptimer_restart_timer_ms(sl_sleeptimer_timer_handle_t *handle,
                                                            uint32_t timeout_ms,
@@ -634,6 +676,14 @@ __STATIC_INLINE sl_status_t sl_sleeptimer_restart_timer_ms(sl_sleeptimer_timer_h
  *        or 0 for not flags.
  *
  * @return 0 if successful. Error code otherwise.
+ *
+ * @note  This function converts the delay expressed in milliseconds to timer
+ *        ticks (represented on 32 bits). This means that the value that can
+ *        be passed to the argument 'timeout_ms' is limited. The maximum
+ *        timeout value that can be passed to this function can be retrieved
+ *        by calling sl_sleeptimer_get_max_ms32_conversion().
+ *        If the value passed to 'timeout_ms' is too large,
+ *        SL_STATUS_INVALID_PARAMETER will be returned.
  ******************************************************************************/
 __STATIC_INLINE sl_status_t sl_sleeptimer_start_periodic_timer_ms(sl_sleeptimer_timer_handle_t *handle,
                                                                   uint32_t timeout_ms,
@@ -669,6 +719,14 @@ __STATIC_INLINE sl_status_t sl_sleeptimer_start_periodic_timer_ms(sl_sleeptimer_
  *        or 0 for not flags.
  *
  * @return 0 if successful. Error code otherwise.
+ *
+ * @note  This function converts the delay expressed in milliseconds to timer
+ *        ticks (represented on 32 bits). This means that the value that can
+ *        be passed to the argument 'timeout_ms' is limited. The maximum
+ *        timeout value that can be passed to this function can be retrieved
+ *        by calling sl_sleeptimer_get_max_ms32_conversion().
+ *        If the value passed to 'timeout_ms' is too large,
+ *        SL_STATUS_INVALID_PARAMETER will be returned.
  ******************************************************************************/
 __STATIC_INLINE sl_status_t sl_sleeptimer_restart_periodic_timer_ms(sl_sleeptimer_timer_handle_t *handle,
                                                                     uint32_t timeout_ms,

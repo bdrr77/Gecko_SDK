@@ -123,6 +123,21 @@ bool parser_requireAuthenticity(void);
 bool parser_requireConfidentiality(void);
 
 /***************************************************************************//**
+ * Check whether the parser requires images to be authenticated by the
+ * bootloader certificate.
+ *
+ * @return True if certificate based authenticity is required, else false
+ ******************************************************************************/
+bool parser_requireCertificateAuthenticity(void);
+
+/***************************************************************************//**
+ * Check whether the parser requires images to be signed by a certificate.
+ *
+ * @return True if certificate signed image is required, else false
+ ******************************************************************************/
+bool parser_requireCertificateSignedImage(void);
+
+/***************************************************************************//**
  * Return the start address of the application.
  *
  * @return start address of the application

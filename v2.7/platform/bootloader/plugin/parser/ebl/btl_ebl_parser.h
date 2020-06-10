@@ -76,7 +76,7 @@ typedef enum {
   EblParserStateDone,                 ///< Parsing complete
   EblParserStateEncryptionInit,       ///< Parsing encryption init tag
   EblParserStateEncryptionContainer,  ///< Parsing encryption data tag
-#if defined(BTL_SUPPORT_CERTIFICATES)
+#if defined(_SILICON_LABS_32B_SERIES_2)
   EblParserStateCertificate,          ///< Parsing certificate tag
 #endif
   EblParserStateSignature,            ///< Parsing signature tag
@@ -128,7 +128,7 @@ typedef struct {
   uint32_t            fileCrc;
   /// Context for custom tag
   uint32_t            customTagId;
-#if defined(BTL_SUPPORT_CERTIFICATES)
+#if defined(_SILICON_LABS_32B_SERIES_2)
   /// GBL Certificate
   ApplicationCertificate_t certificate;
   /// Parser has received GBL certificate

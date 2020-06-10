@@ -122,9 +122,9 @@ void UTIL_shutdown(void)
   em4Init.pinRetentionMode = emuPinRetentionEm4Exit;
   EMU_EM4Init(&em4Init);
 
-  /* Set up for EM4 wakeup from gpio PD14 (EM4WU4). Need to enable glitch filter */
-  GPIO_PinModeSet(BOARD_BUTTON_PORT, BOARD_BUTTON_LEFT_PIN, gpioModeInputPullFilter, 1);
-  GPIO_EM4EnablePinWakeup( (0x10 << _GPIO_EM4WUEN_EM4WUEN_SHIFT), 0);
+  /* Set up for EM4 wakeup from button 0. Need to enable glitch filter */
+  GPIO_PinModeSet(BOARD_BUTTON0_PORT, BOARD_BUTTON0_PIN, gpioModeInputPullFilter, 1);
+  GPIO_EM4EnablePinWakeup( (BOARD_BUTTON0_EM4WUEN_MASK << _GPIO_EM4WUEN_EM4WUEN_SHIFT), 0);
 
   EMU_EnterEM4();
 

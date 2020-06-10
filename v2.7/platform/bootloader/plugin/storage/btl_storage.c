@@ -113,6 +113,12 @@ static int32_t installImageFromSlot(int32_t slotId)
 
 #if defined(SEMAILBOX_PRESENT) || defined(CRYPTOACC_PRESENT)
   if ((parseContext.imageProperties.contents & BTL_IMAGE_CONTENT_SE)
+      && !(parseContext.imageProperties.contents & BTL_IMAGE_CONTENT_APPLICATION)) {
+    BTL_DEBUG_PRINTLN("SE upg with no app");
+    return BOOTLOADER_ERROR_STORAGE_BOOTLOAD;
+  }
+
+  if ((parseContext.imageProperties.contents & BTL_IMAGE_CONTENT_SE)
       && bootload_checkSeUpgradeVersion(parseContext.imageProperties.seUpgradeVersion)) {
 #if defined(CRYPTOACC_PRESENT)
     // Check whether the SE handled the SE_COMMAND_APPLY_SE_IMAGE command during boot

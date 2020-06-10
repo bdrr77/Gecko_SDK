@@ -231,7 +231,7 @@ int mbedtls_aes_crypt_cfb128( mbedtls_aes_context *ctx,
     int status;
     size_t n = iv_off ? *iv_off : 0;
     size_t processed = 0;
-    uint32_t sx_ret = CRYPTOLIB_SUCCESS;
+    uint32_t sx_ret;
     sx_aes_mode_t dir = mode == MBEDTLS_AES_ENCRYPT ? ENC : DEC;
     block_t key;
     block_t iv_block;
@@ -282,12 +282,12 @@ int mbedtls_aes_crypt_cfb128( mbedtls_aes_context *ctx,
                 }
      	        cryptoacc_management_release();
 
+                if (sx_ret != CRYPTOLIB_SUCCESS) {
+                    return MBEDTLS_ERR_AES_HW_ACCEL_FAILED;
+                }
+
                 processed += iterations * 16;
             }
-
-            if (sx_ret != CRYPTOLIB_SUCCESS) {
-  	            return MBEDTLS_ERR_AES_HW_ACCEL_FAILED;
-	        }
 
             while ( length - processed > 0 ) {
                 if ( n == 0 ) {
@@ -377,8 +377,7 @@ int mbedtls_aes_crypt_ctr( mbedtls_aes_context *ctx,
     int status;
     size_t n = nc_off ? *nc_off : 0;
     size_t processed = 0;
-    uint32_t sx_ret = CRYPTOLIB_SUCCESS;
-    sx_aes_mode_t dir = ENC;
+    uint32_t sx_ret;
     block_t key;
     block_t iv_block;
     block_t data_in;
@@ -417,19 +416,16 @@ int mbedtls_aes_crypt_ctr( mbedtls_aes_context *ctx,
                 if (status != 0) {
                     return status;
                 }
-                if (dir == ENC) {
-                    sx_ret = sx_aes_ctr_encrypt_update((const block_t *)&key, (const block_t *)&data_in, &data_out, (const block_t *)&iv_block, &iv_block);
-                } else {
-                    sx_ret = sx_aes_ctr_decrypt_update((const block_t *)&key, (const block_t *)&data_in, &data_out, (const block_t *)&iv_block, &iv_block);
-                }
+                // AES-CTR uses the only AES encrypt operation (for both encryption and decryption)
+                sx_ret = sx_aes_ctr_encrypt_update((const block_t *)&key, (const block_t *)&data_in, &data_out, (const block_t *)&iv_block, &iv_block);
                 cryptoacc_management_release();
+
+                if (sx_ret != CRYPTOLIB_SUCCESS) {
+                    return MBEDTLS_ERR_AES_HW_ACCEL_FAILED;
+                }
 
                 processed += iterations * 16;
             }
-
-            if (sx_ret != CRYPTOLIB_SUCCESS) {
-  	            return MBEDTLS_ERR_AES_HW_ACCEL_FAILED;
-	        }
 
             while ( length - processed > 0 ) {
                 if ( n == 0 ) {

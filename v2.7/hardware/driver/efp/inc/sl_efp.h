@@ -276,7 +276,7 @@ int main( void )
 typedef enum {
   efp_em_transition_mode_gpio_bitbang,  ///< GPIO driven "direct mode" EM transitions.
   efp_em_transition_mode_i2c,           ///< I2C transfers control EM transitions.
-  efp_em_transition_mode_emu            ///< Builtin EMU controlled "direct mode" EM transitions.
+  efp_em_transition_mode_emu            ///< Built in EMU controlled "direct mode" EM transitions.
 } sl_efp_em_transition_mode_t;
 
 /// VOA regulator modes.

@@ -3,7 +3,7 @@
 # To compile with PKCS11: add "-lpkcs11-helper" to LDFLAGS
 
 CFLAGS	?= -O2
-WARNING_CFLAGS ?= -Wall -W -Wdeclaration-after-statement -Wno-unused-function -Wno-unused-value
+WARNING_CFLAGS ?= -Wall -W -Wdeclaration-after-statement -Wunused
 LDFLAGS ?=
 
 LOCAL_CFLAGS = $(WARNING_CFLAGS) -I../include -D_FILE_OFFSET_BITS=64
@@ -444,7 +444,8 @@ else
 	del /Q /F *.c *.exe
 endif
 
+# Test suites caught by SKIP_TEST_SUITES are built but not executed.
 check: $(APPS)
-	perl scripts/run-test-suites.pl
+	perl scripts/run-test-suites.pl --skip=$(SKIP_TEST_SUITES)
 
 test: check

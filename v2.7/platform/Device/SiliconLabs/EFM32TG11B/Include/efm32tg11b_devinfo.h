@@ -3,7 +3,7 @@
  * @brief EFM32TG11B_DEVINFO register and bit field definitions
  *******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -231,6 +231,8 @@ typedef struct {
 #define _DEVINFO_PART_DEVICE_FAMILY_EFR32BG13B                   0x0000002CUL                                   /**< Mode EFR32BG13B for DEVINFO_PART */
 #define _DEVINFO_PART_DEVICE_FAMILY_EFR32BG13V                   0x0000002DUL                                   /**< Mode EFR32BG13V for DEVINFO_PART */
 #define _DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13P                   0x0000002EUL                                   /**< Mode EFR32ZG13P for DEVINFO_PART */
+#define _DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13L                   0x0000002FUL                                   /**< Mode EFR32ZG13L for DEVINFO_PART */
+#define _DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13S                   0x00000030UL                                   /**< Mode EFR32ZG13S for DEVINFO_PART */
 #define _DEVINFO_PART_DEVICE_FAMILY_EFR32FG13P                   0x00000031UL                                   /**< Mode EFR32FG13P for DEVINFO_PART */
 #define _DEVINFO_PART_DEVICE_FAMILY_EFR32FG13B                   0x00000032UL                                   /**< Mode EFR32FG13B for DEVINFO_PART */
 #define _DEVINFO_PART_DEVICE_FAMILY_EFR32FG13V                   0x00000033UL                                   /**< Mode EFR32FG13V for DEVINFO_PART */
@@ -286,6 +288,8 @@ typedef struct {
 #define DEVINFO_PART_DEVICE_FAMILY_EFR32BG13B                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32BG13B << 16) /**< Shifted mode EFR32BG13B for DEVINFO_PART */
 #define DEVINFO_PART_DEVICE_FAMILY_EFR32BG13V                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32BG13V << 16) /**< Shifted mode EFR32BG13V for DEVINFO_PART */
 #define DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13P                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13P << 16) /**< Shifted mode EFR32ZG13P for DEVINFO_PART */
+#define DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13L                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13L << 16) /**< Shifted mode EFR32ZG13L for DEVINFO_PART */
+#define DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13S                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32ZG13S << 16) /**< Shifted mode EFR32ZG13S for DEVINFO_PART */
 #define DEVINFO_PART_DEVICE_FAMILY_EFR32FG13P                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32FG13P << 16) /**< Shifted mode EFR32FG13P for DEVINFO_PART */
 #define DEVINFO_PART_DEVICE_FAMILY_EFR32FG13B                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32FG13B << 16) /**< Shifted mode EFR32FG13B for DEVINFO_PART */
 #define DEVINFO_PART_DEVICE_FAMILY_EFR32FG13V                    (_DEVINFO_PART_DEVICE_FAMILY_EFR32FG13V << 16) /**< Shifted mode EFR32FG13V for DEVINFO_PART */

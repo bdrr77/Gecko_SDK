@@ -19,7 +19,6 @@
  *
  ******************************************************************************/
 #include PLATFORM_HEADER
-#include <intrinsics.h>
 #include "hal/micro/cortexm3/diagnostic.h"
 #include "hal/micro/cortexm3/mpu.h"
 #include "hal/micro/micro.h"

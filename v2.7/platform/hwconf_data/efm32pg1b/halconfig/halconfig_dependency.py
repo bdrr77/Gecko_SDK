@@ -69,6 +69,8 @@ PREFIX_TO_SDID_AND_PLAT = [
     # Series 2 module
     ("bgm21", 200, Platform.SERIES2),
     ("mgm21", 200, Platform.SERIES2),
+    ("bgm22", 205, Platform.SERIES2),
+    ("mgm22", 205, Platform.SERIES2),
 
     # Series 1 module
     ("artik", 80, Platform.SERIES1),

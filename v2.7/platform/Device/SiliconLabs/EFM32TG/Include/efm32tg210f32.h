@@ -4,7 +4,7 @@
  *        for EFM EFM32TG210F32
  *******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -126,18 +126,6 @@ typedef enum IRQn{
 #define PART_NUMBER          "EFM32TG210F32" /**< Part Number */
 
 /** Memory Base addresses and limits */
-#define FLASH_MEM_BASE       (0x0UL)        /**< FLASH base address  */
-#define FLASH_MEM_SIZE       (0x10000000UL) /**< FLASH available address space  */
-#define FLASH_MEM_END        (0xFFFFFFFUL)  /**< FLASH end address  */
-#define FLASH_MEM_BITS       (0x28UL)       /**< FLASH used bits  */
-#define AES_MEM_BASE         (0x400E0000UL) /**< AES base address  */
-#define AES_MEM_SIZE         (0x400UL)      /**< AES available address space  */
-#define AES_MEM_END          (0x400E03FFUL) /**< AES end address  */
-#define AES_MEM_BITS         (0x10UL)       /**< AES used bits  */
-#define PER_MEM_BASE         (0x40000000UL) /**< PER base address  */
-#define PER_MEM_SIZE         (0xE0000UL)    /**< PER available address space  */
-#define PER_MEM_END          (0x400DFFFFUL) /**< PER end address  */
-#define PER_MEM_BITS         (0x20UL)       /**< PER used bits  */
 #define RAM_MEM_BASE         (0x20000000UL) /**< RAM base address  */
 #define RAM_MEM_SIZE         (0x40000UL)    /**< RAM available address space  */
 #define RAM_MEM_END          (0x2003FFFFUL) /**< RAM end address  */
@@ -146,6 +134,18 @@ typedef enum IRQn{
 #define RAM_CODE_MEM_SIZE    (0x4000UL)     /**< RAM_CODE available address space  */
 #define RAM_CODE_MEM_END     (0x10003FFFUL) /**< RAM_CODE end address  */
 #define RAM_CODE_MEM_BITS    (0x14UL)       /**< RAM_CODE used bits  */
+#define PER_MEM_BASE         (0x40000000UL) /**< PER base address  */
+#define PER_MEM_SIZE         (0xE0000UL)    /**< PER available address space  */
+#define PER_MEM_END          (0x400DFFFFUL) /**< PER end address  */
+#define PER_MEM_BITS         (0x20UL)       /**< PER used bits  */
+#define FLASH_MEM_BASE       (0x0UL)        /**< FLASH base address  */
+#define FLASH_MEM_SIZE       (0x10000000UL) /**< FLASH available address space  */
+#define FLASH_MEM_END        (0xFFFFFFFUL)  /**< FLASH end address  */
+#define FLASH_MEM_BITS       (0x28UL)       /**< FLASH used bits  */
+#define AES_MEM_BASE         (0x400E0000UL) /**< AES base address  */
+#define AES_MEM_SIZE         (0x400UL)      /**< AES available address space  */
+#define AES_MEM_END          (0x400E03FFUL) /**< AES end address  */
+#define AES_MEM_BITS         (0x10UL)       /**< AES used bits  */
 
 /** Bit banding area */
 #define BITBAND_PER_BASE     (0x42000000UL) /**< Peripheral Address Space bit-band area */
@@ -1353,13 +1353,13 @@ typedef struct {
 #define _CMU_LOCK_LOCKKEY_SHIFT                    0                                 /**< Shift value for CMU_LOCKKEY */
 #define _CMU_LOCK_LOCKKEY_MASK                     0xFFFFUL                          /**< Bit mask for CMU_LOCKKEY */
 #define _CMU_LOCK_LOCKKEY_DEFAULT                  0x00000000UL                      /**< Mode DEFAULT for CMU_LOCK */
-#define _CMU_LOCK_LOCKKEY_LOCK                     0x00000000UL                      /**< Mode LOCK for CMU_LOCK */
 #define _CMU_LOCK_LOCKKEY_UNLOCKED                 0x00000000UL                      /**< Mode UNLOCKED for CMU_LOCK */
+#define _CMU_LOCK_LOCKKEY_LOCK                     0x00000000UL                      /**< Mode LOCK for CMU_LOCK */
 #define _CMU_LOCK_LOCKKEY_LOCKED                   0x00000001UL                      /**< Mode LOCKED for CMU_LOCK */
 #define _CMU_LOCK_LOCKKEY_UNLOCK                   0x0000580EUL                      /**< Mode UNLOCK for CMU_LOCK */
 #define CMU_LOCK_LOCKKEY_DEFAULT                   (_CMU_LOCK_LOCKKEY_DEFAULT << 0)  /**< Shifted mode DEFAULT for CMU_LOCK */
-#define CMU_LOCK_LOCKKEY_LOCK                      (_CMU_LOCK_LOCKKEY_LOCK << 0)     /**< Shifted mode LOCK for CMU_LOCK */
 #define CMU_LOCK_LOCKKEY_UNLOCKED                  (_CMU_LOCK_LOCKKEY_UNLOCKED << 0) /**< Shifted mode UNLOCKED for CMU_LOCK */
+#define CMU_LOCK_LOCKKEY_LOCK                      (_CMU_LOCK_LOCKKEY_LOCK << 0)     /**< Shifted mode LOCK for CMU_LOCK */
 #define CMU_LOCK_LOCKKEY_LOCKED                    (_CMU_LOCK_LOCKKEY_LOCKED << 0)   /**< Shifted mode LOCKED for CMU_LOCK */
 #define CMU_LOCK_LOCKKEY_UNLOCK                    (_CMU_LOCK_LOCKKEY_UNLOCK << 0)   /**< Shifted mode UNLOCK for CMU_LOCK */
 

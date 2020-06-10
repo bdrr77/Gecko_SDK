@@ -335,6 +335,7 @@ int mbedtls_ecdh_compute_shared( mbedtls_ecp_group *grp, mbedtls_mpi *z,
     uint32_t pub[SE_ECP_MAX_BYTES*2/sizeof(uint32_t)] = {0};
     uint32_t priv[SE_ECP_MAX_BYTES/sizeof(uint32_t)] = {0};
 
+    int ret = MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
     uint32_t keyspec = (1<<14); /* Use private key */
     uint32_t keylen = 0;
     uint32_t offset = 0;
@@ -374,6 +375,11 @@ int mbedtls_ecdh_compute_shared( mbedtls_ecp_group *grp, mbedtls_mpi *z,
 
     if (keylen-offset > (MBEDTLS_ECP_MAX_BITS+7)/8) {
         return MBEDTLS_ERR_ECP_FEATURE_UNAVAILABLE;
+    }
+
+    ret = mbedtls_ecp_check_pubkey( grp, Q );
+    if (ret != 0) {
+        return ret;
     }
 
     /* pull out key info from mbedtls structures */

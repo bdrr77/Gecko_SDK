@@ -40,6 +40,8 @@ uint32_t dh_shared_key_ecdh(block_t curve, block_t priv, block_t pub, block_t sh
          shared.len != 2 * size)
       return CRYPTOLIB_INVALID_PARAM;
 
+   static BA414EPRegs_t * const BA414EP_REGS = (BA414EPRegs_t *)ADDR_BA414EP_REGS;
+
    // Set command to enable byte-swap
    ba414ep_set_command(BA414EP_OPTYPE_ECC_POINT_MULT, size, BA414EP_BIGEND, curve_flags);
 
@@ -52,6 +54,16 @@ uint32_t dh_shared_key_ecdh(block_t curve, block_t priv, block_t pub, block_t sh
    mem2CryptoRAM_rev(priv, size, BA414EP_MEMLOC_14);
    // Location 12 -> Public key x, Location 13 -> Public key y
    point2CryptoRAM_rev(pub, size, BA414EP_MEMLOC_12);
+
+   BA414EP_REGS->CommandReg = (BA414EP_REGS->CommandReg & ~BA414EP_CMD_OPTYPE_MASK) | BA414EP_OPTYPE_ECC_CHECK_POINTONCURVE;
+
+   // Check point on curve
+   error = ba414ep_start_wait_status();
+   if (error)
+      return CRYPTOLIB_CRYPTO_ERR;
+
+  // The public key is a point on curve. Continue with multiplication.
+  BA414EP_REGS->CommandReg = (BA414EP_REGS->CommandReg & ~BA414EP_CMD_OPTYPE_MASK) | BA414EP_OPTYPE_ECC_POINT_MULT;
 
    // Start BA414EP
    error = ba414ep_start_wait_status();

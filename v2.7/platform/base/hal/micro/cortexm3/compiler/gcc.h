@@ -307,7 +307,24 @@ void rtosResetWatchdog(void);
 /**
  * @brief Portable Segment names
  */
-#define __NO_INIT__                         ".noinit"
+
+// EFR32xG22 may zero out the high portion of RAM after reset, meaning that data
+// we wish to preserve across resets should be in the lower addresses. To deal
+// with this, we defined a (new) __NO_INIT__ section adjacent to the reset info
+// block and are selecting it and the old placement here based on the part for
+// which we're compiling.
+#if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_2)
+  #define __NO_INIT__       ".noinitnew"
+  #define __NO_INIT__begin  __NO_INIT_NEW__begin
+  #define __NO_INIT__end    __NO_INIT_NEW__end
+  #define __NO_INIT__size   __NO_INIT_NEW__size
+#else
+  #define __NO_INIT__       ".noinitlegacy"
+  #define __NO_INIT__begin  __NO_INIT_LEGACY__begin
+  #define __NO_INIT__end    __NO_INIT_LEGACY__end
+  #define __NO_INIT__size   __NO_INIT_LEGACY__size
+#endif
+
 #define __DEBUG_CHANNEL__                   ".debugChannel"
 #define __INTVEC__                          ".intvec"
 #define __CSTACK__                          ".cstack"
@@ -317,8 +334,6 @@ void rtosResetWatchdog(void);
 #define __BSS__                             ".bss"
 #define __CONST__                           ".rodata"
 #define __TEXT__                            ".text"
-#define __TEXTRW_INIT__                     ".textrw_init"
-#define __TEXTRW__                          ".textrw"
 #define __AAT__                             ".aat"                // Application address table
 #define __BAT_INIT__                        ".bat.init"           // Bootloader  address table
 #define __BAT__                             ".bat.noinit"         // Bootloader  address table
@@ -346,8 +361,6 @@ extern uint32_t __DATA__begin, __DATA__end, __DATA__size;
 extern uint32_t __BSS__begin, __BSS__end, __BSS__size;
 extern uint32_t __CONST__begin, __CONST__end, __CONST__size;
 extern uint32_t __TEXT__begin, __TEXT__end, __TEXT__size;
-extern uint32_t __TEXTRW_INIT__begin, __TEXTRW_INIT__end, __TEXTRW_INIT__size;
-extern uint32_t __TEXTRW__begin, __TEXTRW__end, __TEXTRW__size;
 extern uint32_t __AAT__begin, __AAT__end, __AAT__size;
 extern uint32_t __BAT_INIT__begin, __BAT_INIT__end, __BAT_INIT__size;
 extern uint32_t __BAT__begin, __BAT__end, __BAT__size;
@@ -376,8 +389,6 @@ extern uint32_t __UNRETAINED_RAM__begin, __UNRETAINED_RAM__end, __UNRETAINED_RAM
 #define _BSS_SEGMENT_BEGIN              (&__BSS__begin)
 #define _CONST_SEGMENT_BEGIN            (&__CONST__begin)
 #define _TEXT_SEGMENT_BEGIN             (&__TEXT__begin)
-#define _TEXTRW_INIT_SEGMENT_BEGIN      (&__TEXTRW_INIT__begin)
-#define _TEXTRW_SEGMENT_BEGIN           (&__TEXTRW__begin)
 #define _AAT_SEGMENT_BEGIN              (&__AAT__begin)
 #define _BAT_INIT_SEGMENT_BEGIN         (&__BAT_INIT__begin)
 #define _BAT_SEGMENT_BEGIN              (&__BAT__begin)
@@ -402,8 +413,6 @@ extern uint32_t __UNRETAINED_RAM__begin, __UNRETAINED_RAM__end, __UNRETAINED_RAM
 #define _BSS_SEGMENT_END                (&__BSS__end)
 #define _CONST_SEGMENT_END              (&__CONST__end)
 #define _TEXT_SEGMENT_END               (&__TEXT__end)
-#define _TEXTRW_INIT_SEGMENT_END        (&__TEXTRW_INIT__end)
-#define _TEXTRW_SEGMENT_END             (&__TEXTRW__end)
 #define _AAT_SEGMENT_END                (&__AAT__end)
 #define _BAT_INIT_SEGMENT_END           (&__BAT_INIT__end)
 #define _BAT_SEGMENT_END                (&__BAT__end)
@@ -428,8 +437,6 @@ extern uint32_t __UNRETAINED_RAM__begin, __UNRETAINED_RAM__end, __UNRETAINED_RAM
 #define _BSS_SEGMENT_SIZE               ((uint32_t)&__BSS__size)
 #define _CONST_SEGMENT_SIZE             ((uint32_t)&__CONST__size)
 #define _TEXT_SEGMENT_SIZE              ((uint32_t)&__TEXT__size)
-#define _TEXTRW_INIT_SEGMENT_SIZE       ((uint32_t)&__TEXTRW_INIT__size)
-#define _TEXTRW_SEGMENT_SIZE            ((uint32_t)&__TEXTRW__size)
 #define _AAT_SEGMENT_SIZE               ((uint32_t)&__AAT__size)
 #define _BAT_INIT_SEGMENT_SIZE          ((uint32_t)&__BAT_INIT__size)
 #define _BAT_SEGMENT_SIZE               ((uint32_t)&__BAT__size)

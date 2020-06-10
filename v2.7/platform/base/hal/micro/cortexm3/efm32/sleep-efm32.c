@@ -140,18 +140,18 @@ static void halInternalSleepHelper(SleepModes sleepMode, bool preserveIntState)
 #if defined (_SILICON_LABS_32B_SERIES_2_CONFIG_2) && !defined (_GPIO_IF_EXT_MASK)
   // Series 2, config 2 devices use multiple masks for
   // all the IF EXT sources.  Earlier devices use a single IF EXT mask.
-  #define _GPIO_IF_EXT_MASK (_GPIO_IF_EXTIF0_MASK     \
-                             || _GPIO_IF_EXTIF1_MASK  \
-                             || _GPIO_IF_EXTIF2_MASK  \
-                             || _GPIO_IF_EXTIF3_MASK  \
-                             || _GPIO_IF_EXTIF4_MASK  \
-                             || _GPIO_IF_EXTIF5_MASK  \
-                             || _GPIO_IF_EXTIF6_MASK  \
-                             || _GPIO_IF_EXTIF7_MASK  \
-                             || _GPIO_IF_EXTIF8_MASK  \
-                             || _GPIO_IF_EXTIF9_MASK  \
-                             || _GPIO_IF_EXTIF10_MASK \
-                             || _GPIO_IF_EXTIF11_MASK)
+  #define _GPIO_IF_EXT_MASK (_GPIO_IF_EXTIF0_MASK    \
+                             | _GPIO_IF_EXTIF1_MASK  \
+                             | _GPIO_IF_EXTIF2_MASK  \
+                             | _GPIO_IF_EXTIF3_MASK  \
+                             | _GPIO_IF_EXTIF4_MASK  \
+                             | _GPIO_IF_EXTIF5_MASK  \
+                             | _GPIO_IF_EXTIF6_MASK  \
+                             | _GPIO_IF_EXTIF7_MASK  \
+                             | _GPIO_IF_EXTIF8_MASK  \
+                             | _GPIO_IF_EXTIF9_MASK  \
+                             | _GPIO_IF_EXTIF10_MASK \
+                             | _GPIO_IF_EXTIF11_MASK)
 #endif // _GPIO_IF_EXT_MASK
   wakeInfo = GPIO_IntGetEnabled() & _GPIO_IF_EXT_MASK;
   if (irqTriggered(GPIO_EVEN_IRQn) || irqTriggered(GPIO_ODD_IRQn)) {
@@ -203,18 +203,18 @@ void halInternalSleep(SleepModes sleepMode)
 #if defined (_SILICON_LABS_32B_SERIES_2_CONFIG_2) && !defined (_GPIO_IEN_EXT_MASK)
 // Series 2, config 2 devices use multiple masks for
 // all IEN EXT sources.  Earlier devices use a single IEN EXT mask.
-#define _GPIO_IEN_EXT_MASK (_GPIO_IEN_EXTIEN0_MASK     \
-                            || _GPIO_IEN_EXTIEN1_MASK  \
-                            || _GPIO_IEN_EXTIEN2_MASK  \
-                            || _GPIO_IEN_EXTIEN3_MASK  \
-                            || _GPIO_IEN_EXTIEN4_MASK  \
-                            || _GPIO_IEN_EXTIEN5_MASK  \
-                            || _GPIO_IEN_EXTIEN6_MASK  \
-                            || _GPIO_IEN_EXTIEN7_MASK  \
-                            || _GPIO_IEN_EXTIEN8_MASK  \
-                            || _GPIO_IEN_EXTIEN9_MASK  \
-                            || _GPIO_IEN_EXTIEN10_MASK \
-                            || _GPIO_IEN_EXTIEN11_MASK)
+#define _GPIO_IEN_EXT_MASK (_GPIO_IEN_EXTIEN0_MASK    \
+                            | _GPIO_IEN_EXTIEN1_MASK  \
+                            | _GPIO_IEN_EXTIEN2_MASK  \
+                            | _GPIO_IEN_EXTIEN3_MASK  \
+                            | _GPIO_IEN_EXTIEN4_MASK  \
+                            | _GPIO_IEN_EXTIEN5_MASK  \
+                            | _GPIO_IEN_EXTIEN6_MASK  \
+                            | _GPIO_IEN_EXTIEN7_MASK  \
+                            | _GPIO_IEN_EXTIEN8_MASK  \
+                            | _GPIO_IEN_EXTIEN9_MASK  \
+                            | _GPIO_IEN_EXTIEN10_MASK \
+                            | _GPIO_IEN_EXTIEN11_MASK)
 // Series 1 devices use _GPIO_IEN_EXT_MASK and series 2, config 1 devices use
 // an identical mask renamed to _GPIO_IEN_EXTIEN_MASK.
 #elif defined (_SILICON_LABS_32B_SERIES_2) && !defined (_GPIO_IEN_EXT_MASK)

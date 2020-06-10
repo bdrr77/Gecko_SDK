@@ -38,7 +38,6 @@
 #include "i2cspm.h"
 
 #include "thunderboard/board_pic_regs.h"
-#include "thunderboard/board_rgbled_profiles.h"
 
 /***************************************************************************//**
  * @addtogroup IMU

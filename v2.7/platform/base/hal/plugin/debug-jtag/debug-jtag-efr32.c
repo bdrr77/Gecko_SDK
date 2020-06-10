@@ -24,7 +24,7 @@
 #include "em_device.h"
 #include "em_gpio.h"
 
-#include "plugin/debug/rtt/SEGGER_RTT.h"
+#include "SEGGER_RTT.h"
 
 #if DEBUG_LEVEL >= BASIC_DEBUG
 
@@ -72,14 +72,14 @@ static uint8_t debugChannelState = DEBUG_OFF;
 #endif
 
 #if !defined(BSP_TRACE_SWO_PORT) || !defined(BSP_TRACE_SWO_PIN)
-#if defined(_SILICON_LABS_32B_SERIES_2)
-#define BSP_TRACE_SWO_PIN 3
-#define BSP_TRACE_SWO_PORT gpioPortA
-#else
+#if defined(_SILICON_LABS_32B_SERIES_1)
 #define BSP_TRACE_SWO_PIN  2
 #define BSP_TRACE_SWO_PORT gpioPortF
-#endif // _SILICON_LABS_32B_SERIES_2
-#endif
+#elif defined(_SILICON_LABS_32B_SERIES_2)
+#define BSP_TRACE_SWO_PIN  3
+#define BSP_TRACE_SWO_PORT gpioPortA
+#endif // _SILICON_LABS_32B_SERIES_1
+#endif // BSP_TRACE_SWO_PORT/PIN
 
 #define TARGET_FREQUENCY 875000U
 

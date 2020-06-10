@@ -39,6 +39,24 @@ bool parser_requireConfidentiality(void)
 #endif
 }
 
+bool parser_requireCertificateAuthenticity(void)
+{
+#if defined(BOOTLOADER_SUPPORT_CERTIFICATES)
+  return true;
+#else
+  return false;
+#endif
+}
+
+bool parser_requireCertificateSignedImage(void)
+{
+#if defined(BOOTLOADER_REJECT_DIRECT_SIGNED_IMG)
+  return true;
+#else
+  return false;
+#endif
+}
+
 uint32_t parser_getApplicationAddress(void)
 {
   return (uint32_t)(&(mainBootloaderTable->startOfAppSpace->stackTop));

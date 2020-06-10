@@ -236,7 +236,7 @@ void halInternalResetWatchDog(void);
 /**
  * @brief Define a generic no operation identifier to a compiler specific one.
  */
-#define NO_OPERATION() __no_operation()
+#define NO_OPERATION() __NOP()
 
 /**
  * @brief A convenience macro that makes it easy to change the field of a

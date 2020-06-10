@@ -37,6 +37,7 @@
 
 #include "rail.h"
 #include "em_core.h"
+#include "railapp_aox.h"
 
 const char *getRfStateName(RAIL_RadioState_t state)
 {
@@ -148,6 +149,14 @@ void printRailAppEvents(void)
             cmdName = "rxErr???";
             break;
         }
+#if RAIL_FEAT_BLE_AOX_SUPPORTED && !defined(RAIL_MULTIPROTOCOL)
+        // This allows RAILtest to unlock the CTE buffer for AoX when the
+        // packet is received or rx error occurs.
+        if (autoUnlockCteBuffer) {
+          bool cteBufferLocked = RAILAPP_SetCteBufferLock(0);
+          responsePrint("enableRxAutoCteBufferUnlock", "CteBuffer:%s", cteBufferLocked ? "Locked" : "Unlocked");
+        }
+#endif //RAIL_FEAT_BLE_AOX_SUPPORTED && !defined(RAIL_MULTIPROTOCOL)
         printPacket(cmdName,
                     dataPtr,
                     railtestEvent->rxPacket.dataLength,

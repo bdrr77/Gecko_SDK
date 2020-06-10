@@ -34,7 +34,7 @@
 #define BLE_CCM_KEY_BYTES     16U
 #define BLE_CCM_B_BYTES       16U
 #define BLE_CCM_TAG_BYTES      4U
-#define BLE_CCM_VER_BYTES      1U
+#define BLE_CCM_VER_BYTES      4U
 #define BLE_CCM_B0_FLAGS    0x49U
 #define BLE_CCM_AUTH_BLOCKS    1U
 
@@ -85,7 +85,7 @@ static int aes_ccm_ble(bool                 encrypt,
                        unsigned char       *tag)
 
 {
-  volatile uint8_t verFailed;
+  volatile uint32_t verFailed;
   volatile uint8_t b0b1[BLE_CCM_B_BYTES * 2] = { 0 };
 
   size_t dataPadBytes = AES_BLOCK_BYTES - 1 - ((length - 1) % AES_BLOCK_BYTES);

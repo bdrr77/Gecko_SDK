@@ -245,7 +245,7 @@ void rtosResetWatchdog(void);
 /**
  * @brief Define a generic no operation identifier to a compiler specific one.
  */
-#define NO_OPERATION() __no_operation()
+#define NO_OPERATION() __NOP()
 
 /**
  * @brief A convenience macro that makes it easy to change the field of a
@@ -353,7 +353,18 @@ void rtosResetWatchdog(void);
 /**
  * @brief Portable segment names
  */
-#define __NO_INIT__       ".noinit"
+
+// EFR32xG22 may zero out the high portion of RAM after reset, meaning that data
+// we wish to preserve across resets should be in the lower addresses. To deal
+// with this, we defined a (new) __NO_INIT__ section adjacent to the reset info
+// block and are selecting it and the old placement here based on the part for
+// which we're compiling.
+#if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_2)
+  #define __NO_INIT__     ".noinitnew"
+#else
+  #define __NO_INIT__     ".noinitlegacy"
+#endif
+
 #define __DEBUG_CHANNEL__ "DEBUG_CHANNEL"
 #define __INTVEC__ ".intvec"
 #define __CSTACK__ "CSTACK"

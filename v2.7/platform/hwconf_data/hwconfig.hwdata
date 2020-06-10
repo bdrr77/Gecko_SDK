@@ -173,6 +173,14 @@
     <properties key="partCompatibility" value="mcu.arm.efr32.zg13.zgm.*"/>
   </descriptors>
   <descriptors>
+    <properties key="hardwareConfigData" value="bgm22"/>
+    <properties key="partCompatibility" value="mcu.arm.efr32.bg22.bgm.*"/>
+  </descriptors>
+  <descriptors>
+    <properties key="hardwareConfigData" value="mgm22"/>
+    <properties key="partCompatibility" value="mcu.arm.efr32.mg22.mgm.*"/>
+  </descriptors>
+  <descriptors>
     <properties key="hardwareConfigData" value="efr32bg22"/>
     <properties key="partCompatibility" value="mcu.arm.efr32.bg22.(efr32|rm).*"/>
   </descriptors>

@@ -4,7 +4,7 @@
  *        for EFR32MG22C224F512IM40
  ******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories, Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories, Inc. www.silabs.com</b>
  ******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -178,7 +178,7 @@ typedef enum IRQn{
 #define _SILICON_LABS_EFR32_RADIO_2G4HZ          2                                  /** Radio supports 2.4 GHz */
 #define _SILICON_LABS_EFR32_RADIO_DUALBAND       3                                  /** Radio supports dual band */
 #define _SILICON_LABS_EFR32_RADIO_TYPE           _SILICON_LABS_EFR32_RADIO_2G4HZ    /** Radio type */
-#define LFRCO_PRECISION_MODE                     true                               /** Precision mode of LFRCO enabled or disabled */
+#define LFRCO_PRECISION_MODE                     1                                  /** Precision mode of LFRCO enabled or disabled */
 
 /** Memory Base addresses and limits */
 #define MSC_FLASH_MEM_BASE                       (0x00000000UL) /** MSC_FLASH base address */
@@ -412,6 +412,8 @@ typedef enum IRQn{
 #define MSC_COUNT                                1 /** 1 MSCs available  */
 #define PDM_PRESENT                                /** PDM is available in this part */
 #define PDM_COUNT                                1 /** 1 PDMs available  */
+#define PRORTC_PRESENT                             /** PRORTC is available in this part */
+#define PRORTC_COUNT                             1 /** 1 PRORTCs available  */
 #define PROTIMER_PRESENT                           /** PROTIMER is available in this part */
 #define PROTIMER_COUNT                           1 /** 1 PROTIMERs available  */
 #define PRS_PRESENT                                /** PRS is available in this part */
@@ -601,6 +603,7 @@ typedef enum IRQn{
 #define CRYPTOACC_NS_BASE            (0x5C020000UL) /* CRYPTOACC_NS base address */
 #define CRYPTOACC_NS_RNGCTRL_BASE    (0x5C021000UL) /* CRYPTOACC_NS_RNGCTRL base address */
 #define CRYPTOACC_NS_PKCTRL_BASE     (0x5C022000UL) /* CRYPTOACC_NS_PKCTRL base address */
+#define PRORTC_BASE                  (0xA8000000UL) /* PRORTC base address */
 #define FRC_BASE                     (0xA8004000UL) /* FRC base address */
 #define AGC_BASE                     (0xA800C000UL) /* AGC base address */
 #define RFCRC_BASE                   (0xA8010000UL) /* RFCRC base address */
@@ -611,6 +614,7 @@ typedef enum IRQn{
 #define RDMAILBOX0_BASE              (0xA8028000UL) /* RDMAILBOX0 base address */
 #define RDMAILBOX1_BASE              (0xA802C000UL) /* RDMAILBOX1 base address */
 #define BUFC_BASE                    (0xAA000000UL) /* BUFC base address */
+#define PRORTC_NS_BASE               (0xB8000000UL) /* PRORTC_NS base address */
 #define FRC_NS_BASE                  (0xB8004000UL) /* FRC_NS base address */
 #define AGC_NS_BASE                  (0xB800C000UL) /* AGC_NS base address */
 #define RFCRC_NS_BASE                (0xB8010000UL) /* RFCRC_NS base address */
@@ -761,6 +765,8 @@ typedef enum IRQn{
 #define CRYPTOACC_NS            ((CRYPTOACC_TypeDef *) CRYPTOACC_NS_BASE)                 /**< CRYPTOACC_NS base pointer */
 #define CRYPTOACC_NS_RNGCTRL    ((CRYPTOACC_RNGCTRL_TypeDef *) CRYPTOACC_NS_RNGCTRL_BASE) /**< CRYPTOACC_NS_RNGCTRL base pointer */
 #define CRYPTOACC_NS_PKCTRL     ((CRYPTOACC_PKCTRL_TypeDef *) CRYPTOACC_NS_PKCTRL_BASE)   /**< CRYPTOACC_NS_PKCTRL base pointer */
+#define PRORTC_S                ((RTCC_TypeDef *) PRORTC_BASE)                            /**< PRORTC_S base pointer */
+#define PRORTC                  ((RTCC_TypeDef *) PRORTC_BASE)                            /**< PRORTC_S base pointer */
 #define FRC_S                   ((FRC_TypeDef *) FRC_BASE)                                /**< FRC_S base pointer */
 #define FRC                     ((FRC_TypeDef *) FRC_BASE)                                /**< FRC_S base pointer */
 #define AGC_S                   ((AGC_TypeDef *) AGC_BASE)                                /**< AGC_S base pointer */
@@ -781,6 +787,7 @@ typedef enum IRQn{
 #define RDMAILBOX1              ((MAILBOX_TypeDef *) RDMAILBOX1_BASE)                     /**< RDMAILBOX1_S base pointer */
 #define BUFC_S                  ((BUFC_TypeDef *) BUFC_BASE)                              /**< BUFC_S base pointer */
 #define BUFC                    ((BUFC_TypeDef *) BUFC_BASE)                              /**< BUFC_S base pointer */
+#define PRORTC_NS               ((RTCC_TypeDef *) PRORTC_NS_BASE)                         /**< PRORTC_NS base pointer */
 #define FRC_NS                  ((FRC_TypeDef *) FRC_NS_BASE)                             /**< FRC_NS base pointer */
 #define AGC_NS                  ((AGC_TypeDef *) AGC_NS_BASE)                             /**< AGC_NS base pointer */
 #define RFCRC_NS                ((RFCRC_TypeDef *) RFCRC_NS_BASE)                         /**< RFCRC_NS base pointer */
@@ -831,8 +838,9 @@ typedef enum IRQn{
 #define DMEM_SIZE                               0x8000UL  /**> Total size */
 #define LFXO_NO_CTUNE                           0x0UL     /**> CTUNE Not Present */
 #define LFXO_CTUNE                              0x1UL     /**> CTUNE Present */
-#define ICACHE0_ADDR_BITS                       0x12UL    /**> Address bits */
 #define ICACHE0_AHB_LITE                        0x0UL     /**> AHB Lite */
+#define ICACHE0_CACHEABLE_SIZE                  0x200UL   /**> Cache Size */
+#define ICACHE0_CACHEABLE_START                 0x12UL    /**> Cache Start */
 #define ICACHE0_DEFAULT_OFF                     0x1UL     /**> Default off */
 #define ICACHE0_FLASH_SIZE                      0x80000UL /**> Flash size */
 #define ICACHE0_FLASH_START                     0x0UL     /**> Flash start */
@@ -1042,6 +1050,7 @@ typedef enum IRQn{
 #define RDMEM_SEQ_RAM_BWE_WIDTH                 0x27UL    /**> SEQRAM BWE width */
 #define RDMEM_SEQ_RAM_DATA_WIDTH                0x27UL    /**> SEQ_RAM_DATA_WIDTH */
 #define RDMEM_SEQ_RAM_ECC_EN                    0x1UL     /**> SEQ RAM ECCEN */
+#define PRORTC_CC_NUM                           0x2UL     /**> None */
 #define FRC_DEMOD_FILT_WIDTH                    0x13UL    /**> New Param */
 #define FRC_FCD_NUM                             0x4UL     /**> None */
 #define FRC_INTELEMENTS                         0x10UL    /**> None */

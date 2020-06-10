@@ -254,6 +254,18 @@ uint16_t *MIC_getSampleBuffer(void)
 
 /***************************************************************************//**
  * @brief
+ *    Gets the number of the samples to take
+ *
+ * @return
+ *    Returns the number of the samples to take
+ ******************************************************************************/
+size_t MIC_getSampleCount(void)
+{
+  return sampleCount;
+}
+
+/***************************************************************************//**
+ * @brief
  *    Calculates the average value of the samples in the buffer
  *
  * @return

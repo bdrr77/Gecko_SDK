@@ -54,10 +54,6 @@ void bleEnable(int argc, char **argv)
 {
   bool enable = !!ciGetUnsigned(argv[1]);
 
-  if (!inRadioState(RAIL_RF_STATE_IDLE, argv[0])) {
-    return;
-  }
-
   // Turn BLE mode on or off as requested
   if (enable) {
     disableIncompatibleProtocols(RAIL_PTI_PROTOCOL_BLE);
@@ -88,10 +84,6 @@ void bleSet1MbpsPhy(int argc, char **argv)
     isViterbi = 0;
   }
 
-  if (!inRadioState(RAIL_RF_STATE_IDLE, argv[0])) {
-    return;
-  }
-
   if (isViterbi) {
     status = RAIL_BLE_ConfigPhy1MbpsViterbi(railHandle);
   } else {
@@ -110,10 +102,6 @@ void bleSet2MbpsPhy(int argc, char **argv)
     isViterbi = 0;
   }
 
-  if (!inRadioState(RAIL_RF_STATE_IDLE, argv[0])) {
-    return;
-  }
-
   if (isViterbi) {
     status = RAIL_BLE_ConfigPhy2MbpsViterbi(railHandle);
   } else {
@@ -124,9 +112,6 @@ void bleSet2MbpsPhy(int argc, char **argv)
 
 void bleSetCoding(int argc, char **argv)
 {
-  if (!inRadioState(RAIL_RF_STATE_IDLE, argv[0])) {
-    return;
-  }
   // Make sure BLE mode is enabled so that the call below can succeed
   if (!RAIL_BLE_IsEnabled(railHandle)) {
     responsePrintError(argv[0], 0x31, "BLE mode not enabled");

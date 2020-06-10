@@ -351,7 +351,7 @@ plugin(hal-library) {
   callbacks=config/hal-callback.info
 
   precompiled(efr32) {
-    file=$FRAMEWORK/../../build/hal-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$/hal-library.a
+    file=$FRAMEWORK/../../build/hal-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$$--stackProtection--$/hal-library.a
     micro/cortexm3/efm32/clocks.c
     micro/cortexm3/efm32/cstartup-$--toolchainName--$.c
     micro/cortexm3/efm32/flash.c
@@ -362,7 +362,7 @@ plugin(hal-library) {
   }
 
   precompiled(em346,em351,em355,em3555,em356,em357,em3581,em3582,em3585,em3586,em3587,em3588,em3591,em3592,em3595,em3596,em3597,em3598) {
-    file=$FRAMEWORK/../../build/hal-library-cortexm3-iar-$--partNumber;L--$-em3xx/hal-library.a
+    file=$FRAMEWORK/../../build/hal-library-cortexm3-iar-$--partNumber;L--$-em3xx$--stackProtection--$/hal-library.a
     micro/cortexm3/caladc.c
     micro/cortexm3/clocks.c
     micro/cortexm3/context-switch.s79
@@ -680,12 +680,12 @@ plugin(sim-eeprom1) {
   destructiveSimee2To1Downgrade.define=DESTRUCTIVE_SIMEE2TO1_DOWNGRADE
 
   precompiled(efr32~series[1]) {
-    file=$FRAMEWORK/../../build/sim-eeprom1-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$/sim-eeprom1-library.a
+    file=$FRAMEWORK/../../build/sim-eeprom1-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$$--stackProtection--$/sim-eeprom1-library.a
     plugin/sim-eeprom1/sim-eeprom-internal.c
   }
 
   precompiled(em346,em351,em355,em3555,em356,em357,em3581,em3582,em3585,em3586,em3587,em3588,em3591,em3592,em3595,em3596,em3597,em3598) {
-    file=$FRAMEWORK/../../build/sim-eeprom1-library-cortexm3-iar-$--partNumber;L--$-em3xx/sim-eeprom1-library.a
+    file=$FRAMEWORK/../../build/sim-eeprom1-library-cortexm3-iar-$--partNumber;L--$-em3xx$--stackProtection--$/sim-eeprom1-library.a
     plugin/sim-eeprom1/sim-eeprom-internal.c
   }
 
@@ -722,12 +722,12 @@ plugin(sim-eeprom2) {
   verify.message=Invalid password specified in the plugin options.  Please see Application Note AN703 to obtain the password and for more information on choosing SimEE2.
 
   precompiled(efr32~series[1]) {
-    file=$FRAMEWORK/../../build/sim-eeprom2-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$/sim-eeprom2-library.a
+    file=$FRAMEWORK/../../build/sim-eeprom2-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$$--stackProtection--$/sim-eeprom2-library.a
     plugin/sim-eeprom2/sim-eeprom2-internal.c
   }
 
   precompiled(em346,em355,em3555,em356,em357,em3581,em3582,em3585,em3586,em3587,em3588,em3591,em3592,em3595,em3596,em3597,em3598) {
-    file=$FRAMEWORK/../../build/sim-eeprom2-library-cortexm3-iar-$--partNumber;L--$-em3xx/sim-eeprom2-library.a
+    file=$FRAMEWORK/../../build/sim-eeprom2-library-cortexm3-iar-$--partNumber;L--$-em3xx$--stackProtection--$/sim-eeprom2-library.a
     plugin/sim-eeprom2/sim-eeprom2-internal.c
   }
 
@@ -754,12 +754,12 @@ plugin(sim-eeprom2-1to2-upgrade) {
   plugin/sim-eeprom2-1to2upgrade/sim-eeprom2-internal-1to2upgrade.c (efr32~series[1],em346,em355,em3555,em356,em357,em3581,em3582,em3585,em3586,em3587,em3588,em3591,em3592,em3595,em3596,em3597,em3598)
 
   precompiled(efr32~series[1]) {
-    file=$FRAMEWORK/../../build/sim-eeprom2-1to2-upgrade-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$/sim-eeprom2-1to2-upgrade-library.a
+    file=$FRAMEWORK/../../build/sim-eeprom2-1to2-upgrade-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$$--stackProtection--$/sim-eeprom2-1to2-upgrade-library.a
     plugin/sim-eeprom2-1to2upgrade/sim-eeprom2-internal-1to2upgrade.c
   }
 
   precompiled(em346,em355,em3555,em356,em357,em3581,em3582,em3585,em3586,em3587,em3588,em3591,em3592,em3595,em3596,em3597,em3598) {
-    file=$FRAMEWORK/../../build/sim-eeprom2-1to2-upgrade-library-cortexm3-iar-$--partNumber;L--$-em3xx/sim-eeprom2-1to2-upgrade-library.a
+    file=$FRAMEWORK/../../build/sim-eeprom2-1to2-upgrade-library-cortexm3-iar-$--partNumber;L--$-em3xx$--stackProtection--$/sim-eeprom2-1to2-upgrade-library.a
     plugin/sim-eeprom2-1to2upgrade/sim-eeprom2-internal-1to2upgrade.c
   }
 }
@@ -800,10 +800,18 @@ plugin(sim-eeprom2-to-nvm3-upgrade) {
   api.sim-eeprom.header=plugin/sim-eeprom/sim-eeprom.h
   providedApis=sim-eeprom,sim-eeprom2-to-nvm3-upgrade
 
-  precompiled(efr32~series[1],simulation) {
+  precompiled(efr32~series[1]) {
+    file=$FRAMEWORK/../../build/sim-eeprom2-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$$--stackProtection--$/sim-eeprom2-library.a
+  }
+  precompiled(efr32~series[1]) {
+    file=$FRAMEWORK/../../build/sim-eeprom2-to-nvm3-upgrade-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$$--stackProtection--$/sim-eeprom2-to-nvm3-upgrade-library.a
+  }
+
+  precompiled(simulation) {
     file=$FRAMEWORK/../../build/sim-eeprom2-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$/sim-eeprom2-library.a
   }
-  precompiled(efr32~series[1],simulation) {
+
+  precompiled(simulation) {
     file=$FRAMEWORK/../../build/sim-eeprom2-to-nvm3-upgrade-library-cortexm3-$--toolchainName--$-$--chipFamily;L--$$--dynamicPhy--$/sim-eeprom2-to-nvm3-upgrade-library.a
   }
 

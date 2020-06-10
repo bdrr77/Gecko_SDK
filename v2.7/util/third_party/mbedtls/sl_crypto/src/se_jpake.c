@@ -311,7 +311,6 @@ int mbedtls_ecjpake_write_round_one( mbedtls_ecjpake_context *ctx,
     (void)p_rng;
 
     int ret = 0;
-    *olen = 0;
 
     if (ctx == NULL || buf == NULL || olen == NULL) {
         return MBEDTLS_ERR_ECP_BAD_INPUT_DATA;
@@ -320,6 +319,8 @@ int mbedtls_ecjpake_write_round_one( mbedtls_ecjpake_context *ctx,
     // local storage for ZKPs
     uint8_t zkp1[32+64];
     uint8_t zkp2[32+64];
+
+    *olen = 0;
 
     // SE command structures
     SE_Command_t command = SE_COMMAND_DEFAULT(SE_COMMAND_JPAKE_R1_GENERATE);

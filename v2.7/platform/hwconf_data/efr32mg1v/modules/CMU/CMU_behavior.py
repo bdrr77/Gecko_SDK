@@ -19,7 +19,7 @@ class CMU(ExporterModel.Module):
         hfclk_selection = self.get_property("HAL_CLK_HFCLK_SOURCE")
         pll_config = self.get_property("HAL_CLK_PLL_CONFIGURATION")
         if pll_config:
-            RuntimeModel.set_change_handler(hfclk_selection, CMU.pll_config_visible)
+            RuntimeModel.set_change_handler(hfclk_selection, CMU.hfclk_changed)
 
     @staticmethod
     def ctune_use_token(studio_module, property, state):
@@ -27,10 +27,10 @@ class CMU(ExporterModel.Module):
         RuntimeModel.set_property_hidden("BSP_CLK_HFXO_CTUNE", hide_ctune_input, module=studio_module, state=state)
 
     @staticmethod
-    def pll_config_visible(studio_module, property, state):
+    def hfclk_changed(studio_module, property, state):
         clk_src = RuntimeModel.get_property_value(property, module=studio_module)
-        pll_config = RuntimeModel.get_property_reference("HAL_CLK_PLL_CONFIGURATION", module=studio_module)
-        if clk_src == 'HAL_CLK_HFCLK_SOURCE_HFRCO':
-            RuntimeModel.set_property_hidden(pll_config, False, state, studio_module)
+
+        if clk_src == "HAL_CLK_HFCLK_SOURCE_HFRCODPLL":
+            RuntimeModel.set_property_readonly("HAL_CLK_PLL_CONFIGURATION", False, module=studio_module, state=state)
         else:
-            RuntimeModel.set_property_hidden(pll_config, True, state, studio_module)
+            RuntimeModel.set_property_readonly("HAL_CLK_PLL_CONFIGURATION", True, module=studio_module, state=state)

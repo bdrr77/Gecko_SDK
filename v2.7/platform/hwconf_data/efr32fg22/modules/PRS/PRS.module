@@ -33,7 +33,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -139,11 +139,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH0_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH0_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH0_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -375,7 +375,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -481,11 +481,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH1_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH1_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH1_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -717,7 +717,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -823,11 +823,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH2_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH2_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH2_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -1059,7 +1059,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -1165,11 +1165,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH3_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH3_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH3_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -1401,7 +1401,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -1507,11 +1507,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH4_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH4_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH4_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -1743,7 +1743,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -1849,11 +1849,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH5_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH5_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH5_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -2085,7 +2085,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -2191,11 +2191,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH6_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH6_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH6_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -2427,7 +2427,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -2533,11 +2533,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH7_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH7_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH7_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -2769,7 +2769,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -2875,11 +2875,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH8_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH8_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH8_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -3111,7 +3111,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -3217,11 +3217,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH9_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH9_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH9_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -3453,7 +3453,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -3559,11 +3559,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH10_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH10_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH10_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -3795,7 +3795,7 @@
         <enumValue label="GPIO" value="GPIO"/>
         <enumValue label="TIMER2" value="TIMER2"/>
         <enumValue label="TIMER3" value="TIMER3"/>
-        <enumValue label="TEAL" value="TEAL"/>
+        <enumValue label="CORE" value="CORE"/>
         <enumValue label="CMUL" value="CMUL"/>
         <enumValue label="CMU" value="CMU"/>
         <enumValue label="CMUH" value="CMUH"/>
@@ -3901,11 +3901,11 @@
         <enumValue label="TIMER3_CC1" value="TIMER3_CC1"/>
         <enumValue label="TIMER3_CC2" value="TIMER3_CC2"/>
       </enumProperty>
-      <enumProperty label="Signal" id="PRS.BSP_PRS_CH11_SIGNAL_TEAL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
-        <enumValue label="TEAL_CTIOUT0" value="TEAL_CTIOUT0"/>
-        <enumValue label="TEAL_CTIOUT1" value="TEAL_CTIOUT1"/>
-        <enumValue label="TEAL_CTIOUT2" value="TEAL_CTIOUT2"/>
-        <enumValue label="TEAL_CTIOUT3" value="TEAL_CTIOUT3"/>
+      <enumProperty label="Signal" id="PRS.BSP_PRS_CH11_SIGNAL_CORE.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
+        <enumValue label="CORE_CTIOUT0" value="CORE_CTIOUT0"/>
+        <enumValue label="CORE_CTIOUT1" value="CORE_CTIOUT1"/>
+        <enumValue label="CORE_CTIOUT2" value="CORE_CTIOUT2"/>
+        <enumValue label="CORE_CTIOUT3" value="CORE_CTIOUT3"/>
       </enumProperty>
       <enumProperty label="Signal" id="PRS.BSP_PRS_CH11_SIGNAL_CMUL.ENUM" defaultValueIndex="0" hidden="true" readonly="false">
         <enumValue label="CMUL_CLKOUT0" value="CMUL_CLKOUT0"/>
@@ -4147,7 +4147,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH0_SIGNAL_CMUH.ENUM"/>
@@ -4193,7 +4193,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH1_SIGNAL_CMUH.ENUM"/>
@@ -4239,7 +4239,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH2_SIGNAL_CMUH.ENUM"/>
@@ -4285,7 +4285,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH3_SIGNAL_CMUH.ENUM"/>
@@ -4331,7 +4331,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH4_SIGNAL_CMUH.ENUM"/>
@@ -4377,7 +4377,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH5_SIGNAL_CMUH.ENUM"/>
@@ -4423,7 +4423,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH6_SIGNAL_CMUH.ENUM"/>
@@ -4469,7 +4469,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH7_SIGNAL_CMUH.ENUM"/>
@@ -4515,7 +4515,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH8_SIGNAL_CMUH.ENUM"/>
@@ -4561,7 +4561,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH9_SIGNAL_CMUH.ENUM"/>
@@ -4607,7 +4607,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH10_SIGNAL_CMUH.ENUM"/>
@@ -4653,7 +4653,7 @@
           <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_GPIO.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_TIMER2.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_TIMER3.ENUM"/>
-          <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_TEAL.ENUM"/>
+          <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_CORE.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_CMUL.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_CMU.ENUM"/>
           <propertyRef refId="PRS.BSP_PRS_CH11_SIGNAL_CMUH.ENUM"/>

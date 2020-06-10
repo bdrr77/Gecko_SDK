@@ -196,9 +196,9 @@
 
 #define BOARD_LED_PORT            gpioPortD       /**< LED port                         */
 #define BOARD_LED_RED_PORT        gpioPortD       /**< Red LED port                     */
-#define BOARD_LED_RED_PIN         9               /**< Red LED pin                      */
+#define BOARD_LED_RED_PIN         8               /**< Red LED pin                      */
 #define BOARD_LED_GREEN_PORT      gpioPortD       /**< Green LED port                   */
-#define BOARD_LED_GREEN_PIN       8               /**< Green LED pin                    */
+#define BOARD_LED_GREEN_PIN       9               /**< Green LED pin                    */
 #define BOARD_RGBLED_PWR_EN_PORT  gpioPortJ       /**< RGB LED Power Enable port        */
 #define BOARD_RGBLED_PWR_EN_PIN   14              /**< RGB LED Power Enable pin         */
 #define BOARD_RGBLED_COM_PORT     gpioPortI       /**< RGB LED COM port                 */
@@ -268,22 +268,45 @@
 #define EXTI_UV_ALS_INT           11
 #define EXTI_HALL_OUT1            10
 
-#define BOARD_BUTTON_PORT         gpioPortD       /**< Pushbutton port                  */
-#define BOARD_BUTTON_SHIFT        14              /**< Pushbutton shift value           */
-#define BOARD_BUTTON_LEFT         0x01            /**< Left pushbutton value            */
-#define BOARD_BUTTON_RIGHT        0x02            /**< Right pushbutton value           */
-#define BOARD_BUTTON_MASK         0x03            /**< Pushbutton mask                  */
-#define BOARD_BUTTON_LEFT_PORT    gpioPortD       /**< Left pushbutton port             */
-#define BOARD_BUTTON_LEFT_PIN     14              /**< Left pushbutton pin              */
-#define BOARD_BUTTON_RIGHT_PORT   gpioPortD       /**< Right pushbutton port            */
-#define BOARD_BUTTON_RIGHT_PIN    15              /**< Right pushbutton pin             */
-#define BOARD_BUTTON_INT_FLAG     0x04            /**< Pushbutton interrupt flag value  */
-#define BOARD_BUTTON_INT_ENABLE   true            /**< Pushbutton interrupt enable      */
+#define BOARD_BUTTON_PORT          gpioPortD          /**< Pushbutton port                  */
+#define BOARD_BUTTON_SHIFT         14                 /**< Pushbutton shift value           */
+#define BOARD_BUTTON0              0x01               /**< Pushbutton 0 value               */
+#define BOARD_BUTTON_LEFT          BOARD_BUTTON0      /**< Left pushbutton value            */
+#define BOARD_BUTTON1              0x02               /**< Pushbutton 1 value               */
+#define BOARD_BUTTON_RIGHT         BOARD_BUTTON1      /**< Right pushbutton value           */
+#define BOARD_BUTTON_MASK          0x03               /**< Pushbutton mask                  */
+#define BOARD_BUTTON0_PORT         gpioPortD          /**< Pushbutton 0 port                */
+#define BOARD_BUTTON0_PIN          14                 /**< Pushbutton 0 pin                 */
+#define BOARD_BUTTON_LEFT_PORT     BOARD_BUTTON0_PORT /**< Left pushbutton port             */
+#define BOARD_BUTTON_LEFT_PIN      BOARD_BUTTON0_PIN  /**< Left pushbutton pin              */
+#define BOARD_BUTTON1_PORT         gpioPortD          /**< Right pushbutton port            */
+#define BOARD_BUTTON1_PIN          15                 /**< Right pushbutton pin             */
+#define BOARD_BUTTON_RIGHT_PORT    BOARD_BUTTON1_PORT /**< Right pushbutton port            */
+#define BOARD_BUTTON_RIGHT_PIN     BOARD_BUTTON1_PIN  /**< Right pushbutton pin             */
+#define BOARD_BUTTON_INT_FLAG      0x04               /**< Pushbutton interrupt flag value  */
+#define BOARD_BUTTON_INT_ENABLE    true               /**< Pushbutton interrupt enable      */
+#define BOARD_BUTTON0_EM4WUEN_MASK 0x10               /**< Mask to enable EM4 wake-up PB0   */
 
 #define BOARD_HALL_PORT             gpioPortB     /**< GPIO port for Hall effect sensor */
 #define BOARD_HALL_OUTPUT_PIN       11            /**< Hall effect sensor output pin    */
 
 /** @} {end defgroup BOARD_Config_Setting} */
+
+/* CMU settings */
+#define BSP_CLK_HFXO_PRESENT                 (1)
+#define BSP_CLK_HFXO_FREQ                    (38400000UL)
+#define BSP_CLK_HFXO_INIT                     CMU_HFXOINIT_DEFAULT
+#define BSP_CLK_HFXO_CTUNE                   (332)
+#define BSP_CLK_LFXO_PRESENT                 (1)
+#define BSP_CLK_LFXO_INIT                     CMU_LFXOINIT_DEFAULT
+#define BSP_CLK_LFXO_FREQ                    (32768U)
+#ifndef BSP_CLK_LFXO_CTUNE
+  #define BSP_CLK_LFXO_CTUNE                 (32U)
+#endif
+
+/* DCDC settings */
+#define BSP_DCDC_PRESENT                     (1)
+#define BSP_DCDC_INIT                         EMU_DCDCINIT_DEFAULT
 
 #define BSP_BCP_VERSION 2
 #include "bsp_bcp.h"

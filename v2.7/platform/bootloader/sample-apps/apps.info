@@ -66,15 +66,23 @@ bootloader-storage-internal-single-512k {
   name=Internal Storage Bootloader (single image on 512kB device)
   dir=bootloader-storage-internal-single-512k/template/
   isc=bootloader-storage-internal-single-512k/template/bootloader-storage-internal-single-512k.isc
-  architecture=efr32~series[1],efr32~series[2],efm32~series[1]
+  architecture=efr32~series[1],efr32~series[2]~device_configuration[1],efm32~series[1],efr32~series[2]~device_configuration[2]~flash[512K]
 
   Application Bootloader for all EFR32 and EFM32 devices with 512kB or larger flash, using the internal flash memory to store upgrade images received by the application in an application specific way, such as OTA, USB, Ethernet, etc. This sample configuration supports storing a single firmware update image at a time, and is plug-and-play compatible with the "Local Storage Bootloader" configuration of EmberZNet, Silicon Labs Thread and Flex sample applications on 512 kB EFR32xG13 devices. The layout of the storage should be modified before being run on other devices.
+}
+bootloader-storage-internal-single-352k {
+  name=Internal Storage Bootloader (single image on 352kB device)
+  dir=bootloader-storage-internal-single-352k/template/
+  isc=bootloader-storage-internal-single-352k/template/bootloader-storage-internal-single-352k.isc
+  architecture=efr32~series[2]~device_configuration[2]~flash[352K]
+
+  Application Bootloader for all EFR32 and EFM32 devices with 352kB or larger flash, using the internal flash memory to store upgrade images received by the application in an application specific way, such as OTA, USB, Ethernet, etc. The layout of the storage should be modified before being run on other devices.
 }
 bootloader-storage-internal-single-lzma {
   name=Internal Storage Bootloader (single image with LZMA compression, 1MB flash)
   dir=bootloader-storage-internal-single-lzma/template/
   isc=bootloader-storage-internal-single-lzma/template/bootloader-storage-internal-single-lzma.isc
-  architecture=efr32~series[1]~device_configuration[2],efr32~series[2]~device_configuration[1],efr32~series[2]~device_configuration[2],efm32~family[GI]~series[1]
+  architecture=efr32~series[1]~device_configuration[2],efr32~series[2]~device_configuration[1],efm32~family[GI]~series[1]
 
   Application Bootloader for all EFR32 and EFM32 devices with 1MB or larger flash, using the internal flash memory to store upgrade images received by the application in an application specific way, such as OTA, USB, Ethernet, etc. This sample configuration supports storing a single firmware update image at a time, and is plug-and-play compatible with the "Local Storage Bootloader" configuration of EmberZNet, Silicon Labs Thread and Flex sample applications on 1024 kB EFR32xG12 devices. The layout of the storage should be modified before being run on other devices.
 }

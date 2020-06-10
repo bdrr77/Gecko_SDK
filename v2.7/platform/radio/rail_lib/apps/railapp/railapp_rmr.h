@@ -82,7 +82,7 @@ RAIL_ENUM(RAIL_RMR_StructureIndex_t)
 #define RMR_STRUCT_CHANNEL_CONFIG_ATTRIBUTES ((RAIL_RMR_StructureIndex_t) RMR_STRUCT_CHANNEL_CONFIG_ATTRIBUTES)
 #define RMR_STRUCT_CHANNEL_CONFIG_ENTRY      ((RAIL_RMR_StructureIndex_t) RMR_STRUCT_CHANNEL_CONFIG_ENTRY)
 #define RMR_STRUCT_CONV_DECODE_BUFFER        ((RAIL_RMR_StructureIndex_t) RMR_STRUCT_CONV_DECODE_BUFFER)
-#endif//DOXYGEN_SHOULD_SKIP_THIS
+#endif //DOXYGEN_SHOULD_SKIP_THIS
 
 #define RMR_STRUCT_NULL 255
 
@@ -104,7 +104,7 @@ RAIL_ENUM(RAIL_RMR_CommandArguments_t) {
 #define RMR_CI_OFFSET        ((RAIL_RMR_CommandArguments_t) RMR_CI_OFFSET)
 #define RMR_CI_COUNT         ((RAIL_RMR_CommandArguments_t) RMR_CI_COUNT)
 #define RMR_CI_DATA_START    ((RAIL_RMR_CommandArguments_t) RMR_CI_DATA_START)
-#endif//DOXYGEN_SHOULD_SKIP_THIS
+#endif //DOXYGEN_SHOULD_SKIP_THIS
 
 // Ram Modem Reconfiguration buffer sizes.
 #define RMR_PHY_INFO_LEN 11
@@ -114,11 +114,7 @@ RAIL_ENUM(RAIL_RMR_CommandArguments_t) {
 #define RMR_FRAME_LENGTH_LIST_LEN 8
 #define RMR_ENTRYATTR_LEN 1
 // HACK: Don't give room for a frame coding table on Lynx
-#if _SILICON_LABS_32B_SERIES_2_CONFIG == 2
-#define RMR_FRAME_CODING_TABLE_LEN 1
-#else
 #define RMR_FRAME_CODING_TABLE_LEN 640
-#endif
 #define RMR_CONV_DECODE_BUFFER_LEN 64
 #define RMR_ARGUMENT_BUFFER_SIZE 10
 

@@ -46,10 +46,6 @@
 
 #include "cipher.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define MBEDTLS_ERR_CMAC_HW_ACCEL_FAILED -0x007A  /**< CMAC hardware accelerator failed. */
 
 #define MBEDTLS_AES_BLOCK_SIZE          16
@@ -62,6 +58,10 @@ extern "C" {
 #endif
 
 #if !defined(MBEDTLS_CMAC_ALT)
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /**
  * The CMAC context structure.

@@ -3,7 +3,7 @@
  * @brief MGM21 LDMA register and bit field definitions
  ******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories, Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories, Inc. www.silabs.com</b>
  ******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -47,9 +47,9 @@ typedef struct {
   __IOM uint32_t CFG;                                /**< Channel Configuration Register                     */
   __IOM uint32_t LOOP;                               /**< Channel Loop Counter Register                      */
   __IOM uint32_t CTRL;                               /**< Channel Descriptor Control Word Register           */
-  __IOM uint32_t SRC;                                /**< Channel Descriptor Source Data Addres...           */
-  __IOM uint32_t DST;                                /**< Channel Descriptor Destination Data A...           */
-  __IOM uint32_t LINK;                               /**< Channel Descriptor Link Structure Add...           */
+  __IOM uint32_t SRC;                                /**< Channel Descriptor Source Address                  */
+  __IOM uint32_t DST;                                /**< Channel Descriptor Destination Address             */
+  __IOM uint32_t LINK;                               /**< Channel Descriptor Link Address                    */
   uint32_t       RESERVED1[5U];                      /**< Reserved for future use                            */
 } LDMA_CH_TypeDef;
 
@@ -68,9 +68,9 @@ typedef struct {
   __IOM uint32_t  CHDIS;                        /**< DMA Channel Disable Register                       */
   __IM uint32_t   CHSTATUS;                     /**< DMA Channel Status Register                        */
   __IM uint32_t   CHBUSY;                       /**< DMA Channel Busy Register                          */
-  __IOM uint32_t  CHDONE;                       /**< DMA Channel Linking Done Register (Si...           */
+  __IOM uint32_t  CHDONE;                       /**< DMA Channel Linking Done Register                  */
   __IOM uint32_t  DBGHALT;                      /**< DMA Channel Debug Halt Register                    */
-  __IOM uint32_t  SWREQ;                        /**< DMA Channel Software Transfer Request...           */
+  __IOM uint32_t  SWREQ;                        /**< DMA Channel Software Transfer Request              */
   __IOM uint32_t  REQDIS;                       /**< DMA Channel Request Disable Register               */
   __IM uint32_t   REQPEND;                      /**< DMA Channel Requests Pending Register              */
   __IOM uint32_t  LINKLOAD;                     /**< DMA Channel Link Load Register                     */
@@ -92,9 +92,9 @@ typedef struct {
   __IOM uint32_t  CHDIS_SET;                    /**< DMA Channel Disable Register                       */
   __IM uint32_t   CHSTATUS_SET;                 /**< DMA Channel Status Register                        */
   __IM uint32_t   CHBUSY_SET;                   /**< DMA Channel Busy Register                          */
-  __IOM uint32_t  CHDONE_SET;                   /**< DMA Channel Linking Done Register (Si...           */
+  __IOM uint32_t  CHDONE_SET;                   /**< DMA Channel Linking Done Register                  */
   __IOM uint32_t  DBGHALT_SET;                  /**< DMA Channel Debug Halt Register                    */
-  __IOM uint32_t  SWREQ_SET;                    /**< DMA Channel Software Transfer Request...           */
+  __IOM uint32_t  SWREQ_SET;                    /**< DMA Channel Software Transfer Request              */
   __IOM uint32_t  REQDIS_SET;                   /**< DMA Channel Request Disable Register               */
   __IM uint32_t   REQPEND_SET;                  /**< DMA Channel Requests Pending Register              */
   __IOM uint32_t  LINKLOAD_SET;                 /**< DMA Channel Link Load Register                     */
@@ -116,9 +116,9 @@ typedef struct {
   __IOM uint32_t  CHDIS_CLR;                    /**< DMA Channel Disable Register                       */
   __IM uint32_t   CHSTATUS_CLR;                 /**< DMA Channel Status Register                        */
   __IM uint32_t   CHBUSY_CLR;                   /**< DMA Channel Busy Register                          */
-  __IOM uint32_t  CHDONE_CLR;                   /**< DMA Channel Linking Done Register (Si...           */
+  __IOM uint32_t  CHDONE_CLR;                   /**< DMA Channel Linking Done Register                  */
   __IOM uint32_t  DBGHALT_CLR;                  /**< DMA Channel Debug Halt Register                    */
-  __IOM uint32_t  SWREQ_CLR;                    /**< DMA Channel Software Transfer Request...           */
+  __IOM uint32_t  SWREQ_CLR;                    /**< DMA Channel Software Transfer Request              */
   __IOM uint32_t  REQDIS_CLR;                   /**< DMA Channel Request Disable Register               */
   __IM uint32_t   REQPEND_CLR;                  /**< DMA Channel Requests Pending Register              */
   __IOM uint32_t  LINKLOAD_CLR;                 /**< DMA Channel Link Load Register                     */
@@ -140,9 +140,9 @@ typedef struct {
   __IOM uint32_t  CHDIS_TGL;                    /**< DMA Channel Disable Register                       */
   __IM uint32_t   CHSTATUS_TGL;                 /**< DMA Channel Status Register                        */
   __IM uint32_t   CHBUSY_TGL;                   /**< DMA Channel Busy Register                          */
-  __IOM uint32_t  CHDONE_TGL;                   /**< DMA Channel Linking Done Register (Si...           */
+  __IOM uint32_t  CHDONE_TGL;                   /**< DMA Channel Linking Done Register                  */
   __IOM uint32_t  DBGHALT_TGL;                  /**< DMA Channel Debug Halt Register                    */
-  __IOM uint32_t  SWREQ_TGL;                    /**< DMA Channel Software Transfer Request...           */
+  __IOM uint32_t  SWREQ_TGL;                    /**< DMA Channel Software Transfer Request              */
   __IOM uint32_t  REQDIS_TGL;                   /**< DMA Channel Request Disable Register               */
   __IM uint32_t   REQPEND_TGL;                  /**< DMA Channel Requests Pending Register              */
   __IOM uint32_t  LINKLOAD_TGL;                 /**< DMA Channel Link Load Register                     */
@@ -403,42 +403,42 @@ typedef struct {
 /* Bit fields for LDMA IF */
 #define _LDMA_IF_RESETVALUE                     0x00000000UL                            /**< Default value for LDMA_IF                   */
 #define _LDMA_IF_MASK                           0x800000FFUL                            /**< Mask for LDMA_IF                            */
-#define LDMA_IF_DONE0                           (0x1UL << 0)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE0                           (0x1UL << 0)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE0_SHIFT                    0                                       /**< Shift value for LDMA_DONE0                  */
 #define _LDMA_IF_DONE0_MASK                     0x1UL                                   /**< Bit mask for LDMA_DONE0                     */
 #define _LDMA_IF_DONE0_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */
 #define LDMA_IF_DONE0_DEFAULT                   (_LDMA_IF_DONE0_DEFAULT << 0)           /**< Shifted mode DEFAULT for LDMA_IF            */
-#define LDMA_IF_DONE1                           (0x1UL << 1)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE1                           (0x1UL << 1)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE1_SHIFT                    1                                       /**< Shift value for LDMA_DONE1                  */
 #define _LDMA_IF_DONE1_MASK                     0x2UL                                   /**< Bit mask for LDMA_DONE1                     */
 #define _LDMA_IF_DONE1_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */
 #define LDMA_IF_DONE1_DEFAULT                   (_LDMA_IF_DONE1_DEFAULT << 1)           /**< Shifted mode DEFAULT for LDMA_IF            */
-#define LDMA_IF_DONE2                           (0x1UL << 2)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE2                           (0x1UL << 2)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE2_SHIFT                    2                                       /**< Shift value for LDMA_DONE2                  */
 #define _LDMA_IF_DONE2_MASK                     0x4UL                                   /**< Bit mask for LDMA_DONE2                     */
 #define _LDMA_IF_DONE2_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */
 #define LDMA_IF_DONE2_DEFAULT                   (_LDMA_IF_DONE2_DEFAULT << 2)           /**< Shifted mode DEFAULT for LDMA_IF            */
-#define LDMA_IF_DONE3                           (0x1UL << 3)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE3                           (0x1UL << 3)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE3_SHIFT                    3                                       /**< Shift value for LDMA_DONE3                  */
 #define _LDMA_IF_DONE3_MASK                     0x8UL                                   /**< Bit mask for LDMA_DONE3                     */
 #define _LDMA_IF_DONE3_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */
 #define LDMA_IF_DONE3_DEFAULT                   (_LDMA_IF_DONE3_DEFAULT << 3)           /**< Shifted mode DEFAULT for LDMA_IF            */
-#define LDMA_IF_DONE4                           (0x1UL << 4)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE4                           (0x1UL << 4)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE4_SHIFT                    4                                       /**< Shift value for LDMA_DONE4                  */
 #define _LDMA_IF_DONE4_MASK                     0x10UL                                  /**< Bit mask for LDMA_DONE4                     */
 #define _LDMA_IF_DONE4_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */
 #define LDMA_IF_DONE4_DEFAULT                   (_LDMA_IF_DONE4_DEFAULT << 4)           /**< Shifted mode DEFAULT for LDMA_IF            */
-#define LDMA_IF_DONE5                           (0x1UL << 5)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE5                           (0x1UL << 5)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE5_SHIFT                    5                                       /**< Shift value for LDMA_DONE5                  */
 #define _LDMA_IF_DONE5_MASK                     0x20UL                                  /**< Bit mask for LDMA_DONE5                     */
 #define _LDMA_IF_DONE5_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */
 #define LDMA_IF_DONE5_DEFAULT                   (_LDMA_IF_DONE5_DEFAULT << 5)           /**< Shifted mode DEFAULT for LDMA_IF            */
-#define LDMA_IF_DONE6                           (0x1UL << 6)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE6                           (0x1UL << 6)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE6_SHIFT                    6                                       /**< Shift value for LDMA_DONE6                  */
 #define _LDMA_IF_DONE6_MASK                     0x40UL                                  /**< Bit mask for LDMA_DONE6                     */
 #define _LDMA_IF_DONE6_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */
 #define LDMA_IF_DONE6_DEFAULT                   (_LDMA_IF_DONE6_DEFAULT << 6)           /**< Shifted mode DEFAULT for LDMA_IF            */
-#define LDMA_IF_DONE7                           (0x1UL << 7)                            /**< DMA Structure Operation Done Interrupt F    */
+#define LDMA_IF_DONE7                           (0x1UL << 7)                            /**< DMA Structure Operation Done                */
 #define _LDMA_IF_DONE7_SHIFT                    7                                       /**< Shift value for LDMA_DONE7                  */
 #define _LDMA_IF_DONE7_MASK                     0x80UL                                  /**< Bit mask for LDMA_DONE7                     */
 #define _LDMA_IF_DONE7_DEFAULT                  0x00000000UL                            /**< Mode DEFAULT for LDMA_IF                    */

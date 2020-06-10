@@ -631,6 +631,7 @@ bool COEX_SetGpioInputOverride(COEX_GpioIndex_t gpioIndex, bool enabled);
  * @param[in] enable if true, enable PHY select interrupt; else disable interrupt.
  */
 void COEX_EnablePhySelectIsr(bool enable);
+
 /**
  * @}
  * end of COEX_API

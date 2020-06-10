@@ -987,8 +987,11 @@ uint32_t SI7210_wakeUp(void)
 static void usDelay(uint32_t delay)
 {
   volatile uint32_t cnt;
-
+#ifdef _SILICON_LABS_32B_SERIES_2
+  cnt = CMU_ClockFreqGet(cmuClock_HCLK) * delay / (uint32_t) 1e6;
+#else
   cnt = CMU_ClockFreqGet(cmuClock_HF) * delay / (uint32_t) 1e6;
+#endif
   cnt /= 7;  /* 7 cycles per loop count */
 
   while ( cnt-- )

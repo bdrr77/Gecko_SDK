@@ -48,6 +48,7 @@
 
 #include "em_cmu.h"
 #include "em_gpio.h"
+#include "rail_features.h"
 
 uint32_t rxOverflowDelay = 10 * 1000000; // 10 seconds
 
@@ -96,7 +97,7 @@ char * lookupDebugModeString(uint32_t debugMode)
  *
  * Current debug modes:
  * RAIL_DEBUG_MODE_FREQ_OVERRIDE - Disable RAIL's channel scheme and
- *  uses a specific frequency defined by the user.
+ * uses a specific frequency defined by the user.
  */
 void setDebugMode(int argc, char **argv)
 {
@@ -193,6 +194,38 @@ void txCancel(int argc, char **argv)
   }
 
   enableAppMode(TX_CANCEL, delay >= 0, argv[0]); // Pends transmit to cancel
+}
+
+void startThermistorMeasurement(int argc, char **argv)
+{
+#if RAIL_FEAT_EXTERNAL_THERMISTOR
+  RAIL_Status_t status = RAIL_StartThermistorMeasurement(railHandle);
+  if (status == RAIL_STATUS_NO_ERROR) {
+    responsePrint(argv[0], "Thermistor measurement:Started.");
+  } else {
+    responsePrintError(argv[0], 0xFF, "Ongoing thermistor measurement or unconfigured modem.");
+  }
+#else
+  responsePrintError(argv[0], 0xFF, "Feature not supported in this target.");
+#endif
+  return;
+}
+
+void getThermistorImpedance(int argc, char **argv)
+{
+#if RAIL_FEAT_EXTERNAL_THERMISTOR
+  RAIL_Status_t status;
+  uint32_t thermistorResistance;
+  status = RAIL_GetThermistorImpedance(railHandle, &thermistorResistance);
+  if (status == RAIL_STATUS_NO_ERROR) {
+    responsePrint(argv[0], "Thermistor Measurement: %u Ohms", thermistorResistance);
+  } else {
+    responsePrintError(argv[0], 0xFF, "Thermistor mesurement not done yet.");
+  }
+#else
+  responsePrintError(argv[0], 0xFF, "Feature not supported in this target.");
+#endif
+  return;
 }
 
 void getLogLevels(int argc, char **argv)

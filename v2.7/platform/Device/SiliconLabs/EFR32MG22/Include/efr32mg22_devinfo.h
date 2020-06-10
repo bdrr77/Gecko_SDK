@@ -3,7 +3,7 @@
  * @brief EFR32MG22 DEVINFO register and bit field definitions
  ******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories, Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories, Inc. www.silabs.com</b>
  ******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -99,7 +99,7 @@ typedef struct {
   uint32_t                     RESERVED4[24U];        /**< Reserved for future use                            */
   __IM uint32_t                LEGACY;                /**< Legacy Device Info                                 */
   uint32_t                     RESERVED5[23U];        /**< Reserved for future use                            */
-  __IM uint32_t                RTHERM;                /**< Calibrated Thermistor Resistor                     */
+  __IM uint32_t                RTHERM;                /**< Thermistor Calibration                             */
   uint32_t                     RESERVED6[80U];        /**< Reserved for future use                            */
   uint32_t                     RESERVED7[1U];         /**< Reserved for future use                            */
 } DEVINFO_TypeDef;
@@ -113,7 +113,7 @@ typedef struct {
  *****************************************************************************/
 
 /* Bit fields for DEVINFO INFO */
-#define _DEVINFO_INFO_RESETVALUE                                 0x06000000UL                             /**< Default value for DEVINFO_INFO              */
+#define _DEVINFO_INFO_RESETVALUE                                 0x07000000UL                             /**< Default value for DEVINFO_INFO              */
 #define _DEVINFO_INFO_MASK                                       0xFFFFFFFFUL                             /**< Mask for DEVINFO_INFO                       */
 #define _DEVINFO_INFO_CRC_SHIFT                                  0                                        /**< Shift value for DEVINFO_CRC                 */
 #define _DEVINFO_INFO_CRC_MASK                                   0xFFFFUL                                 /**< Bit mask for DEVINFO_CRC                    */
@@ -125,7 +125,7 @@ typedef struct {
 #define DEVINFO_INFO_PRODREV_DEFAULT                             (_DEVINFO_INFO_PRODREV_DEFAULT << 16)    /**< Shifted mode DEFAULT for DEVINFO_INFO       */
 #define _DEVINFO_INFO_DEVINFOREV_SHIFT                           24                                       /**< Shift value for DEVINFO_DEVINFOREV          */
 #define _DEVINFO_INFO_DEVINFOREV_MASK                            0xFF000000UL                             /**< Bit mask for DEVINFO_DEVINFOREV             */
-#define _DEVINFO_INFO_DEVINFOREV_DEFAULT                         0x00000006UL                             /**< Mode DEFAULT for DEVINFO_INFO               */
+#define _DEVINFO_INFO_DEVINFOREV_DEFAULT                         0x00000007UL                             /**< Mode DEFAULT for DEVINFO_INFO               */
 #define DEVINFO_INFO_DEVINFOREV_DEFAULT                          (_DEVINFO_INFO_DEVINFOREV_DEFAULT << 24) /**< Shifted mode DEFAULT for DEVINFO_INFO       */
 
 /* Bit fields for DEVINFO PART */

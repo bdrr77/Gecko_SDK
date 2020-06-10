@@ -22,6 +22,9 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+// Get part series version.
+#include "em_device.h"
+
 /***************************************************************************//**
  * @addtogroup Interface
  * @{
@@ -148,6 +151,13 @@ typedef struct BootloaderStorageFunctions {
 
 // -----------------------------------------------------------------------------
 // Defines
+
+/// Context size for bootloader verification context
+#if defined(_SILICON_LABS_32B_SERIES_2)
+#define BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE            (524)
+#else
+#define BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE            (384)
+#endif
 
 /// Current version of the BootloaderStorageImplementationInformation_t struct
 #define BOOTLOADER_STORAGE_IMPL_INFO_VERSION                    (0x0201)
@@ -348,7 +358,7 @@ int32_t bootloader_setImageToBootload(int32_t slotId);
  *       The required size of this context may depend on the version
  *       of the bootloader. The required size for the bootloader associated with
  *       this version of the application interface is given by the define
- *       BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE.
+ *       @ref BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE.
  *
  * @note Instead of calling @ref bootloader_initVerifyImage followed by
  *       @ref bootloader_continueVerifyImage, call
@@ -413,7 +423,7 @@ int32_t bootloader_continueVerifyImage(void                       *context,
  *                             Set to NULL if not required.
  *
  * @note This function allocates a context structure of the size given by
- *       BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE on the caller's
+ *       @ref BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE on the caller's
  *       stack. To manage memory and allocate the
  *       context elsewhere (on the heap, as a global variable, and so on), use
  *       @ref bootloader_initVerifyImage and @ref bootloader_continueVerifyImage

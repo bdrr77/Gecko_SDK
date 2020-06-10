@@ -227,7 +227,8 @@ define region DEBUGCHAN_region  = mem:[from DEBUGCHAN_BOTTOM to DEBUGCHAN_TOP];
 
 // Explicitely do not initialize the following sections.  The linker can
 // get aggressive causing difficult bugs and crashes.
-do not initialize  { rw section .noinit,
+do not initialize  { rw section .noinitlegacy,
+                     rw section .noinitnew,
                      rw section CSTACK,
                      rw section RESETINFO,
                      rw section EMHEAP,
@@ -266,13 +267,20 @@ define block APPRW_block with fixed order { block ALIGN_CSTACK,
                                             block DLIB_PERTHREAD_INITIALIZED_DATA,
                                             block DLIB_PERTHREAD_ZERO_DATA,
                                             rw section .bss,
-                                            rw section .noinit,
+                                            rw section .noinitlegacy,
                                             block HEAP };
 
 // The reset info is used to store reset/crash information and
 // bootloader parameters across resets so the reset info can be found
 // at a well known location.
+// EFR32xG22 may zero out the high portion of RAM after reset, meaning that
+// data we wish to preserve across resets should be in the lower addresses.
+// Since we are already preserving the reset info block, it makes sense to
+// place the (new) __NO_INIT__ section adjacent to it. For legacy purposes, we
+// are keeping the old section where it was and will select between the two in
+// C code.
 define block RESETHEAP with fixed order { rw section RESETINFO,
+                                          rw section .noinitnew,
                                           block ALIGN_EMHEAP };
 
 "ResetHeap": place at start of APPRW_region { block RESETHEAP };

@@ -43,9 +43,10 @@
 static void halConfigClockInit(void)
 {
 // Initialize HFXO if used
-#if ((HAL_CLK_HFCLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFXO)   \
-  || ((HAL_CLK_HFCLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFRCO) \
-  && (HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_80MHZ)))
+#if ((HAL_CLK_HFCLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFXO)             \
+  || ((HAL_CLK_HFCLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFRCODPLL)       \
+  && ((HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_80MHZ) \
+  || (HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_76_8MHZ))))
   #if !BSP_CLK_HFXO_PRESENT
     #error Cannot select HFXO when HFXO is not present
   #endif
@@ -110,9 +111,9 @@ static void halConfigClockInit(void)
       #endif // HAL_CLK_HFXO_AUTOSTART
   CMU_ClockSelectSet(cmuClock_HF, cmuSelect_HFXO);
     #endif // HAL_CLK_HFXO_AUTOSTART
-
   /* HFRCO not needed when using HFXO */
   CMU_OscillatorEnable(cmuOsc_HFRCO, false, false);
+
   #elif defined(_SILICON_LABS_32B_SERIES_2) // defined(_SILICON_LABS_32B_SERIES_1)
   CMU_ClockSelectSet(cmuClock_SYSCLK, cmuSelect_HFXO);
   #else // defined(_SILICON_LABS_32B_SERIES_2)
@@ -120,30 +121,43 @@ static void halConfigClockInit(void)
   #endif // defined(_SILICON_LABS_32B_SERIES_2)
 
 #elif (HAL_CLK_HFCLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFRCO)
-  #if defined(_SILICON_LABS_32B_SERIES_2)
+  #if defined(_SILICON_LABS_32B_SERIES_1)
+  CMU_ClockSelectSet(cmuClock_HF, cmuSelect_HFRCO);
+  #elif defined(_SILICON_LABS_32B_SERIES_2)
+  CMU_ClockSelectSet(cmuClock_SYSCLK, cmuSelect_HFRCODPLL);
+  #endif
+
+// HFRCODPLL for using DPLL to get higher frequencies, series 2 and up
+#elif (HAL_CLK_HFCLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFRCODPLL)
+  #if defined(_SILICON_LABS_32B_SERIES_2_CONFIG_1)
   // Use LFXO at 40MHz
-    #if (HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_40MHZ)
+  #if (HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_40MHZ)
   CMU_LFXOInit_TypeDef lfxoInit = CMU_LFXOINIT_DEFAULT;
     #if defined(BSP_CLK_LFXO_CTUNE) && BSP_CLK_LFXO_CTUNE > 0
   lfxoInit.ctune = BSP_CLK_LFXO_CTUNE;
     #endif
   CMU_LFXOInit(&lfxoInit);
   CMU_DPLLInit_TypeDef dpllInit = CMU_DPLL_LFXO_TO_40MHZ;
-    #endif
+  #endif
+
   // Use HFXO at 80MHz
-    #if (HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_80MHZ)
+  #if (HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_80MHZ)
   CMU_DPLLInit_TypeDef dpllInit = CMU_DPLL_HFXO_TO_80MHZ;
-    #endif
-    #if (HAL_CLK_PLL_CONFIGURATION != HAL_CLK_PLL_CONFIGURATION_NONE)
+  #endif
+
+  #elif defined(_SILICON_LABS_32B_SERIES_2_CONFIG_2)
+  // Use HFXO at 76.8MHz
+  #if (HAL_CLK_PLL_CONFIGURATION == HAL_CLK_PLL_CONFIGURATION_76_8MHZ)
+  CMU_DPLLInit_TypeDef dpllInit = CMU_DPLL_HFXO_TO_76_8MHZ;
+  #endif
+  #endif // CONFIG 2
+
   bool locked = false;
   while (!locked) {
     locked = CMU_DPLLLock(&dpllInit);
   }
-    #endif
+
   CMU_ClockSelectSet(cmuClock_SYSCLK, cmuSelect_HFRCODPLL);
-  #else
-  CMU_ClockSelectSet(cmuClock_HF, cmuSelect_HFRCO);
-  #endif // series 2
 #else
   #error Must define HAL_CLK_HFCLK_SOURCE
 #endif // HAL_CLK_HFCLK_SOURCE
@@ -234,6 +248,14 @@ static void halConfigClockInit(void)
 #endif
 
 #elif defined(_SILICON_LABS_32B_SERIES_2)
+  // EM01
+#if (HAL_CLK_EM01CLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFXO)
+  CMU_ClockSelectSet(cmuClock_EM01GRPACLK, cmuSelect_HFXO);
+#elif (HAL_CLK_EM01CLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFRCO)
+  CMU_ClockSelectSet(cmuClock_EM01GRPACLK, cmuSelect_HFRCO);
+#elif (HAL_CLK_EM01CLK_SOURCE == HAL_CLK_HFCLK_SOURCE_HFRCODPLL)
+  CMU_ClockSelectSet(cmuClock_EM01GRPACLK, cmuSelect_HFRCODPLL);
+#endif
   // EM23
 #if (HAL_CLK_EM23CLK_SOURCE == HAL_CLK_LFCLK_SOURCE_LFXO)
   CMU_ClockSelectSet(cmuClock_EM23GRPACLK, cmuSelect_LFXO);

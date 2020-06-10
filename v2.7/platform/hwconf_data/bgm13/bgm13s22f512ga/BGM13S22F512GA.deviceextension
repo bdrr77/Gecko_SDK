@@ -2189,7 +2189,7 @@
           <enumValue label="False" value="0"/>
           <enumValue label="True" value="1"/>
         </enumProperty>
-        <integerProperty label="HFXO frequency" description="Frequency of the HFXO (Hz)" id="CMU.BSP_CLK_HFXO_FREQ.INT" minValue="0" maxValue="40000000" defaultValue="38400000" hidden="true" readonly="false"/>
+        <integerProperty label="HFXO frequency (0-40MHz)" description="Frequency of the HFXO (Hz)" id="CMU.BSP_CLK_HFXO_FREQ.INT" minValue="0" maxValue="40000000" defaultValue="38400000" hidden="true" readonly="false"/>
         <stringProperty label="HFXO initialization settings struct" description="Settings to initialize the HFXO. The value given here will typically be assigned to a CMU_HFXOInit_TypeDef structure from EMLIB. One way of setting non-default settings for this property, is to set it to the value of a macro that is defined elsewhere. For instance, this property can be set to MY_CUSTOM_HFXO_INIT, and that macro can be #define-ed in the hal-config.h file before the CMU section (taking care to define it outside of the $[...]$ sections that get overwritten when generating)." id="CMU.BSP_CLK_HFXO_INIT.STRING" defaultValue="CMU_HFXOINIT_DEFAULT" hidden="true" readonly="false"/>
         <integerProperty label="HFXO CTUNE value" description="Oscillator tuning value for the high frequency crystal oscillator, only used if no manufacturing token or factory calibrated value. If set to -1, the default value in the init structure is not overridden." id="CMU.BSP_CLK_HFXO_CTUNE.INT" minValue="-1" maxValue="511" defaultValue="-1" hidden="true" readonly="false"/>
       </overriddenProperties>

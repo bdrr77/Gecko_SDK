@@ -1,45 +1,5 @@
 <?xml version='1.0' encoding='ASCII'?>
 <model:MDescriptors xmlns:model="http://www.silabs.com/ss/Studio.ecore">
-  <descriptors id="EFR32MG22A224F512GN32">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22a224f512gn32"/>
-    <property key="hardwareConfigData" value="efr32mg22a224f512gn32/EFR32MG22A224F512GN32.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22a224f512gn32.extension">
-    <property key="hardwareConfigData" value="efr32mg22a224f512gn32/EFR32MG22A224F512GN32.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22a224f512gn32.portio">
-    <property key="hardwareConfigData" value="efr32mg22a224f512gn32/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22A224F512GN32">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22a224f512gn32"/>
-    <property key="hardwareConfigData" value="efr32mg22a224f512gn32/EFR32MG22A224F512GN32.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22a224f512gn32.extension">
-    <property key="hardwareConfigData" value="efr32mg22a224f512gn32/EFR32MG22A224F512GN32.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22a224f512gn32.portio">
-    <property key="hardwareConfigData" value="efr32mg22a224f512gn32/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22A224F512IM32">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22a224f512im32"/>
-    <property key="hardwareConfigData" value="efr32mg22a224f512im32/EFR32MG22A224F512IM32.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22a224f512im32.extension">
-    <property key="hardwareConfigData" value="efr32mg22a224f512im32/EFR32MG22A224F512IM32.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22a224f512im32.portio">
-    <property key="hardwareConfigData" value="efr32mg22a224f512im32/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22A224F512IM32">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22a224f512im32"/>
-    <property key="hardwareConfigData" value="efr32mg22a224f512im32/EFR32MG22A224F512IM32.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22a224f512im32.extension">
-    <property key="hardwareConfigData" value="efr32mg22a224f512im32/EFR32MG22A224F512IM32.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22a224f512im32.portio">
-    <property key="hardwareConfigData" value="efr32mg22a224f512im32/PORTIO.portio"/>
-  </descriptors>
   <descriptors id="EFR32MG22A224F512IM40">
     <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22a224f512im40"/>
     <property key="hardwareConfigData" value="efr32mg22a224f512im40/EFR32MG22A224F512IM40.device"/>
@@ -49,56 +9,6 @@
   </descriptors>
   <descriptors id="efr32.efr32mg22.efr32mg22a224f512im40.portio">
     <property key="hardwareConfigData" value="efr32mg22a224f512im40/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22A224F512IM40">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22a224f512im40"/>
-    <property key="hardwareConfigData" value="efr32mg22a224f512im40/EFR32MG22A224F512IM40.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22a224f512im40.extension">
-    <property key="hardwareConfigData" value="efr32mg22a224f512im40/EFR32MG22A224F512IM40.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22a224f512im40.portio">
-    <property key="hardwareConfigData" value="efr32mg22a224f512im40/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22C111F352GM32">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22c111f352gm32"/>
-    <property key="hardwareConfigData" value="efr32mg22c111f352gm32/EFR32MG22C111F352GM32.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22c111f352gm32.extension">
-    <property key="hardwareConfigData" value="efr32mg22c111f352gm32/EFR32MG22C111F352GM32.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22c111f352gm32.portio">
-    <property key="hardwareConfigData" value="efr32mg22c111f352gm32/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22C111F352GM40">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22c111f352gm40"/>
-    <property key="hardwareConfigData" value="efr32mg22c111f352gm40/EFR32MG22C111F352GM40.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22c111f352gm40.extension">
-    <property key="hardwareConfigData" value="efr32mg22c111f352gm40/EFR32MG22C111F352GM40.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22c111f352gm40.portio">
-    <property key="hardwareConfigData" value="efr32mg22c111f352gm40/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22C111F352GN32">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22c111f352gn32"/>
-    <property key="hardwareConfigData" value="efr32mg22c111f352gn32/EFR32MG22C111F352GN32.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22c111f352gn32.extension">
-    <property key="hardwareConfigData" value="efr32mg22c111f352gn32/EFR32MG22C111F352GN32.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22c111f352gn32.portio">
-    <property key="hardwareConfigData" value="efr32mg22c111f352gn32/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="EFR32MG22C111F352IM40">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22c111f352im40"/>
-    <property key="hardwareConfigData" value="efr32mg22c111f352im40/EFR32MG22C111F352IM40.device"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22c111f352im40.extension">
-    <property key="hardwareConfigData" value="efr32mg22c111f352im40/EFR32MG22C111F352IM40.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.efr32mg22.efr32mg22c111f352im40.portio">
-    <property key="hardwareConfigData" value="efr32mg22c111f352im40/PORTIO.portio"/>
   </descriptors>
   <descriptors id="EFR32MG22C224F512GN32">
     <property key="partCompatibility" value="mcu.arm.efr32.mg22.efr32mg22c224f512gn32"/>

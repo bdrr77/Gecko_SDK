@@ -1619,7 +1619,7 @@ void mbedtls_ssl_conf_ca_chain( mbedtls_ssl_config *conf,
  *                 provision more than one cert/key pair (eg one ECDSA, one
  *                 RSA with SHA-256, one RSA with SHA-1). An adequate
  *                 certificate will be selected according to the client's
- *                 advertised capabilities. In case mutliple certificates are
+ *                 advertised capabilities. In case multiple certificates are
  *                 adequate, preference is given to the one set by the first
  *                 call to this function, then second, etc.
  *
@@ -2118,12 +2118,27 @@ void mbedtls_ssl_conf_cert_req_ca_list( mbedtls_ssl_config *conf,
 
 #if defined(MBEDTLS_SSL_MAX_FRAGMENT_LENGTH)
 /**
- * \brief          Set the maximum fragment length to emit and/or negotiate
- *                 (Default: MBEDTLS_SSL_MAX_CONTENT_LEN, usually 2^14 bytes)
+ * \brief          Set the maximum fragment length to emit and/or negotiate.
+ *                 (Typical: #MBEDTLS_SSL_MAX_CONTENT_LEN, by default that is
+ *                 set to `2^14` bytes)
  *                 (Server: set maximum fragment length to emit,
- *                 usually negotiated by the client during handshake
+ *                 usually negotiated by the client during handshake)
  *                 (Client: set maximum fragment length to emit *and*
  *                 negotiate with the server during handshake)
+ *                 (Default: #MBEDTLS_SSL_MAX_FRAG_LEN_NONE)
+ *
+ * \note           With TLS, this currently only affects ApplicationData (sent
+ *                 with \c mbedtls_ssl_read()), not handshake messages.
+ *                 With DTLS, this affects both ApplicationData and handshake.
+ *
+ * \note           On the client side, the maximum fragment length extension
+ *                 *will not* be used, unless the maximum fragment length has
+ *                 been set via this function to a value different than
+ *                 #MBEDTLS_SSL_MAX_FRAG_LEN_NONE.
+ *
+ * \note           This sets the maximum length for a record's payload,
+ *                 excluding record overhead that will be added to it, see
+ *                 \c mbedtls_ssl_get_record_expansion().
  *
  * \param conf     SSL configuration
  * \param mfl_code Code for maximum fragment length (allowed values:
@@ -2609,7 +2624,7 @@ void mbedtls_ssl_free( mbedtls_ssl_context *ssl );
  *                 mbedtls_ssl_config_defaults() or mbedtls_ssl_config_free().
  *
  * \note           You need to call mbedtls_ssl_config_defaults() unless you
- *                 manually set all of the relevent fields yourself.
+ *                 manually set all of the relevant fields yourself.
  *
  * \param conf     SSL configuration context
  */

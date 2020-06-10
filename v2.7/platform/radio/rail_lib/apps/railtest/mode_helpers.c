@@ -40,8 +40,9 @@ bool inAppMode(AppMode_t appMode, char *command)
   bool ret = (currentAppMode() == appMode);
   if (!ret && command) {
     responsePrintError(command, 0x16,
-                       "Need to be in %s mode for this command",
-                       appModeNames(appMode));
+                       "Need to be in %s mode, not %s, for this command",
+                       appModeNames(appMode),
+                       appModeNames(currentAppMode()));
   }
   return ret;
 }

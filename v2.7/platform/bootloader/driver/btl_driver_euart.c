@@ -190,7 +190,7 @@ void uart_init(void)
                   gpioModePushPull,
                   1);
 #endif
-  EUSART_Enable(BTL_DRIVER_EUSART, eusartEnableRxTx);
+  EUSART_Enable(BTL_DRIVER_EUSART, eusartEnable);
 
   // Configure LDMA
   CMU->CLKEN0_SET = (CMU_CLKEN0_LDMA | CMU_CLKEN0_LDMAXBAR);

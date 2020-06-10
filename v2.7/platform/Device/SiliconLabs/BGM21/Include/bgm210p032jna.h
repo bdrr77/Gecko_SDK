@@ -4,7 +4,7 @@
  *        for BGM210P032JNA
  ******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories, Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories, Inc. www.silabs.com</b>
  ******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -760,8 +760,9 @@ typedef enum IRQn{
 #define DMEM_RAM_ECC_EN                      0x1UL      /**> RAM_ECC_EN_PRESENT */
 #define LFXO_NO_CTUNE                        0x0UL      /**> CTUNE Not Present */
 #define LFXO_CTUNE                           0x1UL      /**> CTUNE Present */
-#define ICACHE0_ADDR_BITS                    0x12UL     /**> Address bits */
 #define ICACHE0_AHB_LITE                     0x0UL      /**> AHB Lite */
+#define ICACHE0_CACHEABLE_SIZE               0x200UL    /**> Cache Size */
+#define ICACHE0_CACHEABLE_START              0x12UL     /**> Cache Start */
 #define ICACHE0_DEFAULT_OFF                  0x0UL      /**> Default off */
 #define ICACHE0_FLASH_SIZE                   0x100000UL /**> Flash size */
 #define ICACHE0_FLASH_START                  0x0UL      /**> Flash start */
@@ -926,8 +927,6 @@ typedef enum IRQn{
 #define I2C1_DELAY                           0x7D0UL    /**> Delay cell selection */
 #define I2C1_DELAY_CHAIN_NUM                 0x2UL      /**> Number of delay chain */
 #define SYSCFG_CHIP_FAMILY                   0x30UL     /**> CHIP Family */
-#define SYSCFG_CHIP_REV_MAJOR                0x1UL      /**> Major revision */
-#define SYSCFG_CHIP_REV_MINOR                0x0UL      /**> Minor revision */
 #define SYSCFG_DEMODRAM_INST_COUNT           0x1UL      /**>  */
 #define SYSCFG_FRCRAM_INST_COUNT             0x1UL      /**>  */
 #define SYSCFG_RAM0_INST_COUNT               0x6UL      /**> None */

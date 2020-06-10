@@ -10,16 +10,6 @@
   <descriptors id="efr32.mgm21.mgm210l022jif.portio">
     <property key="hardwareConfigData" value="mgm210l022jif/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="MGM210L022JIF">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210l022jif"/>
-    <property key="hardwareConfigData" value="mgm210l022jif/MGM210L022JIF.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210l022jif.extension">
-    <property key="hardwareConfigData" value="mgm210l022jif/MGM210L022JIF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210l022jif.portio">
-    <property key="hardwareConfigData" value="mgm210l022jif/PORTIO.portio"/>
-  </descriptors>
   <descriptors id="MGM210L022JNF">
     <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210l022jnf"/>
     <property key="hardwareConfigData" value="mgm210l022jnf/MGM210L022JNF.device"/>
@@ -29,26 +19,6 @@
   </descriptors>
   <descriptors id="efr32.mgm21.mgm210l022jnf.portio">
     <property key="hardwareConfigData" value="mgm210l022jnf/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="MGM210L022JNF">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210l022jnf"/>
-    <property key="hardwareConfigData" value="mgm210l022jnf/MGM210L022JNF.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210l022jnf.extension">
-    <property key="hardwareConfigData" value="mgm210l022jnf/MGM210L022JNF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210l022jnf.portio">
-    <property key="hardwareConfigData" value="mgm210l022jnf/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="MGM210LA22JIF">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210la22jif"/>
-    <property key="hardwareConfigData" value="mgm210la22jif/MGM210LA22JIF.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210la22jif.extension">
-    <property key="hardwareConfigData" value="mgm210la22jif/MGM210LA22JIF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210la22jif.portio">
-    <property key="hardwareConfigData" value="mgm210la22jif/PORTIO.portio"/>
   </descriptors>
   <descriptors id="MGM210LA22JIF">
     <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210la22jif"/>
@@ -70,16 +40,6 @@
   <descriptors id="efr32.mgm21.mgm210la22jnf.portio">
     <property key="hardwareConfigData" value="mgm210la22jnf/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="MGM210LA22JNF">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210la22jnf"/>
-    <property key="hardwareConfigData" value="mgm210la22jnf/MGM210LA22JNF.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210la22jnf.extension">
-    <property key="hardwareConfigData" value="mgm210la22jnf/MGM210LA22JNF.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210la22jnf.portio">
-    <property key="hardwareConfigData" value="mgm210la22jnf/PORTIO.portio"/>
-  </descriptors>
   <descriptors id="MGM210P022JIA">
     <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210p022jia"/>
     <property key="hardwareConfigData" value="mgm210p022jia/MGM210P022JIA.device"/>
@@ -89,26 +49,6 @@
   </descriptors>
   <descriptors id="efr32.mgm21.mgm210p022jia.portio">
     <property key="hardwareConfigData" value="mgm210p022jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="MGM210P022JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210p022jia"/>
-    <property key="hardwareConfigData" value="mgm210p022jia/MGM210P022JIA.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210p022jia.extension">
-    <property key="hardwareConfigData" value="mgm210p022jia/MGM210P022JIA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210p022jia.portio">
-    <property key="hardwareConfigData" value="mgm210p022jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="MGM210P022JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210p022jna"/>
-    <property key="hardwareConfigData" value="mgm210p022jna/MGM210P022JNA.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210p022jna.extension">
-    <property key="hardwareConfigData" value="mgm210p022jna/MGM210P022JNA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210p022jna.portio">
-    <property key="hardwareConfigData" value="mgm210p022jna/PORTIO.portio"/>
   </descriptors>
   <descriptors id="MGM210P032JIA">
     <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210p032jia"/>
@@ -120,26 +60,6 @@
   <descriptors id="efr32.mgm21.mgm210p032jia.portio">
     <property key="hardwareConfigData" value="mgm210p032jia/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="MGM210P032JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210p032jia"/>
-    <property key="hardwareConfigData" value="mgm210p032jia/MGM210P032JIA.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210p032jia.extension">
-    <property key="hardwareConfigData" value="mgm210p032jia/MGM210P032JIA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210p032jia.portio">
-    <property key="hardwareConfigData" value="mgm210p032jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="MGM210P032JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210p032jna"/>
-    <property key="hardwareConfigData" value="mgm210p032jna/MGM210P032JNA.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210p032jna.extension">
-    <property key="hardwareConfigData" value="mgm210p032jna/MGM210P032JNA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210p032jna.portio">
-    <property key="hardwareConfigData" value="mgm210p032jna/PORTIO.portio"/>
-  </descriptors>
   <descriptors id="MGM210PA22JIA">
     <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pa22jia"/>
     <property key="hardwareConfigData" value="mgm210pa22jia/MGM210PA22JIA.device"/>
@@ -149,26 +69,6 @@
   </descriptors>
   <descriptors id="efr32.mgm21.mgm210pa22jia.portio">
     <property key="hardwareConfigData" value="mgm210pa22jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="MGM210PA22JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pa22jia"/>
-    <property key="hardwareConfigData" value="mgm210pa22jia/MGM210PA22JIA.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210pa22jia.extension">
-    <property key="hardwareConfigData" value="mgm210pa22jia/MGM210PA22JIA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210pa22jia.portio">
-    <property key="hardwareConfigData" value="mgm210pa22jia/PORTIO.portio"/>
-  </descriptors>
-  <descriptors id="MGM210PA22JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pa22jna"/>
-    <property key="hardwareConfigData" value="mgm210pa22jna/MGM210PA22JNA.device"/>
-  </descriptors>
-  <descriptors id="efr32.mgm210pa22jna.extension">
-    <property key="hardwareConfigData" value="mgm210pa22jna/MGM210PA22JNA.deviceextension"/>
-  </descriptors>
-  <descriptors id="efr32.mgm21.mgm210pa22jna.portio">
-    <property key="hardwareConfigData" value="mgm210pa22jna/PORTIO.portio"/>
   </descriptors>
   <descriptors id="MGM210PA32JIA">
     <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pa32jia"/>
@@ -180,25 +80,25 @@
   <descriptors id="efr32.mgm21.mgm210pa32jia.portio">
     <property key="hardwareConfigData" value="mgm210pa32jia/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="MGM210PA32JIA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pa32jia"/>
-    <property key="hardwareConfigData" value="mgm210pa32jia/MGM210PA32JIA.device"/>
+  <descriptors id="MGM210PB22JIA">
+    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pb22jia"/>
+    <property key="hardwareConfigData" value="mgm210pb22jia/MGM210PB22JIA.device"/>
   </descriptors>
-  <descriptors id="efr32.mgm210pa32jia.extension">
-    <property key="hardwareConfigData" value="mgm210pa32jia/MGM210PA32JIA.deviceextension"/>
+  <descriptors id="efr32.mgm210pb22jia.extension">
+    <property key="hardwareConfigData" value="mgm210pb22jia/MGM210PB22JIA.deviceextension"/>
   </descriptors>
-  <descriptors id="efr32.mgm21.mgm210pa32jia.portio">
-    <property key="hardwareConfigData" value="mgm210pa32jia/PORTIO.portio"/>
+  <descriptors id="efr32.mgm21.mgm210pb22jia.portio">
+    <property key="hardwareConfigData" value="mgm210pb22jia/PORTIO.portio"/>
   </descriptors>
-  <descriptors id="MGM210PA32JNA">
-    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pa32jna"/>
-    <property key="hardwareConfigData" value="mgm210pa32jna/MGM210PA32JNA.device"/>
+  <descriptors id="MGM210PB32JIA">
+    <property key="partCompatibility" value="mcu.arm.efr32.mg21.mgm210pb32jia"/>
+    <property key="hardwareConfigData" value="mgm210pb32jia/MGM210PB32JIA.device"/>
   </descriptors>
-  <descriptors id="efr32.mgm210pa32jna.extension">
-    <property key="hardwareConfigData" value="mgm210pa32jna/MGM210PA32JNA.deviceextension"/>
+  <descriptors id="efr32.mgm210pb32jia.extension">
+    <property key="hardwareConfigData" value="mgm210pb32jia/MGM210PB32JIA.deviceextension"/>
   </descriptors>
-  <descriptors id="efr32.mgm21.mgm210pa32jna.portio">
-    <property key="hardwareConfigData" value="mgm210pa32jna/PORTIO.portio"/>
+  <descriptors id="efr32.mgm21.mgm210pb32jia.portio">
+    <property key="hardwareConfigData" value="mgm210pb32jia/PORTIO.portio"/>
   </descriptors>
   <descriptors id="efr32.mgm21.port">
     <property key="hardwareConfigData" value="modules/PORT/PORT.module"/>

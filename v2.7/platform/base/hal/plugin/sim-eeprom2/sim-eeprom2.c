@@ -41,6 +41,11 @@ VAR_AT_SEGMENT(NO_STRIPPING uint8_t simulatedEepromStorage[SIMEE_SIZE_B], __SIME
     #endif //EMBER_TEST
 uint8_t *simulatedEepromAddress = simulatedEepromStorage;
   #endif // SIMEE2_TO_NVM3_UPGRADE
+
+// check if size is a multiple of 3 flash pages
+  #if (SIMEE_SIZE_B % (MFB_PAGE_SIZE_B * 3)) != 0
+  #error SIMEE2 size not page aligned
+  #endif
 //NOTE: All SimEE addresses are 16bit "SimEE words" whereas the CM3
 //      absolute size/addressing is 32bit words so a CM3 halfword (HW)
 //      is 16bits.

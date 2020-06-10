@@ -3,6 +3,21 @@
 All notable changes to the bootloader will be documented in this file. The
 version number given in the Change Log is on the format `major`.`minor`.`patch`.
 
+## 1.10.2 - 2020-02
+
+### Changed
+ - The size of ParserContext_t for Series-2 devices has been increased to 524 bytes
+   to support certificate based authentication of GBL images.
+ - Added certificate support for secure boot and GBL image parser for EFR32xG22.
+ - Added a function `bootloader_getCertificateVersion` for reading certificate version of the bootloader on Series-2 devices.
+ - BOOTLOADER_STORAGE_VERIFICATION_CONTEXT_SIZE is added to btl_interface_storage.h, which indicates the size re-
+   quired to store verification context.
+
+## 1.10.1 - 2020-01
+
+### Changed
+ - The RMU reset level for soft resets is configured to be EXTENDED on Series-1 devices.
+
 ## 1.10.0 - 2019-12
 
 ### Added
@@ -16,7 +31,7 @@ version number given in the Change Log is on the format `major`.`minor`.`patch`.
 
 ### Changed
  - The size of ParserContext_t for EFR32xG21 has been increased to 524 bytes to support
-   certificate boot chain.
+   certificate based authentication of GBL images.
 
 ## 1.9.1 - 2019-07
 

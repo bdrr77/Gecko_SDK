@@ -55,7 +55,9 @@
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 
 static HALL_IntCallback pinIntCallback;        /**<  Interrupt callback function   */
+#ifdef BOARD_HALL_OUTPUT_PIN
 static void gpioIntCallback(void);
+#endif
 
 /** @endcond */
 
@@ -76,9 +78,11 @@ uint32_t HALL_init(void)
   /* Allow some time for the part to power up */
   UTIL_delay(10);
 
+#ifdef BOARD_HALL_OUTPUT_PIN
   /* Enable interrupt */
   BOARD_hallSensorSetIRQCallback(gpioIntCallback);
   BOARD_hallSensorEnableIRQ(true);
+#endif
 
   status = HALL_initDevice();
 
@@ -96,8 +100,10 @@ uint32_t HALL_init(void)
  ******************************************************************************/
 void HALL_deInit(void)
 {
+#ifdef BOARD_HALL_OUTPUT_PIN
   /* Disable interrupts */
   BOARD_hallSensorEnableIRQ(false);
+#endif
 
   /* Disable sensor power */
   BOARD_hallSensorEnable(false);
@@ -124,6 +130,7 @@ void HALL_registerCallback(HALL_IntCallback callback)
 
 /** @cond DO_NOT_INCLUDE_WITH_DOXYGEN */
 
+#ifdef BOARD_HALL_OUTPUT_PIN
 /***************************************************************************//**
  * @brief
  *    GPIO interrupt callback function. It is called when the ALERT pin of the
@@ -151,6 +158,7 @@ static void gpioIntCallback(void)
 
   return;
 }
+#endif
 
 /** @endcond */
 

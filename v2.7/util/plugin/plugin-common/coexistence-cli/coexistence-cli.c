@@ -365,7 +365,7 @@ void emberAfPluginCoexistenceGetPhyState(void)
                         &valueLength,
                         &timeout);
   if (status == EZSP_SUCCESS) {
-    emberSerialPrintfLine(APP_SERIAL, "PHY Select: %s, %u (us)",
+    emberSerialPrintfLine(APP_SERIAL, "PHY Select: %s, %u (ms)",
                           (timeout > 0u) ? "ENABLED" : "DISABLED",
                           timeout);
   } else {
@@ -377,7 +377,7 @@ void emberAfPluginCoexistenceGetPhyState(void)
 #if HAL_COEX_RUNTIME_PHY_SELECT
   timeout = halPtaGetPhySelectTimeout();
 
-  emberSerialPrintfLine(APP_SERIAL, "PHY Select: %s, %u (us)",
+  emberSerialPrintfLine(APP_SERIAL, "PHY Select: %s, %u (ms)",
                         (timeout > 0u) ? "ENABLED" : "DISABLED",
                         timeout);
 #else //!HAL_COEX_RUNTIME_PHY_SELECT
@@ -436,7 +436,7 @@ static const char * const gpioNames[] = {
 //------------------------------------------------------------------------------
 // Get GPIO Input override from console
 // Console Command : "plugin coexistence get-phy-state"
-// Console Response: "<GPIO NAME> GPIO: <ENABLED|DISABLED>"                                                                     (us)"
+// Console Response: "<GPIO NAME> GPIO: <ENABLED|DISABLED>"
 void emberAfPluginCoexistenceGetGpioInputOverride(void)
 {
 #ifndef EZSP_HOST

@@ -15,8 +15,8 @@
  * sections of the MSLA applicable to Source Code.
  *
  ******************************************************************************/
-#ifndef EFP01_H
-#define EFP01_H
+#ifndef SL_EFP01_H
+#define SL_EFP01_H
 
 #ifdef __cplusplus
 extern "C" {
@@ -155,7 +155,7 @@ extern "C" {
 
 /** Bit fields for EFP01_STATUS_GM */
 #define _EFP01_STATUS_GM_ADDRESS                       0x02
-#define _EFP01_STATUS_GM_RESETVALUE                    0x00
+#define _EFP01_STATUS_GM_RESETVALUE                    0x01
 #define _EFP01_STATUS_GM_OTP_READ_UNMASK_SHIFT         0
 #define _EFP01_STATUS_GM_OTP_READ_UNMASK_MASK          0x01
 #define _EFP01_STATUS_GM_OTP_CRC_FAULT_UNMASK_SHIFT    1
@@ -207,7 +207,7 @@ extern "C" {
 
 /** Bit fields for EFP01_DEVREV_ID */
 #define _EFP01_DEVREV_ID_ADDRESS                       0x05
-#define _EFP01_DEVREV_ID_RESETVALUE                    0x00
+#define _EFP01_DEVREV_ID_RESETVALUE                    0x39
 #define _EFP01_DEVREV_ID_DEV_ID_SHIFT                  0
 #define _EFP01_DEVREV_ID_DEV_ID_MASK                   0x1F
 #define _EFP01_DEVREV_ID_REV_ID_SHIFT                  5
@@ -710,8 +710,6 @@ extern "C" {
 #define _EFP01_BK_CTRL2_BK_IRI_CON_MASK                0x0F
 #define _EFP01_BK_CTRL2_BK_LDO_THRESH_SHIFT            4
 #define _EFP01_BK_CTRL2_BK_LDO_THRESH_MASK             0x70
-#define _EFP01_BK_CTRL2_BK_RES_TON_ONLY_SHIFT          7
-#define _EFP01_BK_CTRL2_BK_RES_TON_ONLY_MASK           0x80
 
 /** Bit fields for EFP01_ADC_CC_CTRL */
 #define _EFP01_ADC_CC_CTRL_ADDRESS                     0x5C
@@ -737,4 +735,4 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif
-#endif /* #define EFP01_H */
+#endif /* #define SL_EFP01_H */

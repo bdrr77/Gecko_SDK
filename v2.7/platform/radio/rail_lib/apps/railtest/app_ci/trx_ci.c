@@ -182,6 +182,9 @@ void getSyncWords(int argc, char **argv)
 
 void configSyncWords(int argc, char **argv)
 {
+  if (!inRadioState(RAIL_RF_STATE_IDLE, argv[0])) {
+    return;
+  }
   RAIL_SyncWordConfig_t syncWordConfig = { 0, };
   syncWordConfig.syncWordBits = (uint8_t)ciGetUnsigned(argv[1]);
   syncWordConfig.syncWord1 = (uint32_t)ciGetUnsigned(argv[2]);
@@ -254,9 +257,8 @@ void rxAt(int argc, char **argv)
   bool scheduledRxUpdate = false;
   RAIL_ScheduleRxConfig_t rxCfg;
 
-  // Only allow this call when in idle or to reconfigure an active scheduled Rx
-  if ((!inAppMode(NONE, NULL) && !inAppMode(RX_SCHEDULED, NULL))
-      || (inAppMode(NONE, NULL) && !inRadioState(RAIL_RF_STATE_IDLE, NULL))) {
+  // Only allow this when app is idle or to reconfigure an active scheduled Rx
+  if (!inAppMode(NONE, NULL) && !inAppMode(RX_SCHEDULED, NULL)) {
     responsePrintError(argv[0], 30, "Cannot enter ScheduledRx when not in Idle.");
     return;
   }
@@ -353,12 +355,42 @@ void setRxOptions(int argc, char **argv)
 void setTxTone(int argc, char **argv)
 {
   uint8_t enable = ciGetUnsigned(argv[1]);
-  enableAppMode(TX_TONE, enable, argv[0]);
+  streamMode = RAIL_STREAM_CARRIER_WAVE;
+  antOptions = RAIL_TX_OPTIONS_DEFAULT;
+  if (argc > 2) {
+    uint8_t antenna = ciGetUnsigned(argv[2]);
+    //Choose any antenna by default
+    if (antenna == 1) {
+      antOptions = RAIL_TX_OPTION_ANTENNA1;
+    } else {
+      antOptions = RAIL_TX_OPTION_ANTENNA0;
+    }
+  }
+  enableAppMode(TX_STREAM, enable, argv[0]);
 }
 
 void setTxStream(int argc, char **argv)
 {
   uint8_t enable = ciGetUnsigned(argv[1]);
+  RAIL_StreamMode_t stream = RAIL_STREAM_PN9_STREAM;
+  antOptions = RAIL_TX_OPTIONS_DEFAULT;
+  if (argc > 3) {
+    uint8_t antenna = ciGetUnsigned(argv[3]);
+    //Choose any antenna by default
+    if (antenna == 1) {
+      antOptions = RAIL_TX_OPTION_ANTENNA1;
+    } else {
+      antOptions = RAIL_TX_OPTION_ANTENNA0;
+    }
+  }
+  if (argc > 2) {
+    stream = (RAIL_StreamMode_t) ciGetUnsigned(argv[2]);
+    if (stream >= RAIL_STREAM_MODES_COUNT) {
+      responsePrintError(argv[0], 1, "Invalid stream mode");
+      return;
+    }
+  }
+  streamMode = stream;
   enableAppMode(TX_STREAM, enable, argv[0]);
 }
 
@@ -408,8 +440,8 @@ void setDirectTx(int argc, char **argv)
 #define DEBUG_SLEEP_LOOP 0
 #endif//DEBUG_SLEEP_LOOP
 
-extern volatile bool serEvent;
 static const char *rfBands[] = { "Off", "GHz", "MHz", "Any", };
+static const char *rfSensitivity[] = { "High", "Low" };
 static RAIL_RfSenseBand_t rfBand = RAIL_RFSENSE_OFF;
 static uint32_t rfUs = 0;
 
@@ -462,7 +494,7 @@ void sleep(int argc, char **argv)
                                 ? 0 : ciGetUnsigned(argv[2]);
       rfSenseSyncWord = ciGetUnsigned(argv[3]);
       rfBand = ((RAIL_RfSenseBand_t) ciGetUnsigned(argv[4])
-                & RAIL_RFSENSE_ANY);
+                & RAIL_RFENSE_ANY_LOW_SENSITIVITY); // mask off illegal values
       mode = ((rfBand != RAIL_RFSENSE_OFF) && (rfSenseSyncWordNumBytes > 0))
              ? RAIL_RFSENSE_MODE_SELECTIVE_OOK : RAIL_RFSENSE_MODE_OFF;
 #else
@@ -480,7 +512,7 @@ void sleep(int argc, char **argv)
         rfUs = ciGetUnsigned(argv[2]);
         if (argc > 3) {
           rfBand = ((RAIL_RfSenseBand_t) ciGetUnsigned(argv[3])
-                    & RAIL_RFSENSE_ANY);
+                    & RAIL_RFENSE_ANY_LOW_SENSITIVITY); // mask off illegal values
         }
         mode = ((rfBand != RAIL_RFSENSE_OFF) && (rfUs > 0))
                ? RAIL_RFSENSE_MODE_ENERGY_DETECTION : RAIL_RFSENSE_MODE_OFF;
@@ -496,19 +528,20 @@ void sleep(int argc, char **argv)
       rfBand = RAIL_RFSENSE_OFF; // rfUs == 0
     }
 
-    // Shut down radio packet reception and Peripherals for EM2+ sleep
+    // Shut down Peripherals for EM2+ sleep. If the radio is still enabled,
+    // the chip will go into EM1P if supported
     if (emMode >= 2) {
-      RAIL_Idle(railHandle, RAIL_IDLE_ABORT, false);
       PeripheralDisable();
       GPIO_EM4SetPinRetention(true);
     }
 
     // We cannot configure UART RxD for EM4 wakeup on our EFR32's so the
     // *only* wakeup possible out of EM4 is RFsense (or reset).
-    responsePrint(argv[0], "EM:%u%s,SerialWakeup:%s,RfSense:%s",
+    responsePrint(argv[0], "EM:%u%s,SerialWakeup:%s,RfSense:%s,RfSensitivity:%s",
                   emMode, em4State,
                   (emMode < 4) ? "On" : "Off",
-                  rfBands[rfBand]);
+                  rfBands[rfBand & RAIL_RFSENSE_ANY],
+                  rfSensitivity[(rfBand & 0x20U) >> 5U]);
     serialWaitForTxIdle();
 
     // Disable interrupts heading into RAIL_StartRfSense() so we don't miss
@@ -553,6 +586,7 @@ void sleep(int argc, char **argv)
     GPIO_IntConfig(RETARGET_RXPORT, RETARGET_RXPIN, false, true, true);
 
     serEvent = false;
+    rxPacketEvent = false;
 
     bool rfSensed;
    #if     DEBUG_SLEEP_LOOP
@@ -589,7 +623,7 @@ void sleep(int argc, char **argv)
       CORE_EXIT_CRITICAL(); // Briefly enable IRQs to let them run
       CORE_ENTER_CRITICAL(); // but shut back off in case we loop
       rfSensed = RAIL_IsRfSensed(railHandle);
-    } while (!rfSensed && !serEvent);
+    } while (!rfSensed && !serEvent && !rxPacketEvent);
     CORE_EXIT_CRITICAL(); // Back on permanently
 
     // Here we've awoken for at least one of the desired events.
@@ -611,6 +645,7 @@ void sleep(int argc, char **argv)
                   "EM:%u%s,"
                   "SerialWakeup:%s,"
                   "RfSensed:%s,"
+                  "PacketRx:%s,"
                   "RfUs:%u"
                  #if     DEBUG_SLEEP_LOOP
                   ",\nSleeps:%llu,"
@@ -623,6 +658,7 @@ void sleep(int argc, char **argv)
                   em4State,
                   serEvent ? "Yes" : "No",
                   rfSensed ? "Yes" : "No",
+                  rxPacketEvent ? "Yes" : "No",
                   rfUs
                  #if     DEBUG_SLEEP_LOOP
                   , sleeps,
@@ -682,7 +718,7 @@ void rfSense(int argc, char **argv)
                               ? 0 : ciGetUnsigned(argv[1]);
     rfSenseSyncWord = ciGetUnsigned(argv[2]);
     rfBand = ((RAIL_RfSenseBand_t) ciGetUnsigned(argv[3])
-              & RAIL_RFSENSE_ANY);
+              & RAIL_RFENSE_ANY_LOW_SENSITIVITY); // mask off illegal values
     mode = ((rfBand != RAIL_RFSENSE_OFF) && (rfSenseSyncWordNumBytes > 0))
            ? RAIL_RFSENSE_MODE_SELECTIVE_OOK : RAIL_RFSENSE_MODE_OFF;
 #else
@@ -695,7 +731,7 @@ void rfSense(int argc, char **argv)
       rfUs = ciGetUnsigned(argv[1]);
       if (argc > 2) {
         rfBand = ((RAIL_RfSenseBand_t) ciGetUnsigned(argv[2])
-                  & RAIL_RFSENSE_ANY);
+                  & RAIL_RFENSE_ANY_LOW_SENSITIVITY); // mask off illegal values
       }
       mode = ((rfBand != RAIL_RFSENSE_OFF) && (rfUs > 0))
              ? RAIL_RFSENSE_MODE_ENERGY_DETECTION : RAIL_RFSENSE_MODE_OFF;
@@ -732,8 +768,10 @@ void rfSense(int argc, char **argv)
       break;
   }
 
-  responsePrint(argv[0], "RfBand:%s,RfUs:%u",
-                rfBands[rfBand], rfUs);
+  responsePrint(argv[0], "RfBand:%s,RfUs:%u,RfSensitivity:%s",
+                rfBands[rfBand & RAIL_RFSENSE_ANY],
+                rfUs,
+                rfSensitivity[(rfBand & 0x20U) >> 5U]);
 #endif // _SILICON_LABS_32B_SERIES_2_CONFIG == 1
 }
 
@@ -744,7 +782,7 @@ void rfSensedCheck(void)
     // Yes, it did!  Terminate RfSensing background mode
     enableAppMode(RF_SENSE, false, NULL);
     responsePrint("rfSensedCheck", "RfSensed:%s,RfUs:%u",
-                  rfBands[rfBand & 0x3], rfUs);
+                  rfBands[rfBand & RAIL_RFSENSE_ANY], rfUs);
   }
 }
 
@@ -809,4 +847,12 @@ void setRxTimePos(int argc, char **argv)
     responsePrintError(argv[0], 1, "Invalid TimePosition %u (valid 0-%u)",
                        pos, RAIL_PACKET_TIME_COUNT - 1);
   }
+}
+
+void holdRx(int argc, char **argv)
+{
+  rxHeld = (bool)ciGetUnsigned(argv[1]);
+  rxProcessHeld = !rxHeld;
+  responsePrint(argv[0], "HoldRx:%s",
+                rxHeld ? "Enabled" : "Disabled");
 }

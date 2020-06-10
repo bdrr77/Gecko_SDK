@@ -3,15 +3,28 @@
  * @brief SLEEPTIMER Hardware abstraction implementation for RTC.
  *******************************************************************************
  * # License
- * <b>Copyright 2018 Silicon Laboratories Inc. www.silabs.com</b>
+ * <b>Copyright 2019 Silicon Laboratories Inc. www.silabs.com</b>
  *******************************************************************************
  *
- * The licensor of this software is Silicon Laboratories Inc. Your use of this
- * software is governed by the terms of Silicon Labs Master Software License
- * Agreement (MSLA) available at
- * www.silabs.com/about-us/legal/master-software-license-agreement. This
- * software is distributed to you in Source Code format and is governed by the
- * sections of the MSLA applicable to Source Code.
+ * SPDX-License-Identifier: Zlib
+ *
+ * The licensor of this software is Silicon Laboratories Inc.
+ *
+ * This software is provided 'as-is', without any express or implied
+ * warranty. In no event will the authors be held liable for any damages
+ * arising from the use of this software.
+ *
+ * Permission is granted to anyone to use this software for any purpose,
+ * including commercial applications, and to alter it and redistribute it
+ * freely, subject to the following restrictions:
+ *
+ * 1. The origin of this software must not be misrepresented; you must not
+ *    claim that you wrote the original software. If you use this software
+ *    in a product, an acknowledgment in the product documentation would be
+ *    appreciated but is not required.
+ * 2. Altered source versions must be plainly marked as such, and must not be
+ *    misrepresented as being the original software.
+ * 3. This notice may not be removed or altered from any source distribution.
  *
  ******************************************************************************/
 
@@ -43,6 +56,8 @@ __STATIC_INLINE uint32_t get_time_diff(uint32_t a,
 
 static volatile uint8_t rtc_overflow_count = 0;
 static volatile uint32_t compare_value_32 = 0;
+static bool comp_int_disabled = true;
+
 /******************************************************************************
  * Initializes RTC sleep timer.
  *****************************************************************************/
@@ -74,7 +89,18 @@ void sleeptimer_hal_init_timer()
  *****************************************************************************/
 uint32_t sleeptimer_hal_get_counter(void)
 {
-  return RTC_CounterGet() | ((uint32_t)rtc_overflow_count << SLEEPTIMER_TMR_BIT_WIDTH);
+  uint32_t tick_cnt;
+  uint16_t of_cnt;
+
+  tick_cnt = RTC_CounterGet();
+  of_cnt = rtc_overflow_count;
+
+  if (RTC_IntGet() & RTC_IF_OF) {
+    tick_cnt = RTC_CounterGet();
+    of_cnt++;
+  }
+
+  return tick_cnt | ((uint32_t)of_cnt << SLEEPTIMER_TMR_BIT_WIDTH);
 }
 
 /******************************************************************************
@@ -122,6 +148,11 @@ void sleeptimer_hal_enable_int(uint8_t local_flag)
   }
 
   if (local_flag & SLEEPTIMER_EVENT_COMP) {
+    if (comp_int_disabled == true) {
+      RTC_IntClear(SLEEPTIMER_RTC_COMP);
+      comp_int_disabled = false;
+    }
+
     rtc_ien |= SLEEPTIMER_RTC_COMP;
   }
 
@@ -141,9 +172,37 @@ void sleeptimer_hal_disable_int(uint8_t local_flag)
 
   if (local_flag & SLEEPTIMER_EVENT_COMP) {
     rtc_int_clr |= SLEEPTIMER_RTC_COMP;
+    comp_int_disabled = true;
   }
 
   RTC_IntDisable(rtc_int_clr);
+}
+
+/******************************************************************************
+ * Gets status of specified interrupt.
+ *
+ * Note: This function must be called with interrupts disabled.
+ *****************************************************************************/
+bool sleeptimer_hal_is_int_status_set(uint8_t local_flag)
+{
+  bool int_is_set = false;
+  uint32_t irq_flag = RTC_IntGet();
+
+  switch (local_flag) {
+    case SLEEPTIMER_EVENT_COMP:
+      int_is_set = ((irq_flag & SLEEPTIMER_RTC_COMP) == SLEEPTIMER_RTC_COMP);
+      break;
+
+    case SLEEPTIMER_EVENT_OF:
+      int_is_set = ((irq_flag & RTC_IF_OF) == RTC_IF_OF)
+                   && (((rtc_overflow_count << SLEEPTIMER_TMR_BIT_WIDTH) + SLEEPTIMER_TMR_WIDTH) == UINT32_MAX);
+      break;
+
+    default:
+      break;
+  }
+
+  return int_is_set;
 }
 
 /*******************************************************************************

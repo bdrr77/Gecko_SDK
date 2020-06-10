@@ -92,13 +92,11 @@ void setTxPayloadQuiet(int argc, char **argv)
 void setRfSenseTxPayload(int argc, char **argv)
 {
   RAIL_Status_t status = RAIL_STATUS_INVALID_CALL;
-  if (argc > 3) {
-    uint8_t preamble = ciGetUnsigned(argv[1]);
-    uint8_t syncwordNumBytes = ciGetUnsigned(argv[2]);
-    uint32_t syncword = ciGetUnsigned(argv[3]);
+  if (argc > 2) {
+    uint8_t syncwordNumBytes = ciGetUnsigned(argv[1]);
+    uint32_t syncword = ciGetUnsigned(argv[2]);
     if (railDataConfig.txMethod == PACKET_MODE) {
       status = RAIL_SetRfSenseSelectiveOokWakeupPayload(railHandle,
-                                                        preamble,
                                                         syncwordNumBytes,
                                                         syncword);
     }

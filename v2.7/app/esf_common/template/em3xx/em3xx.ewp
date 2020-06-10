@@ -276,6 +276,7 @@ $--dashDMacrosEwp--$
           <name>IExtraOptions</name>
           <state>--no_path_in_file_macros</state>
           <state>--separate_cluster_for_initialized_variables</state>
+          $--stackProtectionEwp--$
         </option>
         <option>
           <name>CCLangConformance</name>

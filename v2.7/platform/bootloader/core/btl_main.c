@@ -175,6 +175,8 @@ int main(void)
   } else {
     reset_resetWithReason(BOOTLOADER_RESET_REASON_FATAL);
   }
+
+  return 0;
 }
 
 #ifdef BOOTLOADER_SUPPORT_STORAGE
@@ -227,7 +229,7 @@ const MainBootloaderTable_t mainStageTable = {
 #endif
 };
 
-#if defined(BTL_SUPPORT_CERTIFICATES)
+#if defined(BOOTLOADER_SUPPORT_CERTIFICATES)
 const ApplicationCertificate_t sl_app_certificate = {
   .structVersion = APPLICATION_CERTIFICATE_VERSION,
   .flags = { 0U },
@@ -248,7 +250,11 @@ const ApplicationProperties_t sl_app_properties = {
     .capabilities = 0UL,
     .productId = { 0U },
   },
-#if defined(BTL_SUPPORT_CERTIFICATES)
+#if defined(BOOTLOADER_SUPPORT_CERTIFICATES)
+  // If certificate based boot chain is enabled, the bootloader binary will be provided with
+  // an certificate that does not contain any key.
+  // A valid certificate needs to be injected to the bootloader images using Simplicity Commander.
+  // Simplicity Commander will replace this certificate.
   .cert = (ApplicationCertificate_t *)&sl_app_certificate,
 #else
   .cert = NULL,

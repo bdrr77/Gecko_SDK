@@ -224,6 +224,15 @@ static void boardDisableSpiFlash(void)
 #endif
 
 #ifdef _SILICON_LABS_32B_SERIES_1
+
+// Provide some PRS signals missing from public headers
+#if _SILICON_LABS_32B_SERIES_1_CONFIG == 1
+#define PRS_PROTIMER_CC0                ((35 << 8) + 0)
+#define PRS_PROTIMER_CC1                ((35 << 8) + 1)
+#else
+#define PRS_PROTIMER_CC0                ((84 << 8) + 0)
+#define PRS_PROTIMER_CC1                ((84 << 8) + 1)
+#endif
 /**
  * Define the signals that are supported for debug in railtest. These are chip
  * specific because on some chips these are supported by the PRS while on others
@@ -338,6 +347,26 @@ static const debugSignal_t debugSignals[] =
       .prs = {
         .signal = (PRS_MODEM_SYNCSENT & _PRS_CH_CTRL_SIGSEL_MASK) >> _PRS_CH_CTRL_SIGSEL_SHIFT,
         .source = (PRS_MODEM_SYNCSENT & _PRS_CH_CTRL_SOURCESEL_MASK) >> _PRS_CH_CTRL_SOURCESEL_SHIFT,
+      }
+    }
+  },
+  {
+    .name = "CC0",
+    .isPrs = true,
+    .loc = {
+      .prs = {
+        .signal = (PRS_PROTIMER_CC0 & _PRS_CH_CTRL_SIGSEL_MASK) >> _PRS_CH_CTRL_SIGSEL_SHIFT,
+        .source = (PRS_PROTIMER_CC0 & _PRS_CH_CTRL_SOURCESEL_MASK) >> _PRS_CH_CTRL_SOURCESEL_SHIFT,
+      }
+    }
+  },
+  {
+    .name = "CC1",
+    .isPrs = true,
+    .loc = {
+      .prs = {
+        .signal = (PRS_PROTIMER_CC1 & _PRS_CH_CTRL_SIGSEL_MASK) >> _PRS_CH_CTRL_SIGSEL_SHIFT,
+        .source = (PRS_PROTIMER_CC1 & _PRS_CH_CTRL_SOURCESEL_MASK) >> _PRS_CH_CTRL_SOURCESEL_SHIFT,
       }
     }
   },

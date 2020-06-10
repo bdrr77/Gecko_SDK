@@ -133,8 +133,15 @@ uint32_t MIC_init(uint32_t fs, uint16_t *buffer, size_t len)
   usartInit.dmaSplit      = true;
   USART_InitI2s(MIC_USART, &usartInit);
 
+#if defined(_SILICON_LABS_32B_SERIES_2)
+  GPIO->USARTROUTE->ROUTEEN = GPIO_USART_ROUTEEN_RXPEN | GPIO_USART_ROUTEEN_CLKPEN | GPIO_USART_ROUTEEN_CSPEN;
+  GPIO->USARTROUTE->RXROUTE = (MIC_PORT_DATA << _GPIO_USART_RXROUTE_PORT_SHIFT) | (MIC_PIN_DATA << _GPIO_USART_RXROUTE_PIN_SHIFT);
+  GPIO->USARTROUTE->RXROUTE = (MIC_PORT_CLK << _GPIO_USART_CLKROUTE_PORT_SHIFT) | (MIC_PIN_CLK << _GPIO_USART_CLKROUTE_PIN_SHIFT);
+  GPIO->USARTROUTE->RXROUTE = (MIC_PORT_WS << _GPIO_USART_CSROUTE_PORT_SHIFT) | (MIC_PIN_WS << _GPIO_USART_CSROUTE_PIN_SHIFT);
+#else
   MIC_USART->ROUTELOC0 = (MIC_USART_LOC_DATA | MIC_USART_LOC_CLK | MIC_USART_LOC_WS);
   MIC_USART->ROUTEPEN  = (USART_ROUTEPEN_RXPEN | USART_ROUTEPEN_CLKPEN | USART_ROUTEPEN_CSPEN);
+#endif
 
   /* Setup DMA driver to move samples from USART to memory */
   DMADRV_Init();
@@ -242,6 +249,18 @@ void MIC_start(uint32_t nSamples)
 uint16_t *MIC_getSampleBuffer(void)
 {
   return (uint16_t *) sampleBuffer;
+}
+
+/***************************************************************************//**
+ * @brief
+ *    Gets the number of the samples to take
+ *
+ * @return
+ *    Returns the number of the samples to take
+ ******************************************************************************/
+size_t MIC_getSampleCount(void)
+{
+  return sampleCount;
 }
 
 /***************************************************************************//**

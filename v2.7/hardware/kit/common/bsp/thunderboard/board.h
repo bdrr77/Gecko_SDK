@@ -32,9 +32,12 @@
 #define BOARD_H
 
 #include <stdint.h>
+#include <stdbool.h>
 #include "gpiointerrupt.h"
 
 #include "bspconfig.h"
+
+typedef void (*BOARD_IrqCallback)(void);/**< Interrupt callback function type definition */
 
 /***************************************************************************//**
  * @defgroup TBSense_BSP Thunderboard Sense BSP
@@ -72,24 +75,19 @@ uint32_t BOARD_init                (void);
 uint32_t BOARD_imuEnable           (bool enable);
 uint32_t BOARD_imuEnableIRQ        (bool enable);
 void     BOARD_imuClearIRQ         (void);
+void     BOARD_imuSetIRQCallback   (BOARD_IrqCallback cb);
 
 uint32_t BOARD_envSensEnable       (bool enable);
 uint32_t BOARD_envSensEnableIRQ    (bool enable);
 
 void     BOARD_flashDeepPowerDown  (void);
 
-uint32_t BOARD_gasSensorEnable     (bool enable);
-uint32_t BOARD_gasSensorEnableIRQ  (bool enable);
-void     BOARD_gasSensorClearIRQ   (void);
-uint32_t BOARD_gasSensorWake       (bool wake);
-
-uint32_t BOARD_bapEnable           (bool enable);
-
 uint32_t BOARD_rhtempEnable        (bool enable);
 
 uint32_t BOARD_alsEnable           (bool enable);
 uint32_t BOARD_alsEnableIRQ        (bool enable);
 void     BOARD_alsClearIRQ         (void);
+void     BOARD_alsSetIRQCallback   (BOARD_IrqCallback cb);
 
 void     BOARD_ledSet              (uint8_t leds);
 
@@ -100,17 +98,16 @@ uint32_t BOARD_i2cBusSelect        (uint8_t select);
 uint8_t  BOARD_pushButtonGetState  (void);
 void     BOARD_pushButtonEnableIRQ (bool enable);
 
-void     BOARD_rgbledEnable        (bool enable, uint8_t mask);
-void     BOARD_rgbledSetColor      (uint8_t red, uint8_t green, uint8_t blue);
-void     BOARD_rgbledSetRawColor   (uint16_t red, uint16_t green, uint16_t blue);
-void     BOARD_rgbledPowerEnable   (bool enable);
-
 #ifdef BSP_TBSENSE
   #include "board_4160.h"
 #endif
 
 #ifdef BSP_TBSENSE2
   #include "board_4166.h"
+#endif
+
+#ifdef BSP_BRD4184A
+  #include "board_4184.h"
 #endif
 
 #endif // BOARD_H

@@ -71,6 +71,31 @@ void setChannel(int argc, char **argv)
   getChannel(1, argv);
 }
 
+void setFreqOffset(int argc, char **argv)
+{
+  static RAIL_FrequencyOffset_t currentFreqOffset = 0;
+  if (argc > 1) {
+    RAIL_FrequencyOffset_t freqOffset = ciGetSigned(argv[1]);
+
+    if ((freqOffset < RAIL_FREQUENCY_OFFSET_MIN)
+        || (freqOffset > RAIL_FREQUENCY_OFFSET_MAX)) {
+      responsePrintError(argv[0], RAIL_STATUS_INVALID_PARAMETER,
+                         "Offset %d outside range of [%d, %d]",
+                         freqOffset,
+                         RAIL_FREQUENCY_OFFSET_MIN,
+                         RAIL_FREQUENCY_OFFSET_MAX);
+      return;
+    }
+    RAIL_Status_t status = RAIL_SetFreqOffset(railHandle, freqOffset);
+    if (status != RAIL_STATUS_NO_ERROR) {
+      responsePrintError(argv[0], status, "Could not set frequency offset");
+      return;
+    }
+    currentFreqOffset = freqOffset;
+  }
+  responsePrint(argv[0], "freqOffset:%d", currentFreqOffset);
+}
+
 void getPowerConfig(int argc, char **argv)
 {
   CHECK_RAIL_HANDLE(argv[0]);
@@ -454,6 +479,12 @@ void configPaAutoMode(int argc, char **argv)
   int16_t min = ciGetSigned(argv[2]);
   int16_t max = ciGetSigned(argv[3]);
   uint8_t mode = ciGetUnsigned(argv[4]);
+
+  // Make sure the mode is valid
+  if (mode > RAIL_TX_POWER_MODE_NONE) {
+    responsePrintError(argv[0], 0x01, "Invalid mode (%d) specified", mode);
+    return;
+  }
 
   RAIL_PaAutoModeConfig[index].min = min;
   RAIL_PaAutoModeConfig[index].max = max;

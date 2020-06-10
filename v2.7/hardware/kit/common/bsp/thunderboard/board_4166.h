@@ -33,8 +33,6 @@
 
 #include <stdint.h>
 
-typedef void (*BOARD_IrqCallback)(void);/**< Interrupt callback function type definition */
-
 /**************************************************************************//**
 * @addtogroup TBSense_BSP
 * @{
@@ -45,21 +43,28 @@ typedef void (*BOARD_IrqCallback)(void);/**< Interrupt callback function type de
  * @{
  ******************************************************************************/
 
-void     BOARD_gasSensorSetIRQCallback(BOARD_IrqCallback cb);
-
 uint32_t BOARD_hallSensorEnable    (bool enable);
 uint32_t BOARD_hallSensorEnableIRQ (bool enable);
 void     BOARD_hallSensorSetIRQCallback(BOARD_IrqCallback cb);
 void     BOARD_hallSensorClearIRQ(void);
 
-void     BOARD_alsSetIRQCallback(BOARD_IrqCallback cb);
+uint32_t BOARD_gasSensorEnable     (bool enable);
+uint32_t BOARD_gasSensorEnableIRQ  (bool enable);
+void     BOARD_gasSensorClearIRQ   (void);
+uint32_t BOARD_gasSensorWake       (bool wake);
+void     BOARD_gasSensorSetIRQCallback(BOARD_IrqCallback cb);
 
-void     BOARD_imuSetIRQCallback(BOARD_IrqCallback cb);
+uint32_t BOARD_bapEnable           (bool enable);
 
-void     BOARD_pushButton0SetIRQCallback(BOARD_IrqCallback cb);
-void     BOARD_pushButton0ClearIRQ(void);
-void     BOARD_pushButton1SetIRQCallback(BOARD_IrqCallback cb);
-void     BOARD_pushButton1ClearIRQ(void);
+void     BOARD_pushButton0SetIRQCallback (BOARD_IrqCallback cb);
+void     BOARD_pushButton0ClearIRQ       (void);
+void     BOARD_pushButton1SetIRQCallback (BOARD_IrqCallback cb);
+void     BOARD_pushButton1ClearIRQ       (void);
+
+void     BOARD_rgbledEnable        (bool enable, uint8_t mask);
+void     BOARD_rgbledSetColor      (uint8_t red, uint8_t green, uint8_t blue);
+void     BOARD_rgbledSetRawColor   (uint16_t red, uint16_t green, uint16_t blue);
+void     BOARD_rgbledPowerEnable   (bool enable);
 
 /** @} */
 /** @} */

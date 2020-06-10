@@ -46,6 +46,8 @@ AppMode_t nextAppMode = NONE;
 AppMode_t currAppMode = NONE;
 AppMode_t prevAppMode = NONE;
 bool transitionPend = false;
+RAIL_TxOptions_t antOptions = RAIL_TX_OPTIONS_DEFAULT;
+RAIL_StreamMode_t streamMode = RAIL_STREAM_PN9_STREAM;
 
 AppMode_t currentAppMode()
 {
@@ -73,6 +75,12 @@ void enableAppMode(AppMode_t next, bool enable, char *command)
   }
 }
 
+const char *streamModeNames(RAIL_StreamMode_t streamMode)
+{
+  char *streamModes[] = { "Tone", "PN9", "10Stream" };
+  return streamModes[streamMode];
+}
+
 const char *appModeNames(AppMode_t appMode)
 {
   char *appModes[] = { "None", "Stream", "Tone", "ContinuousTx", "DirectMode",
@@ -81,7 +89,6 @@ const char *appModeNames(AppMode_t appMode)
                        "ScheduledRx" };
   return appModes[appMode];
 }
-
 // Has the logic for disabling and enabling AppMode
 //  Note that at least one of (nextAppMode, currAppMode) should be NONE,
 //  due to the way we handling AppMode changing
@@ -90,8 +97,6 @@ static void transitionAppMode(AppMode_t nextAppMode)
   if (currAppMode == NONE) {
     RAIL_CancelTimer(railHandle);
   } else if (currAppMode == TX_STREAM) {
-    RAIL_StopTxStream(railHandle);
-  } else if (currAppMode == TX_TONE) {
     RAIL_StopTxStream(railHandle);
   } else if (currAppMode == DIRECT) {
     RAIL_EnableDirectMode(railHandle, false);
@@ -111,9 +116,7 @@ static void transitionAppMode(AppMode_t nextAppMode)
   }
 
   if (nextAppMode == TX_STREAM) {
-    RAIL_StartTxStream(railHandle, channel, RAIL_STREAM_PN9_STREAM);
-  } else if (nextAppMode == TX_TONE) {
-    RAIL_StartTxStream(railHandle, channel, RAIL_STREAM_CARRIER_WAVE);
+    RAIL_StartTxStreamAlt(railHandle, channel, streamMode, antOptions);
   } else if (nextAppMode == DIRECT) {
     RAIL_EnableDirectMode(railHandle, true);
   } else if (nextAppMode == TX_CONTINUOUS || nextAppMode == TX_N_PACKETS) {
@@ -133,18 +136,39 @@ static void transitionAppMode(AppMode_t nextAppMode)
 static void setAppModeInternal(void)
 {
   AppMode_t next = enableMode ? nextAppMode : NONE;
-  if (currAppMode == nextAppMode && enableMode) {
+  // TX_STREAM is special-cased to let one switch from one stream mode to
+  // another (or the same) without having to first disable the mode.
+  if (currAppMode == nextAppMode && enableMode
+      && (nextAppMode != TX_STREAM)) {
     if (nextCommand) {
       responsePrint(nextCommand, "%s:Enabled", appModeNames(next));
     }
-  } else if ((currAppMode == nextAppMode && !enableMode)
+  } else if ((currAppMode == nextAppMode && (!enableMode
+                                             || (nextAppMode == TX_STREAM)))
              || (currAppMode == NONE && enableMode)) {
     if (nextCommand) {
-      responsePrint(nextCommand,
-                    "%s:Enabled,%s:Disabled,Time:%u",
-                    appModeNames(next),
-                    appModeNames(currAppMode),
-                    RAIL_GetTime());
+      if (next == TX_STREAM) {
+        if (currAppMode == TX_STREAM) {
+          responsePrint(nextCommand,
+                        "%s:Enabled,StreamMode:%s,Time:%u",
+                        appModeNames(next),
+                        streamModeNames(streamMode),
+                        RAIL_GetTime());
+        } else {
+          responsePrint(nextCommand,
+                        "%s:Enabled,%s:Disabled,StreamMode:%s,Time:%u",
+                        appModeNames(next),
+                        appModeNames(currAppMode),
+                        streamModeNames(streamMode),
+                        RAIL_GetTime());
+        }
+      } else {
+        responsePrint(nextCommand,
+                      "%s:Enabled,%s:Disabled,Time:%u",
+                      appModeNames(next),
+                      appModeNames(currAppMode),
+                      RAIL_GetTime());
+      }
     }
     transitionAppMode(next);
   } else { // Ignore mode change request

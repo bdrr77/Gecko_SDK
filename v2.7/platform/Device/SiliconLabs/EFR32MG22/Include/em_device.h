@@ -14,7 +14,7 @@
  * @endverbatim
  ******************************************************************************
  * # License
- * <b>Copyright 2019 Silicon Laboratories, Inc. www.silabs.com</b>
+ * <b>Copyright 2020 Silicon Laboratories, Inc. www.silabs.com</b>
  ******************************************************************************
  *
  * SPDX-License-Identifier: Zlib
@@ -43,18 +43,6 @@
 #define EM_DEVICE_H
 #if defined(EFR32MG22A224F512IM40)
 #include "efr32mg22a224f512im40.h"
-
-#elif defined(EFR32MG22C111F352GM32)
-#include "efr32mg22c111f352gm32.h"
-
-#elif defined(EFR32MG22C111F352GM40)
-#include "efr32mg22c111f352gm40.h"
-
-#elif defined(EFR32MG22C111F352GN32)
-#include "efr32mg22c111f352gn32.h"
-
-#elif defined(EFR32MG22C111F352IM40)
-#include "efr32mg22c111f352im40.h"
 
 #elif defined(EFR32MG22C224F512GN32)
 #include "efr32mg22c224f512gn32.h"

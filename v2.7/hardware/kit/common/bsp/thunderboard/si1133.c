@@ -312,15 +312,12 @@ uint32_t SI1133_reset(void)
 {
   uint32_t retval;
 
-  /* Do not access the Si1133 earlier than 25 ms from power-up */
-  UTIL_delay(30);
-
   /* Perform the Reset Command */
   retval = SI1133_registerWrite(SI1133_REG_COMMAND, SI1133_CMD_RESET);
 
   /* Delay for 10 ms. This delay is needed to allow the Si1133   */
   /* to perform internal reset sequence.                         */
-  UTIL_delay(10);
+  UTIL_delay(30);
 
   return retval;
 }
@@ -558,12 +555,11 @@ uint32_t SI1133_init(void)
   /* Enable power to the sensor */
   BOARD_alsEnable(true);
 
-  /* Allow some time for the part to power up */
-  UTIL_delay(5);
+  /* Do not access the Si1133 earlier than 25 ms from power-up */
+  UTIL_delay(50);
 
+  /* Reset the sensor. The reset function implements the necessary delays after reset. */
   retval = SI1133_reset();
-
-  UTIL_delay(10);
 
   retval += SI1133_paramSet(SI1133_PARAM_CH_LIST, 0x0f);
   retval += SI1133_paramSet(SI1133_PARAM_ADCCONFIG0, 0x78);

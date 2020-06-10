@@ -61,6 +61,9 @@ static uint8_t *currentRxFifoPacketPtr;
 
 uint32_t abortRxDelay = 0;
 
+// Used for wakeup from sleep
+volatile bool rxPacketEvent = false;
+
 // fifo mode test variables
 /*
  * This test bit is used to prevent RAILTEST from automatically loading packet
@@ -120,16 +123,6 @@ static void packetMode_RxPacketAborted(RAIL_Handle_t railHandle)
 
 static void packetMode_RxPacketReceived(RAIL_Handle_t railHandle)
 {
-  RAIL_RxPacketInfo_t packetInfo;
-  RAIL_RxPacketHandle_t packetHandle
-    = RAIL_GetRxPacketInfo(railHandle, RAIL_RX_PACKET_HANDLE_NEWEST,
-                           &packetInfo);
-  // assert(packetHandle != NULL);
-  uint16_t length = packetInfo.packetBytes;
-  void *rxPacketMemoryHandle = memoryAllocate(sizeof(RailAppEvent_t) + length);
-  RailAppEvent_t *rxPacket = (RailAppEvent_t *)memoryPtrFromHandle(rxPacketMemoryHandle);
-  uint8_t *rxPacketData = (uint8_t *)&rxPacket[1];
-
   if ((rxSuccessTransition == RAIL_RF_STATE_TX)
       || (RAIL_IsAutoAckEnabled(railHandle) && afterRxUseTxBufferForAck)) {
     // Load packet for either the non-AutoACK RXSUCCESS => TX transition,
@@ -140,7 +133,31 @@ static void packetMode_RxPacketReceived(RAIL_Handle_t railHandle)
     RAIL_WriteTxFifo(railHandle, txData, txDataLen, true);
   }
 
-  if (rxPacket != NULL) {
+  if (rxHeld) {
+    (void)RAIL_HoldRxPacket(railHandle);
+    packetsHeld++;
+  } else {
+    (void)processRxPacket(railHandle, RAIL_RX_PACKET_HANDLE_NEWEST);
+  }
+}
+
+RAIL_RxPacketHandle_t processRxPacket(RAIL_Handle_t railHandle,
+                                      RAIL_RxPacketHandle_t packetHandle)
+{
+  RAIL_RxPacketInfo_t packetInfo;
+  packetHandle = RAIL_GetRxPacketInfo(railHandle, packetHandle, &packetInfo);
+  if (packetHandle == RAIL_RX_PACKET_HANDLE_INVALID) {
+    return packetHandle;
+  }
+  uint16_t length = packetInfo.packetBytes;
+  void *rxPacketMemoryHandle = memoryAllocate(sizeof(RailAppEvent_t) + length);
+  RailAppEvent_t *rxPacket = (RailAppEvent_t *)memoryPtrFromHandle(rxPacketMemoryHandle);
+  uint8_t *rxPacketData = (uint8_t *)&rxPacket[1];
+
+  // Count packets that we received but had no memory to store
+  if (rxPacket == NULL) {
+    counters.noRxBuffer++;
+  } else {
     RAIL_Status_t status;
     rxPacket->type = RX_PACKET;
     rxPacket->rxPacket.dataPtr = rxPacketData;
@@ -169,12 +186,7 @@ static void packetMode_RxPacketReceived(RAIL_Handle_t railHandle)
     if (status != RAIL_STATUS_NO_ERROR) {
       memset(&rxPacket->rxPacket.appendedInfo, 0, sizeof(rxPacket->rxPacket.appendedInfo));
     }
-  }
 
-  // Count packets that we received but had no memory to store
-  if (rxPacket == NULL) {
-    counters.noRxBuffer++;
-  } else {
     // If we have just received an ACK, don't respond with an ACK
     if (rxPacketData[2] == 0xF1) {
       RAIL_CancelAutoAck(railHandle);
@@ -209,6 +221,20 @@ static void packetMode_RxPacketReceived(RAIL_Handle_t railHandle)
       pendPacketTx();
     }
 
+    if (phySwitchToRx.enable) {
+      //TODO: packetTime depends on rxTimePosition;
+      //      this code assumes default position (SYNC_END).
+      uint32_t syncTime = rxPacket->rxPacket.appendedInfo.timeReceived.packetTime;
+      (void) RAIL_BLE_PhySwitchToRx(railHandle,
+                                    phySwitchToRx.phy,
+                                    phySwitchToRx.physicalChannel,
+                                    phySwitchToRx.timeDelta + syncTime,
+                                    phySwitchToRx.crcInit,
+                                    phySwitchToRx.accessAddress,
+                                    phySwitchToRx.logicalChannel,
+                                    phySwitchToRx.disableWhitening);
+    }
+
     if (logLevel & ASYNC_RESPONSE) {
       redrawDisplay = true;
 
@@ -236,22 +262,9 @@ static void packetMode_RxPacketReceived(RAIL_Handle_t railHandle)
     usDelay(rxOverflowDelay);
   }
 
-  if (phySwitchToRx.enable) {
-    //TODO: packetTime depends on rxTimePosition;
-    //      this code assumes default position (SYNC_END).
-    uint32_t syncTime = rxPacket->rxPacket.appendedInfo.timeReceived.packetTime;
-    (void) RAIL_BLE_PhySwitchToRx(railHandle,
-                                  phySwitchToRx.phy,
-                                  phySwitchToRx.physicalChannel,
-                                  phySwitchToRx.timeDelta + syncTime,
-                                  phySwitchToRx.crcInit,
-                                  phySwitchToRx.accessAddress,
-                                  phySwitchToRx.logicalChannel,
-                                  phySwitchToRx.disableWhitening);
-  }
-
   // Free the allocated memory now that we're done with it
   memoryFree(rxPacketMemoryHandle);
+  return packetHandle;
 }
 
 // Only support fixed length
@@ -404,6 +417,7 @@ void RAILCb_RxPacketReceived(RAIL_Handle_t railHandle)
 {
   counters.receive++;
   LedToggle(0);
+  rxPacketEvent = true;
 
   if (railDataConfig.rxMethod == PACKET_MODE) {
     packetMode_RxPacketReceived(railHandle);

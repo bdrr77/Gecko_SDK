@@ -32,9 +32,11 @@
 #include <stdint.h>
 
 #include "rail.h"
+#include "em_core.h"
 #include "em_device.h"
 
 #include "railapp_rmr.h"
+#include "railapp_malloc.h"
 #include "app_common.h"
 #include "command_interpreter.h"
 #include "response_print.h"
@@ -43,27 +45,20 @@
 #include CONFIGURATION_HEADER
 #endif
 
-static uint32_t rmr_phyInfo[RMR_PHY_INFO_LEN];
-static uint8_t rmr_irCalConfig[RMR_IRCAL_LEN];
-static uint32_t rmr_modemConfigEntry[RMR_MODEM_CONFIG_LEN];
-static RAIL_FrameType_t rmr_frameTypeConfig;
-static uint16_t rmr_frameLenList[RMR_FRAME_LENGTH_LIST_LEN];
-static uint32_t rmr_frameCodingTable[RMR_FRAME_CODING_TABLE_LEN];
-static RAIL_ChannelConfigEntryAttr_t rmr_generatedEntryAttr;
-static RAIL_ChannelConfigEntry_t rmr_generatedChannels[1];
-__ALIGNED(4) static uint8_t rmr_convDecodeBuffer[RMR_CONV_DECODE_BUFFER_LEN];
+typedef struct RMR_State{
+  uint32_t phyInfo[RMR_PHY_INFO_LEN];
+  uint8_t irCalConfig[RMR_IRCAL_LEN];
+  uint32_t modemConfigEntry[RMR_MODEM_CONFIG_LEN];
+  RAIL_FrameType_t frameTypeConfig;
+  uint16_t frameLenList[RMR_FRAME_LENGTH_LIST_LEN];
+  uint32_t frameCodingTable[RMR_FRAME_CODING_TABLE_LEN];
+  RAIL_ChannelConfigEntryAttr_t generatedEntryAttr;
+  RAIL_ChannelConfigEntry_t generatedChannels[1];
+  __ALIGNED(4) uint8_t convDecodeBuffer[RMR_CONV_DECODE_BUFFER_LEN];
+  RAIL_ChannelConfig_t channelConfig;
+} RMR_State_t;
 
-const RAIL_ChannelConfig_t rmr_ChannelConfig = {
-  rmr_modemConfigEntry,
-  NULL,
-  rmr_generatedChannels,
-  1,
-  0U,
-};
-
-const RAIL_ChannelConfig_t *rmr_ChannelConfigs[] = {
-  &rmr_ChannelConfig
-};
+static RMR_State_t *rmrState = NULL;
 
 // Internal commands
 RAIL_Status_t Rmr_writeRmrStructure(RAIL_RMR_StructureIndex_t structure, uint16_t offset, uint8_t count, uint8_t *dataPtr);
@@ -79,27 +74,27 @@ RAIL_Status_t Rmr_updateConfigurationPointer(uint8_t structToModify, uint16_t of
   // First get the addres of the structure we are trying to reference
   switch (structToPointTo) {
     case (RMR_STRUCT_PHY_INFO): {
-      structPointer = (uint32_t)&rmr_phyInfo;
+      structPointer = (uint32_t)&(rmrState->phyInfo);
       break;
     }
     case (RMR_STRUCT_IRCAL_CONFIG): {
-      structPointer = (uint32_t)&rmr_irCalConfig;
+      structPointer = (uint32_t)&(rmrState->irCalConfig);
       break;
     }
     case (RMR_STRUCT_FRAME_TYPE_CONFIG): {
-      structPointer = (uint32_t)&rmr_frameTypeConfig;
+      structPointer = (uint32_t)&(rmrState->frameTypeConfig);
       break;
     }
     case (RMR_STRUCT_FRAME_LENGTH_LIST): {
-      structPointer = (uint32_t)&rmr_frameLenList;
+      structPointer = (uint32_t)&(rmrState->frameLenList);
       break;
     }
     case (RMR_STRUCT_FRAME_CODING_TABLE): {
-      structPointer = (uint32_t)rmr_frameCodingTable;
+      structPointer = (uint32_t)&(rmrState->frameCodingTable);
       break;
     }
     case (RMR_STRUCT_CONV_DECODE_BUFFER): {
-      structPointer = (uint32_t)&rmr_convDecodeBuffer;
+      structPointer = (uint32_t)&(rmrState->convDecodeBuffer);
       break;
     }
     case (RMR_STRUCT_NULL): {
@@ -116,21 +111,21 @@ RAIL_Status_t Rmr_updateConfigurationPointer(uint8_t structToModify, uint16_t of
       if (offset >= RMR_MODEM_CONFIG_LEN) {
         return RAIL_STATUS_INVALID_PARAMETER;
       }
-      rmr_modemConfigEntry[offset] = structPointer;
+      rmrState->modemConfigEntry[offset] = structPointer;
       break;
     }
     case (RMR_STRUCT_PHY_INFO): {
       if (offset >= RMR_PHY_INFO_LEN) {
         return RAIL_STATUS_INVALID_PARAMETER;
       }
-      rmr_phyInfo[offset] = structPointer;
+      rmrState->phyInfo[offset] = structPointer;
       break;
     }
     case (RMR_STRUCT_FRAME_TYPE_CONFIG): {
       if (offset != 0) {
         return RAIL_STATUS_INVALID_PARAMETER;
       }
-      rmr_frameTypeConfig.frameLen = (uint16_t *)structPointer;
+      rmrState->frameTypeConfig.frameLen = (uint16_t *)structPointer;
       break;
     }
     default: {
@@ -154,7 +149,7 @@ RAIL_Status_t Rmr_reconfigureModem(RAIL_Handle_t railHandle)
   RAIL_IncludeFrameTypeLength(railHandle);
 
   // Configure with the downloaded channel configuration.
-  RAIL_ConfigChannels(railHandle, rmr_ChannelConfigs[0], &RAILCb_RadioConfigChanged);
+  RAIL_ConfigChannels(railHandle, &rmrState->channelConfig, &RAILCb_RadioConfigChanged);
 
   // Make sure that we stay in idle after the reconfiguration.
   RAIL_Idle(railHandle, RAIL_IDLE_FORCE_SHUTDOWN_CLEAR_FLAGS, false);
@@ -171,43 +166,43 @@ RAIL_Status_t Rmr_writeRmrStructure(RAIL_RMR_StructureIndex_t structure, uint16_
   uint32_t size;
   switch (structure) {
     case (RMR_STRUCT_PHY_INFO): {
-      size = sizeof(rmr_phyInfo);
-      targetStruct = (uint8_t *) &rmr_phyInfo;
+      size = sizeof(rmrState->phyInfo);
+      targetStruct = (uint8_t *) &(rmrState->phyInfo);
       break;
     }
     case (RMR_STRUCT_IRCAL_CONFIG): {
-      size = sizeof(rmr_irCalConfig);
-      targetStruct = (uint8_t *)&rmr_irCalConfig;
+      size = sizeof(rmrState->irCalConfig);
+      targetStruct = (uint8_t *) &(rmrState->irCalConfig);
       break;
     }
     case (RMR_STRUCT_MODEM_CONFIG): {
-      size = sizeof(rmr_modemConfigEntry);
-      targetStruct = (uint8_t *)&rmr_modemConfigEntry;
+      size = sizeof(rmrState->modemConfigEntry);
+      targetStruct = (uint8_t *)&(rmrState->modemConfigEntry);
       break;
     }
     case (RMR_STRUCT_FRAME_TYPE_CONFIG): {
-      size = sizeof(rmr_frameTypeConfig);
-      targetStruct = (uint8_t *) &rmr_frameTypeConfig;
+      size = sizeof(rmrState->frameTypeConfig);
+      targetStruct = (uint8_t *) &(rmrState->frameTypeConfig);
       break;
     }
     case (RMR_STRUCT_FRAME_LENGTH_LIST): {
-      size = sizeof(rmr_frameLenList);
-      targetStruct = (uint8_t *) &rmr_frameLenList;
+      size = sizeof(rmrState->frameLenList);
+      targetStruct = (uint8_t *) &(rmrState->frameLenList);
       break;
     }
     case (RMR_STRUCT_FRAME_CODING_TABLE): {
-      size = sizeof(rmr_frameCodingTable);
-      targetStruct = (uint8_t *) &rmr_frameCodingTable;
+      size = RMR_FRAME_CODING_TABLE_LEN * sizeof(uint32_t);
+      targetStruct = (uint8_t *) &(rmrState->frameCodingTable);
       break;
     }
     case (RMR_STRUCT_CHANNEL_CONFIG_ATTRIBUTES): {
-      size = sizeof(rmr_generatedEntryAttr);
-      targetStruct = (uint8_t *) &rmr_generatedEntryAttr;
+      size = sizeof(rmrState->generatedEntryAttr);
+      targetStruct = (uint8_t *) &(rmrState->generatedEntryAttr);
       break;
     }
     case (RMR_STRUCT_CHANNEL_CONFIG_ENTRY): {
-      size = sizeof(rmr_generatedChannels);
-      targetStruct = (uint8_t *) &rmr_generatedChannels;
+      size = sizeof(rmrState->generatedChannels);
+      targetStruct = (uint8_t *) &(rmrState->generatedChannels);
       break;
     }
     default: {
@@ -228,10 +223,32 @@ RAIL_Status_t Rmr_writeRmrStructure(RAIL_RMR_StructureIndex_t structure, uint16_
   return RAIL_STATUS_NO_ERROR;
 }
 
+static bool rmrInit(char **argv)
+{
+  if (rmrState == NULL) {
+    rmrState = RAILAPP_Malloc(sizeof(RMR_State_t));
+    if (rmrState == NULL) {
+      responsePrintError(argv[RMR_CI_RESPONSE], 0x86, "Error allocating RMR memory.");
+      return false;
+    }
+    rmrState->channelConfig.phyConfigBase = &(rmrState->modemConfigEntry[0]);
+    rmrState->channelConfig.phyConfigDeltaSubtract = NULL;
+    rmrState->channelConfig.configs = rmrState->generatedChannels;
+    rmrState->channelConfig.length = 1;
+    rmrState->channelConfig.signature = 0U;
+    rmrState->generatedChannels[0].phyConfigDeltaAdd = NULL;
+    rmrState->generatedChannels[0].attr = &rmrState->generatedEntryAttr;
+  }
+  return true;
+}
+
 void CI_writeRmrStructure(int argc, char **argv)
 {
   uint8_t count = ciGetUnsigned(argv[RMR_CI_COUNT]);
   uint8_t bufferedData[RMR_ARGUMENT_BUFFER_SIZE];
+  if (!rmrInit(argv)) {
+    return;
+  }
   if (argc != (count + RMR_CI_DATA_START)) {
     responsePrintError(argv[RMR_CI_RESPONSE], 0x80, "Argument count does not match number of arguments.");
     return;
@@ -256,6 +273,9 @@ void CI_writeRmrStructure(int argc, char **argv)
 
 void CI_updateConfigurationPointer(int argc, char **argv)
 {
+  if (!rmrInit(argv)) {
+    return;
+  }
   if (argc != 4) {
     responsePrintError(argv[RMR_CI_RESPONSE], 0x83, "Incorrect number of arguments");
     return;
@@ -272,6 +292,9 @@ void CI_updateConfigurationPointer(int argc, char **argv)
 
 void CI_reconfigureModem(int argc, char **argv)
 {
+  if (!rmrInit(argv)) {
+    return;
+  }
   if (Rmr_reconfigureModem(railHandle) == RAIL_STATUS_NO_ERROR) {
     responsePrint(argv[RMR_CI_RESPONSE], "CommandStatus:Success");
   } else {

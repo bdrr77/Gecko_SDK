@@ -88,6 +88,8 @@
 #define APPLICATION_TYPE_BLUETOOTH_APP   (1UL << 5UL)
 /// The application contains a bootloader
 #define APPLICATION_TYPE_BOOTLOADER      (1UL << 6UL)
+/// The application contains a Zwave wireless stack
+#define APPLICATION_TYPE_ZWAVE           (1UL << 7UL)
 
 /// Application Data
 typedef struct ApplicationData {
